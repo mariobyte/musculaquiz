@@ -1,0 +1,39 @@
+{
+    "project_info": {
+      "project_number": "583435381497",
+      "project_id": "muscula-quiz",
+      "storage_bucket": "muscula-quiz.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:583435381497:android:f56a6193cc8d85954a1028",
+          "android_client_info": {
+            "package_name": "com.game.musculaquiz"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "583435381497-gg4rjvafmhc88dgumpb1p8ilpqh8nh13.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyDaWigDE1QzM_OHhxP4ThphnlJIL2WTE5k"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "583435381497-gg4rjvafmhc88dgumpb1p8ilpqh8nh13.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
