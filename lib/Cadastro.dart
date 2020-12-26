@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:musculaquiz/app/model/Usuario.dart';
 
 import 'Home.dart';
+import 'app/components/default_background_conteiner.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -118,11 +119,13 @@ try {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cadastro"),
+        title: Text("Cadastro"),backgroundColor: Color(0xff00A191),
       ),
       body: Container(
-        decoration: BoxDecoration(color: Color(0xff00A696)),
-        padding: EdgeInsets.all(16),
+  //      decoration: BoxDecoration(color: Color(0xff00A696)),
+//        padding: EdgeInsets.all(16),
+        child: DefaultBackgroundContainer(
+
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -209,8 +212,9 @@ try {
           ),
         ),
       ),
+      )
     );
   }
 
-
 }
+

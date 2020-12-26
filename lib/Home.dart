@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:musculaquiz/Login.dart';
 
+import 'app/components/default_background_conteiner.dart';
+
 class Home extends StatefulWidget {
     @override
     _HomeState createState() => _HomeState();
@@ -34,8 +36,9 @@ class _HomeState extends State<Home> {
         title: Text ("Muscula Quiz" ),
       ) , 
       body: Container(
-        decoration: BoxDecoration(color: Color(0xff00A696)),
-        padding: EdgeInsets.all(16),
+        //decoration: BoxDecoration(color: Color(0xff00A696)),
+        //padding: EdgeInsets.all(16),
+        child: DefaultBackgroundContainer(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -63,7 +66,9 @@ class _HomeState extends State<Home> {
            ),
           ),  
         ),
+      )
       );
   }
+
 
 }

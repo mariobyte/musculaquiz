@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'Cadastro.dart';
 import 'Home.dart';
+import 'app/components/default_background_conteiner.dart';
 import 'app/model/Usuario.dart'; 
 
 class Login extends StatefulWidget {
@@ -125,8 +126,9 @@ class _LoginState extends State<Login>{
   Widget build(BuildContext context) {
     return Scaffold (
       body: Container(
-        decoration: BoxDecoration(color: Color(0xff00A696)),
-        padding: EdgeInsets.all(16),
+        //decoration: BoxDecoration(color: Color(0xff00A696)),
+        //padding: EdgeInsets.all(16),
+        child: DefaultBackgroundContainer(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
@@ -226,10 +228,9 @@ class _LoginState extends State<Login>{
                 ] ,
               ),
           ),
-            
           ),
+        ),
       )
-
     );
   }
 
