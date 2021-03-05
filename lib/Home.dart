@@ -310,7 +310,7 @@ class _HomeState extends State<Home> {
     int _acertou = 99;
 
     print('pResposta = $pResposta');
-
+    /*
     if (pResposta == _respostas[0] && _respCerta[0] == '1') {
       _acertou = 0;
     } else {
@@ -330,7 +330,32 @@ class _HomeState extends State<Home> {
         }
       }
     }
-    print('resposta post : $_resposta ');
+    */
+    if (pResposta == _respostas[0]) {
+      _acertou = 0;
+    } else {
+      if (pResposta == _respostas[1]) {
+        _acertou = 1;
+      } else {
+        if (pResposta == _respostas[2]) {
+          _acertou = 2;
+        } else {
+          if (pResposta == _respostas[3]) {
+            _acertou = 3;
+          } else {
+            if (pResposta == _respostas[4]) {
+              _acertou = 4;
+            }
+          }
+        }
+      }
+    }
+    var _idRespInformada = _acertou;
+    if (_respCerta[_acertou] != '1') {
+      _acertou = 99;
+    }
+
+    print('resposta post : $_idResposta ');
 
     if (_acertou != 99) {
       print('resposta certa! 0 gravar ! ');
@@ -376,7 +401,8 @@ class _HomeState extends State<Home> {
       _tempoResposta(int.parse(_tempoResp));
     } else {
       print('gravando resposta - errada');
-      _postRespostas(_idPergunta, '99', _counter.toString());
+      _postRespostas(
+          _idPergunta, _idRespInformada.toString(), _counter.toString());
       print('Game Over!');
       _showMyDialog(' Resposta errada!');
     }
