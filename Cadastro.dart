@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:musculaquiz/app/model/Usuario.dart';
 
 import 'Home.dart';
-import 'app/components/default_background_conteiner.dart';
+import 'package:musculaquiz/app/components/default_background_conteiner.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
