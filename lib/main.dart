@@ -6,10 +6,8 @@ import 'package:musculaquiz/app/utils/config.dart';
 import 'Home.dart';
 import 'Login.dart';
 
-
-void main() async  {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
 
   await Firebase.initializeApp(
     // name: APP_NAME,
@@ -23,11 +21,9 @@ void main() async  {
   );
 
   runApp(MaterialApp(
-    home : Login(),
+    home: Login(),
     theme: ThemeData(
-      primaryColor: Color(0xff00A696),
-      accentColor: Color(0xff25D366)
-    ),
+        primaryColor: Color(0xff00A696), accentColor: Color(0xff25D366)),
     debugShowCheckedModeBanner: false,
   ));
 
@@ -38,4 +34,3 @@ void main() async  {
   .set({"nome":"mario  saviotti junior"});
 */
 }
-

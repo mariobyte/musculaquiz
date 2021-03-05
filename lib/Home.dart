@@ -1,74 +1,464 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:musculaquiz/Login.dart';
+import 'Login.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'app/components/default_background_conteiner.dart';
+import 'app/model/Usuario.dart';
 
 class Home extends StatefulWidget {
-    @override
-    _HomeState createState() => _HomeState();
+  final Usuario dataUsuario;
+
+  Home({this.dataUsuario});
+
+  @override
+  _HomeState createState() => _HomeState(dataUsuario: dataUsuario);
+}
+
+class _HomeState extends State<Home> {
+  final Usuario dataUsuario;
+
+  _HomeState({this.dataUsuario});
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  List<Perguntas> perguntas;
+
+  String _pergunta = '';
+  String _idPergunta = '';
+  String _resposta = '';
+  String _tempoResp = '';
+
+  int _controlePerguntas = 0;
+  bool _isRadioSelected = false;
+
+  var _respostas = new List(5);
+  var _idResposta = new List(5);
+  var _respCerta = new List(5);
+
+  var _buttonOptions = [];
+  var _email = '';
+  var _userId = '';
+  var _userIdMQ = '';
+
+  void initState() {
+    super.initState();
+    setState(() {
+      _respostas[0] = '';
+      _respostas[1] = '';
+      _respostas[2] = '';
+      _respostas[3] = '';
+      _respostas[4] = '';
+      _email = this.dataUsuario.email;
+      _userId = this.dataUsuario.userId;
+      _userIdMQ = this.dataUsuario.userIdMQ;
+      print('passo 1 - antes getperguntas');
+      _getPerguntas();
+    });
+  }
+
+  _deslogar() {
+    auth.signOut();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Login()));
+  }
+
+  _tempoResposta(int pCounter) {
+    _counter = pCounter;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_counter > 0) {
+          _counter--;
+          print('_counter: $_counter');
+        } else {
+          //  _showAlertDialog(context, ' Tempo Esgotado!');
+          _showMyDialog(' Tempo Esgotado!');
+          _timer.cancel();
+        }
+      });
+    });
+  }
+
+  Timer _timer;
+  int _counter = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Muscula Quiz"),
+        ),
+        body: Container(
+          child: DefaultBackgroundContainer(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    //   _tempoResposta(),
+                    Padding(
+                        padding: EdgeInsets.only(top: 16, bottom: 10),
+                        child: _formUI()),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ));
+  }
+
+  Widget _formUI() {
+    return Column(children: <Widget>[
+      Container(
+        width: MediaQuery.of(context).size.width,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.end,
+            //   crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Container(
+                alignment: Alignment.center,
+                width: 80,
+                child: Text('$_counter',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                    textAlign: TextAlign.right),
+              )
+            ]),
+      ),
+      Container(
+        width: 300.0,
+        child: Column(children: <Widget>[
+          Text(
+            _pergunta,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+        ]),
+      ),
+      RadioButtonGroup(
+        orientation: GroupedButtonsOrientation.VERTICAL,
+        margin: const EdgeInsets.only(left: 12.0),
+        onSelected: (String selected) => setState(() {
+          _resposta = selected;
+        }),
+        labels: <String>[
+          _respostas[0],
+          _respostas[1],
+          _respostas[2],
+          _respostas[3],
+          _respostas[4],
+        ],
+        picked: _resposta,
+        itemBuilder: (Radio rb, Text txt, int i) {
+          return Column(
+            children: <Widget>[
+              rb,
+              txt,
+            ],
+          );
+        },
+      ),
+      Row(
+        children: <Widget>[
+          Container(
+            padding: const EdgeInsets.only(bottom: 50),
+          ),
+        ],
+      ),
+      Row(
+        children: <Widget>[
+          Container(
+            width: 180.0,
+            alignment: AlignmentDirectional.bottomStart,
+            child: RaisedButton(
+                child: Text(
+                  "Sair",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                color: Color(0xff006C5D),
+                padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32)),
+                onPressed: () {
+                  _deslogar();
+                }),
+          ),
+          Container(
+            width: 160.0,
+            alignment: AlignmentDirectional.bottomEnd,
+            child: RaisedButton(
+                child: Text(
+                  "Proxima",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                color: Color(0xff006C5D),
+                padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(32)),
+                onPressed: () {
+                  _proximaPergunta(_resposta);
+                }),
+          )
+        ],
+      )
+    ]);
+  }
+
+  // Minhas Perguntas
+  Future<List<Perguntas>> _getPerguntas() async {
+    List<Perguntas> _listPerguntas = [];
+    try {
+      var data = await http.post(
+        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "metodo": "getperguntas",
+          "id_usuario": "$_userId",
+          "email": "$_email"
+        }),
+        //"email": "$_email"
+      );
+      print("_getPerguntas - _userId: $_userId");
+      print("_getPerguntas - _email: $_email");
+      var jsonMap = json.decode(data.body);
+      //List<Perguntas> perguntas;
+      perguntas = (jsonMap["perguntas"] as List)
+          .map((pergunta) => Perguntas.fromJson(pergunta))
+          .toList();
+
+      _pergunta = perguntas[0].per_descricao;
+      _idPergunta = perguntas[0].id_pergunta;
+      _tempoResp = perguntas[0].per_tempo;
+      _idResposta[0] = perguntas[0].respostas[0].id_resposta;
+      _idResposta[1] = perguntas[0].respostas[1].id_resposta;
+      _idResposta[2] = perguntas[0].respostas[2].id_resposta;
+      _idResposta[3] = perguntas[0].respostas[3].id_resposta;
+      _idResposta[4] = perguntas[0].respostas[4].id_resposta;
+      _respostas[0] = perguntas[0].respostas[0].res_descricao;
+      _respostas[1] = perguntas[0].respostas[1].res_descricao;
+      _respostas[2] = perguntas[0].respostas[2].res_descricao;
+      _respostas[3] = perguntas[0].respostas[3].res_descricao;
+      _respostas[4] = perguntas[0].respostas[4].res_descricao;
+      _respCerta[0] = perguntas[0].respostas[0].res_certa;
+      _respCerta[1] = perguntas[0].respostas[1].res_certa;
+      _respCerta[2] = perguntas[0].respostas[2].res_certa;
+      _respCerta[3] = perguntas[0].respostas[3].res_certa;
+      _respCerta[4] = perguntas[0].respostas[4].res_certa;
+      _controlePerguntas = 0;
+      setState(() {
+        _tempoResposta(int.parse(_tempoResp));
+      });
+    } catch (e) {}
+    return _listPerguntas;
+  }
+  // Perguntas
+
+  Future<List<Perguntas>> _postRespostas(
+      String pidPergunta, String pidResposta, String pTempo) async {
+    try {
+      print('_postRespostas - cheguei - passo 0');
+      var dataResposta = await http.post(
+        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+/*        body: jsonEncode(<String, String>{
+          "metodo": "getrespostas",
+          "id_usuario": "1",
+          "id_pergunta": "1",
+          "id_resposta": "1",
+          "res_tempo": "00:30"
+        }), */
+        body: jsonEncode(<String, String>{
+          "metodo": "getrespostas",
+          "id_usuario": "$_userId",
+          "id_pergunta": "$pidPergunta",
+          "id_resposta": "$pidResposta",
+          "res_tempo": "$pTempo"
+        }),
+      );
+      var jsonData = json.decode(dataResposta.body);
+      print('_postRespostas - Json de Retorno:  $jsonData');
+      List<RetRespostas> _listRespostas = [];
+      int x = 0;
+      for (var u in jsonData) {
+        RetRespostas documento =
+            RetRespostas(u['id_resposta_usuario'], u['status'], u['obs']);
+        _listRespostas.add(documento);
+        x = x + 1;
+      }
+      var _status = _listRespostas[0].rr_status;
+      var _obs = _listRespostas[0].rr_obs;
+      print('_status : $_status');
+      print('_obs: $_obs');
+
+      // {"metodo":"getrespostas","id_usuario":"1","id_pergunta":"1","id_resposta":"1","res_tempo":"00:30"}
+    } catch (e) {}
+//    return _listPerguntas;
+  }
+
+  _proximaPergunta(String pResposta) {
+    _timer.cancel();
+    int _acertou = 99;
+
+    print('pResposta = $pResposta');
+
+    if (pResposta == _respostas[0] && _respCerta[0] == '1') {
+      _acertou = 0;
+    } else {
+      if (pResposta == _respostas[1] && _respCerta[1] == '1') {
+        _acertou = 1;
+      } else {
+        if (pResposta == _respostas[2] && _respCerta[2] == '1') {
+          _acertou = 2;
+        } else {
+          if (pResposta == _respostas[3] && _respCerta[3] == '1') {
+            _acertou = 3;
+          } else {
+            if (pResposta == _respostas[4] && _respCerta[4] == '1') {
+              _acertou = 4;
+            }
+          }
+        }
+      }
+    }
+    print('resposta post : $_resposta ');
+
+    if (_acertou != 99) {
+      print('resposta certa! 0 gravar ! ');
+      String _resposta = _idResposta[_acertou];
+      _postRespostas(_idPergunta, _resposta, _counter.toString());
+      // {"metodo":"getrespostas","id_usuario":"1","id_pergunta":"1","id_resposta":"1","res_tempo":"00:30"
+      // Fim - Envio da resposta certa
+      _controlePerguntas = _controlePerguntas + 1;
+      _pergunta = perguntas[_controlePerguntas].per_descricao;
+      _idPergunta = perguntas[_controlePerguntas].id_pergunta;
+      // Chamar proxima sequencia de perguntas
+      if (_pergunta == null) {
+        setState() {
+          //  _showAlertDialog(context, ' Termino Perguntas.');
+          _showMyDialog(' Termino Perguntas.');
+          _deslogar();
+        }
+      }
+
+      _tempoResp = perguntas[_controlePerguntas].per_tempo;
+
+      _idResposta[0] = perguntas[_controlePerguntas].respostas[0].id_resposta;
+      _idResposta[1] = perguntas[_controlePerguntas].respostas[1].id_resposta;
+      _idResposta[2] = perguntas[_controlePerguntas].respostas[2].id_resposta;
+      _idResposta[3] = perguntas[_controlePerguntas].respostas[3].id_resposta;
+      _idResposta[4] = perguntas[_controlePerguntas].respostas[4].id_resposta;
+
+      _respostas[0] = perguntas[_controlePerguntas].respostas[0].res_descricao;
+      _postRespostas(_idPergunta, _resposta, _counter.toString());
+      _respostas[1] = perguntas[_controlePerguntas].respostas[1].res_descricao;
+      _respostas[2] = perguntas[_controlePerguntas].respostas[2].res_descricao;
+      _respostas[3] = perguntas[_controlePerguntas].respostas[3].res_descricao;
+      _respostas[4] = perguntas[_controlePerguntas].respostas[4].res_descricao;
+
+      _respCerta[0] = perguntas[_controlePerguntas].respostas[0].res_certa;
+      _respCerta[1] = perguntas[_controlePerguntas].respostas[1].res_certa;
+      _respCerta[2] = perguntas[_controlePerguntas].respostas[2].res_certa;
+      _respCerta[3] = perguntas[_controlePerguntas].respostas[3].res_certa;
+      _respCerta[4] = perguntas[_controlePerguntas].respostas[4].res_certa;
+
+      // _tempoResposta(60);
+      print('_tempoResp : $_tempoResp');
+      _tempoResposta(int.parse(_tempoResp));
+    } else {
+      print('gravando resposta - errada');
+      _postRespostas(_idPergunta, '99', _counter.toString());
+      print('Game Over!');
+      _showMyDialog(' Resposta errada!');
+    }
+  }
+
+  Future<void> _showMyDialog(String pMensagem) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('FIM DE JOGO'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[Text(pMensagem), Text('Nova Rodada?')],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+                child: Text('Continuar'),
+                onPressed: () => Navigator.pushReplacementNamed(context, "/")
+                //{
+                // _deslogar();
+                //  Navigator.of(context).pop();
+                //},
+                ),
+          ],
+        );
+      },
+    );
+  }
+  // Fim Show Dialog
 
 }
 
-  
+class Resposta {
+  Resposta({this.id_resposta, this.res_descricao, this.res_certa});
 
-class _HomeState extends State<Home> {
+  final String id_resposta;
+  final String res_descricao;
+  final String res_certa;
 
-  FirebaseAuth auth = FirebaseAuth.instance ;
+  factory Resposta.fromJson(Map<String, dynamic> json) => Resposta(
+      id_resposta: json["id_resposta"],
+      res_descricao: json["res_descricao"],
+      res_certa: json["res_certa"]);
+}
 
-  _deslogar(){
+class Perguntas {
+  Perguntas(
+      {this.id_usuario,
+      this.id_pergunta,
+      this.per_descricao,
+      this.per_tempo,
+      this.respostas});
 
-    auth.signOut();
-    Navigator.pushReplacement(
-          context, 
-          MaterialPageRoute(
-            builder: (context) => Login()
-          )
-        );
+  final String id_usuario;
+  final String id_pergunta;
+  final String per_descricao;
+  final String per_tempo;
+  final List<Resposta> respostas;
 
-  }
+  factory Perguntas.fromJson(Map<String, dynamic> json) => Perguntas(
+      id_usuario: json["id_usuario"],
+      id_pergunta: json["id_pergunta"],
+      per_descricao: json["per_descricao"],
+      per_tempo: json["per_tempo"],
+      respostas: (json["respostas"] as List)
+          .map((conteudo) => Resposta.fromJson(conteudo))
+          .toList());
+}
 
-  @override
-  Widget build (BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        title: Text ("Muscula Quiz" ),
-      ) , 
-      body: Container(
-        //decoration: BoxDecoration(color: Color(0xff00A696)),
-        //padding: EdgeInsets.all(16),
-        child: DefaultBackgroundContainer(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top:16, bottom:10),
-                  child: RaisedButton(
-                    child: Text(
-                      "Sair",
-                      style: TextStyle(color: Colors.white,fontSize: 20),
-                    ) ,
-                    color: Color(0xff006C5D),
-                    padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32)
-                    ),
-                    onPressed: (){
-                     _deslogar();
-                    } 
-                  ),
-                ) ,
-              ] ,
-            ), 
-           ),
-          ),  
-        ),
-      )
-      );
-  }
+class Respostas {
+  final int _key;
+  final String _value;
+  Respostas(this._key, this._value);
+}
 
+class RetRespostas {
+  final String rr_id_resposta_usuario;
+  final String rr_status;
+  final String rr_obs;
 
+  RetRespostas(this.rr_id_resposta_usuario, this.rr_status, this.rr_obs);
 }

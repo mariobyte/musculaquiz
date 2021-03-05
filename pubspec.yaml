@@ -32,7 +32,9 @@ dependencies:
   firebase_auth: ^0.18.4+1 # Autenticação
   firebase_storage: ^5.2.0 # Armazenamento de arquivos
   cloud_firestore: ^0.14.4 # banco de dados
-  
+  grouped_buttons: ^1.0.4
+  path_provider: ^1.6.24
+  rflutter_alert: ^1.1.0  
   
 dev_dependencies:
   flutter_test:

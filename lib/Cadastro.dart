@@ -1,12 +1,13 @@
-//teste alteracao
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:musculaquiz/app/model/Usuario.dart';
 
 import 'Home.dart';
-import 'app/components/default_background_conteiner.dart';
+import 'package:musculaquiz/app/components/default_background_conteiner.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:convert';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -19,6 +20,8 @@ class _CadastroState extends State<Cadastro> {
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerSenha = TextEditingController();
   String _mensagemErro = "";
+
+  final dataUsuario = Usuario();
 /*
 try {
   await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -36,6 +39,10 @@ try {
     String nome = _controllerNome.text;
     String email = _controllerEmail.text;
     String senha = _controllerSenha.text;
+
+    print('nome: $nome');
+    print('email: $email');
+    print('senha: $senha');
 
     if (nome.isNotEmpty && nome.length > 3) {
       print('entrou no nome preenchido');
@@ -96,8 +103,51 @@ try {
         print(usuario.nome);
         print(usuario.email);
         print(usuario.senha);
+        print(_mensagemErro);
       });
     });
+  }
+
+  Future _getUsuario(
+      String _puserId, String _pnome, String _pemail, String _psenha) async {
+    List<Perguntas> _listPerguntas = [];
+    try {
+      print('_getusuario - _pnome : $_pnome');
+      print('_getusuario - _puserId : $_puserId');
+      print('_getusuario - _pemail : $_pemail');
+      print('_getusuario - _psenha : $_psenha');
+
+      var data = await http.post(
+        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "metodo": "getusuario",
+          "id_usuario": "$_puserId",
+          "nome": "$_pnome",
+          "email": "$_pemail",
+          "senha": "$_psenha"
+        }),
+        //"email": "$_email"
+      );
+
+      var jsonData = json.decode(data.body);
+      List<UsuarioRet> _usuarioRet = [];
+      int x = 0;
+      for (var u in jsonData) {
+        UsuarioRet documento = UsuarioRet(u['id_usuario'], u['usu_nome']);
+        _usuarioRet.add(documento);
+        x = x + 1;
+      }
+      dataUsuario.userIdMQ = _usuarioRet[0].usu_id;
+      dataUsuario.email = _pemail;
+      dataUsuario.userId = _puserId;
+      dataUsuario.nome = _pnome;
+
+      print('userIdMQ: $dataUsuario.userIdMQ');
+    } catch (e) {}
+    return _listPerguntas;
   }
 
   @override
@@ -130,7 +180,7 @@ try {
                         controller: _controllerNome,
                         autofocus: true,
                         keyboardType: TextInputType.text,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 18),
                         decoration: InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                             hintText: 'Nome',
@@ -145,7 +195,7 @@ try {
                       child: TextField(
                         controller: _controllerEmail,
                         keyboardType: TextInputType.emailAddress,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(fontSize: 18),
                         decoration: InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                             hintText: 'E-mail',
@@ -159,7 +209,7 @@ try {
                       controller: _controllerSenha,
                       obscureText: true,
                       keyboardType: TextInputType.text,
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 18),
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                           hintText: 'Senha',
@@ -173,7 +223,7 @@ try {
                       child: RaisedButton(
                           child: Text(
                             "Cadastrar",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                            style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           color: Color(0xff006C5D),
                           padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
@@ -186,7 +236,7 @@ try {
                     Center(
                         child: Text(
                       _mensagemErro,
-                      style: TextStyle(color: Colors.red, fontSize: 20),
+                      style: TextStyle(color: Colors.red, fontSize: 18),
                     )),
                   ],
                 ),
@@ -195,4 +245,10 @@ try {
           ),
         ));
   }
+}
+
+class UsuarioRet {
+  final String usu_id;
+  final String usu_nome;
+  UsuarioRet(this.usu_id, this.usu_nome);
 }
