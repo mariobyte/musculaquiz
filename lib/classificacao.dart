@@ -121,11 +121,11 @@ class _ClassificacaoState extends State<Classificacao> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(32)),
                         onPressed: () {
-                          //Navigator.pushReplacement(
-                          //context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           Home(dataUsuario: dataUsuario)));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Home(dataUsuario: dataUsuario)));
                           Navigator.pushReplacementNamed(context, "/");
                         },
                       ),

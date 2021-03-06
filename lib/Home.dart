@@ -172,9 +172,9 @@ class _HomeState extends State<Home> {
       Row(
         children: <Widget>[
           Container(
-            width: 180.0,
-            alignment: AlignmentDirectional.bottomStart,
-            child: RaisedButton(
+            width: 100.0,
+            alignment: AlignmentDirectional.center,
+/*            child: RaisedButton(
                 child: Text(
                   "Sair",
                   style: TextStyle(color: Colors.white, fontSize: 20),
@@ -185,11 +185,11 @@ class _HomeState extends State<Home> {
                     borderRadius: BorderRadius.circular(32)),
                 onPressed: () {
                   _classificacao();
-                }),
+                }), */
           ),
           Container(
             width: 160.0,
-            alignment: AlignmentDirectional.bottomEnd,
+            alignment: AlignmentDirectional.center,
             child: RaisedButton(
                 child: Text(
                   "Proxima",
@@ -394,12 +394,9 @@ class _HomeState extends State<Home> {
           actions: <Widget>[
             TextButton(
                 child: Text('Continuar'),
-                onPressed: () => Navigator.pushReplacementNamed(context, "/")
-                //{
-                // _deslogar();
-                //  Navigator.of(context).pop();
-                //},
-                ),
+                onPressed: () {
+                  _classificacao();
+                }),
           ],
         );
       },
