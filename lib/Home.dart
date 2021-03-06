@@ -3,17 +3,13 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'Login.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'app/components/default_background_conteiner.dart';
 import 'app/model/Usuario.dart';
+import 'classificacao.dart';
 
 class Home extends StatefulWidget {
   final Usuario dataUsuario;
@@ -39,13 +35,11 @@ class _HomeState extends State<Home> {
   String _tempoResp = '';
 
   int _controlePerguntas = 0;
-  bool _isRadioSelected = false;
 
   var _respostas = new List(5);
   var _idResposta = new List(5);
   var _respCerta = new List(5);
 
-  var _buttonOptions = [];
   var _email = '';
   var _userId = '';
   var _userIdMQ = '';
@@ -66,10 +60,14 @@ class _HomeState extends State<Home> {
     });
   }
 
-  _deslogar() {
+/*  _deslogar() {
     auth.signOut();
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => Login()));
+  } */
+  _classificacao() {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Classificacao()));
   }
 
   _tempoResposta(int pCounter) {
@@ -186,7 +184,7 @@ class _HomeState extends State<Home> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32)),
                 onPressed: () {
-                  _deslogar();
+                  _classificacao();
                 }),
           ),
           Container(
@@ -297,10 +295,6 @@ class _HomeState extends State<Home> {
       }
       var _status = _listRespostas[0].rr_status;
       var _obs = _listRespostas[0].rr_obs;
-      print('_status : $_status');
-      print('_obs: $_obs');
-
-      // {"metodo":"getrespostas","id_usuario":"1","id_pergunta":"1","id_resposta":"1","res_tempo":"00:30"}
     } catch (e) {}
 //    return _listPerguntas;
   }
@@ -309,28 +303,6 @@ class _HomeState extends State<Home> {
     _timer.cancel();
     int _acertou = 99;
 
-    print('pResposta = $pResposta');
-    /*
-    if (pResposta == _respostas[0] && _respCerta[0] == '1') {
-      _acertou = 0;
-    } else {
-      if (pResposta == _respostas[1] && _respCerta[1] == '1') {
-        _acertou = 1;
-      } else {
-        if (pResposta == _respostas[2] && _respCerta[2] == '1') {
-          _acertou = 2;
-        } else {
-          if (pResposta == _respostas[3] && _respCerta[3] == '1') {
-            _acertou = 3;
-          } else {
-            if (pResposta == _respostas[4] && _respCerta[4] == '1') {
-              _acertou = 4;
-            }
-          }
-        }
-      }
-    }
-    */
     if (pResposta == _respostas[0]) {
       _acertou = 0;
     } else {
@@ -371,7 +343,7 @@ class _HomeState extends State<Home> {
         setState() {
           //  _showAlertDialog(context, ' Termino Perguntas.');
           _showMyDialog(' Termino Perguntas.');
-          _deslogar();
+          _classificacao();
         }
       }
 
@@ -396,7 +368,6 @@ class _HomeState extends State<Home> {
       _respCerta[3] = perguntas[_controlePerguntas].respostas[3].res_certa;
       _respCerta[4] = perguntas[_controlePerguntas].respostas[4].res_certa;
 
-      // _tempoResposta(60);
       print('_tempoResp : $_tempoResp');
       _tempoResposta(int.parse(_tempoResp));
     } else {
