@@ -108,45 +108,6 @@ class _LoginState extends State<Login> {
     });
   }
 
-/*
-  Future _getUsuario(
-      String _puserId, String _pnome, String _pemail, String _psenha) async {
-    List<Perguntas> _listPerguntas = [];
-    try {
-      print('_getusuario - _pnome : $_pnome');
-      print('_getusuario - _puserId : $_puserId');
-      print('_getusuario - _pemail : $_pemail');
-      print('_getusuario - _psenha : $_psenha');
-
-      var data = await http.post(
-        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          "metodo": "getusuario",
-          "id_usuario": "$_puserId",
-          "nome": "$_pnome",
-          "email": "$_pemail",
-          "senha": "$_psenha"
-        }),
-        //"email": "$_email"
-      );
-
-      var jsonData = json.decode(data.body);
-      List<UsuarioRet> _usuarioRet = [];
-      int x = 0;
-      for (var u in jsonData) {
-        UsuarioRet documento = UsuarioRet(u['id_usuario'], u['usu_nome']);
-        _usuarioRet.add(documento);
-        x = x + 1;
-      }
-      dataUsuario.userIdMQ = _usuarioRet[0].usu_id;
-      print('userIdMQ: $dataUsuario.userIdMQ');
-    } catch (e) {}
-    return _listPerguntas;
-  }
-*/
   @override
   void initState() {
     _verificarUsuarioLogado();
@@ -158,8 +119,6 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      //decoration: BoxDecoration(color: Color(0xff00A696)),
-      //padding: EdgeInsets.all(16),
       child: DefaultBackgroundContainer(
         child: Center(
           child: SingleChildScrollView(
