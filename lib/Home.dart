@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
 
   String _pergunta = '';
   String _idPergunta = '';
-  String _resposta = '';
+  int _resposta = -1;
   String _tempoResp = '';
 
   int _controlePerguntas = 0;
@@ -67,7 +67,10 @@ class _HomeState extends State<Home> {
   } */
   _classificacao() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Classificacao()));
+//        context, MaterialPageRoute(builder: (context) => Classificacao()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => Classificacao(dataUsuario: dataUsuario)));
   }
 
   _tempoResposta(int pCounter) {
@@ -88,6 +91,7 @@ class _HomeState extends State<Home> {
 
   Timer _timer;
   int _counter = 0;
+  int _groupValue = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +143,36 @@ class _HomeState extends State<Home> {
           ),
         ]),
       ),
-      RadioButtonGroup(
+      Column(
+        children: <Widget>[
+          _myRadioButton(
+            title: _respostas[0],
+            value: 0,
+            onChanged: (newValue) => setState(() => _resposta = newValue),
+          ),
+          _myRadioButton(
+            title: _respostas[1],
+            value: 1,
+            onChanged: (newValue) => setState(() => _resposta = newValue),
+          ),
+          _myRadioButton(
+            title: _respostas[2],
+            value: 2,
+            onChanged: (newValue) => setState(() => _resposta = newValue),
+          ),
+          _myRadioButton(
+            title: _respostas[3],
+            value: 3,
+            onChanged: (newValue) => setState(() => _resposta = newValue),
+          ),
+          _myRadioButton(
+            title: _respostas[4],
+            value: 4,
+            onChanged: (newValue) => setState(() => _resposta = newValue),
+          ),
+        ],
+      ),
+/*      RadioButtonGroup(
         orientation: GroupedButtonsOrientation.VERTICAL,
         margin: const EdgeInsets.only(left: 12.0),
         onSelected: (String selected) => setState(() {
@@ -161,7 +194,7 @@ class _HomeState extends State<Home> {
             ],
           );
         },
-      ),
+      ), */
       Row(
         children: <Widget>[
           Container(
@@ -174,18 +207,6 @@ class _HomeState extends State<Home> {
           Container(
             width: 100.0,
             alignment: AlignmentDirectional.center,
-/*            child: RaisedButton(
-                child: Text(
-                  "Sair",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                color: Color(0xff006C5D),
-                padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32)),
-                onPressed: () {
-                  _classificacao();
-                }), */
           ),
           Container(
             width: 160.0,
@@ -200,12 +221,23 @@ class _HomeState extends State<Home> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(32)),
                 onPressed: () {
+                  print('_resposta: $_resposta');
                   _proximaPergunta(_resposta);
+                  _resposta = -1;
                 }),
           )
         ],
       )
     ]);
+  }
+
+  Widget _myRadioButton({String title, int value, Function onChanged}) {
+    return RadioListTile(
+      value: value,
+      groupValue: _resposta,
+      onChanged: onChanged,
+      title: Text(title),
+    );
   }
 
   // Minhas Perguntas
@@ -268,13 +300,6 @@ class _HomeState extends State<Home> {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-/*        body: jsonEncode(<String, String>{
-          "metodo": "getrespostas",
-          "id_usuario": "1",
-          "id_pergunta": "1",
-          "id_resposta": "1",
-          "res_tempo": "00:30"
-        }), */
         body: jsonEncode(<String, String>{
           "metodo": "getrespostas",
           "id_usuario": "$_userId",
@@ -297,32 +322,19 @@ class _HomeState extends State<Home> {
       var _status = _listRespostas[0].rr_status;
       var _obs = _listRespostas[0].rr_obs;
     } catch (e) {}
-//    return _listPerguntas;
   }
 
-  _proximaPergunta(String pResposta) {
+  _proximaPergunta(int pResposta) {
     _timer.cancel();
-    int _acertou = 99;
+    print('_proximaPergunta = cheguei : $pResposta');
+    String wResposta = _respostas[3];
+    String wRespCerta = _respCerta[3];
 
-    if (pResposta == _respostas[0]) {
-      _acertou = 0;
-    } else {
-      if (pResposta == _respostas[1]) {
-        _acertou = 1;
-      } else {
-        if (pResposta == _respostas[2]) {
-          _acertou = 2;
-        } else {
-          if (pResposta == _respostas[3]) {
-            _acertou = 3;
-          } else {
-            if (pResposta == _respostas[4]) {
-              _acertou = 4;
-            }
-          }
-        }
-      }
-    }
+    print('_proximaPergunta = _respostas[3] = $wResposta');
+    print('_proximaPergunta = _respCerta[3] = $wRespCerta');
+    int _acertou = 99;
+    _acertou = pResposta;
+
     var _idRespInformada = _acertou;
     if (_respCerta[_acertou] != '1') {
       _acertou = 99;
@@ -332,8 +344,8 @@ class _HomeState extends State<Home> {
 
     if (_acertou != 99) {
       print('resposta certa! 0 gravar ! ');
-      String _resposta = _idResposta[_acertou];
-      _postRespostas(_idPergunta, _resposta, _counter.toString());
+      String _respostaId = _idResposta[_acertou];
+      _postRespostas(_idPergunta, _respostaId, _counter.toString());
       // {"metodo":"getrespostas","id_usuario":"1","id_pergunta":"1","id_resposta":"1","res_tempo":"00:30"
       // Fim - Envio da resposta certa
       _controlePerguntas = _controlePerguntas + 1;
@@ -357,7 +369,7 @@ class _HomeState extends State<Home> {
       _idResposta[4] = perguntas[_controlePerguntas].respostas[4].id_resposta;
 
       _respostas[0] = perguntas[_controlePerguntas].respostas[0].res_descricao;
-      _postRespostas(_idPergunta, _resposta, _counter.toString());
+      _postRespostas(_idPergunta, _respostaId, _counter.toString());
       _respostas[1] = perguntas[_controlePerguntas].respostas[1].res_descricao;
       _respostas[2] = perguntas[_controlePerguntas].respostas[2].res_descricao;
       _respostas[3] = perguntas[_controlePerguntas].respostas[3].res_descricao;

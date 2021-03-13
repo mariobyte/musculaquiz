@@ -126,7 +126,7 @@ class _ClassificacaoState extends State<Classificacao> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       Home(dataUsuario: dataUsuario)));
-                          Navigator.pushReplacementNamed(context, "/");
+                          //                         Navigator.pushReplacementNamed(context, "/");
                         },
                       ),
                     ),

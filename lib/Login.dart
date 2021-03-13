@@ -1,11 +1,12 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:musculaquiz/classificacao.dart';
 
 import 'Cadastro.dart';
 import 'Home.dart';
 import 'app/components/default_background_conteiner.dart';
 import 'app/model/Usuario.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
@@ -22,6 +23,7 @@ class _LoginState extends State<Login> {
   String _mensagemErro = "";
 
   final dataUsuario = Usuario();
+  List _acessoUserList = [];
 
   _validarCampos() {
     // Recupera dados digitados
@@ -57,6 +59,45 @@ class _LoginState extends State<Login> {
     }
   }
 
+  void _addUser(String pUsuarioEmail, String pIdUsuario) {
+    setState(() {
+      Map<String, dynamic> newUser = Map();
+      newUser["login"] = pUsuarioEmail;
+      newUser["idUser"] = pIdUsuario;
+
+      _acessoUserList.add(newUser);
+      _saveData();
+    });
+  }
+
+  Future<String> _readData() async {
+    try {
+      final file = await _getFile();
+      return file.readAsString();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<File> _getFile() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      return File("${directory.path}/MusculaQuiz.json");
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<File> _saveData() async {
+    try {
+      String data = json.encode(_acessoUserList);
+      final file = await _getFile();
+      return file.writeAsString(data);
+    } catch (e) {
+      return null;
+    }
+  }
+
   _logarUsuario(Usuario usuario) {
     FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -64,14 +105,13 @@ class _LoginState extends State<Login> {
         .signInWithEmailAndPassword(
             email: usuario.email, password: usuario.senha)
         .then((firebaseUser) {
-      // Busca Id do Usuario
-      //    _getUsuario(
-      //        auth.currentUser.uid, usuario.nome, usuario.email, usuario.senha);
-      // Fim ID do Usuario
       dataUsuario.email = usuario.email;
       dataUsuario.userId = auth.currentUser.uid;
-      print('id do usuario:');
-      print(dataUsuario.userId);
+      var wEmail = usuario.email;
+      var wUserId = dataUsuario.userId;
+      //  print('id do usuario:');
+      //  print(dataUsuario.userId);
+      _addUser(wEmail, wUserId);
 
       Navigator.pushReplacement(
           context,
@@ -110,6 +150,24 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
+    // Minha Configuração
+    _readData().then((data) {
+      setState(() {
+        _acessoUserList = json.decode(data);
+
+        var _email = _acessoUserList[0]['login'];
+        var _idUser = _acessoUserList[0]['idUser'];
+
+        dataUsuario.email = _email;
+        dataUsuario.userId = _idUser;
+
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+      });
+    });
+
     _verificarUsuarioLogado();
 
     super.initState();
