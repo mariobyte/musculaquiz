@@ -9,6 +9,7 @@ import 'dart:convert';
 
 import 'app/components/default_background_conteiner.dart';
 import 'app/model/Usuario.dart';
+import 'app/utils/config.dart';
 import 'classificacao.dart';
 
 class Home extends StatefulWidget {
@@ -245,7 +246,7 @@ class _HomeState extends State<Home> {
     List<Perguntas> _listPerguntas = [];
     try {
       var data = await http.post(
-        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
+        APP_URL,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -296,7 +297,7 @@ class _HomeState extends State<Home> {
     try {
       print('_postRespostas - cheguei - passo 0');
       var dataResposta = await http.post(
-        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
+        APP_URL,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

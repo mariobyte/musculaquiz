@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 
+import 'app/utils/config.dart';
+
 class Cadastro extends StatefulWidget {
   @override
   _CadastroState createState() => _CadastroState();
@@ -118,7 +120,7 @@ try {
       print('_getusuario - _psenha : $_psenha');
 
       var data = await http.post(
-        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
+        APP_URL,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
