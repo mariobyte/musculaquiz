@@ -60,14 +60,8 @@ class _HomeState extends State<Home> {
     });
   }
 
-/*  _deslogar() {
-    auth.signOut();
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login()));
-  } */
   _classificacao() {
     Navigator.pushReplacement(
-//        context, MaterialPageRoute(builder: (context) => Classificacao()));
         context,
         MaterialPageRoute(
             builder: (context) => Classificacao(dataUsuario: dataUsuario)));
@@ -172,29 +166,6 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-/*      RadioButtonGroup(
-        orientation: GroupedButtonsOrientation.VERTICAL,
-        margin: const EdgeInsets.only(left: 12.0),
-        onSelected: (String selected) => setState(() {
-          _resposta = selected;
-        }),
-        labels: <String>[
-          _respostas[0],
-          _respostas[1],
-          _respostas[2],
-          _respostas[3],
-          _respostas[4],
-        ],
-        picked: _resposta,
-        itemBuilder: (Radio rb, Text txt, int i) {
-          return Column(
-            children: <Widget>[
-              rb,
-              txt,
-            ],
-          );
-        },
-      ), */
       Row(
         children: <Widget>[
           Container(
