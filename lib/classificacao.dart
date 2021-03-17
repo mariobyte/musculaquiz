@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:musculaquiz/app/model/Usuario.dart';
+
+import 'package:musculaquiz/app/utils/resources.dart';
 
 import 'Home.dart';
 import 'package:musculaquiz/app/components/default_background_conteiner.dart';
@@ -9,6 +12,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'app/model/Usuario.dart';
 import 'app/model/Categorias.dart';
+
+import 'package:musculaquiz/Login.dart';
 
 class API {
   static Future getCategorias(String pUserId) async {
@@ -76,6 +81,10 @@ class _ClassificacaoState extends State<Classificacao> {
         appBar: AppBar(
           title: Text("Classificação"),
           backgroundColor: Color(0xff00A191),
+          actions: [
+            IconButton(icon: Icon(Icons.logout), onPressed: this._logout),
+          ],
+
         ),
         body: Container(
           child: DefaultBackgroundContainer(
@@ -250,7 +259,41 @@ class _ClassificacaoState extends State<Classificacao> {
       return null;
     }
   }
+
+  _logout() {
+
+    FirebaseAuth.instance.signOut();
+
+      runApp(MaterialApp(
+          home: Login(),
+          theme: ThemeData(
+              primaryColor: Color(0xff00A696), accentColor: Color(0xff25D366)),
+          debugShowCheckedModeBanner: false,
+        ));
+
+
+/*
+    FirebaseAuth.instance.signOut();
+    //FirebaseUser user = FirebaseAuth.instance.currentUser;
+    //print('$user');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Login()));
+*/
+
+/*
+    runApp(
+        new MaterialApp(
+          home: new Login(),
+        )
+
+    );
+*/
+
+ }
+
+
 }
+
 
 class UsuarioRet {
   final String usu_id;
