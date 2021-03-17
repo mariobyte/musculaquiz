@@ -112,11 +112,15 @@ class _LoginState extends State<Login> {
       //  print('id do usuario:');
       //  print(dataUsuario.userId);
       _addUser(wEmail, wUserId);
-
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Home(dataUsuario: dataUsuario)));
+              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+
+/*      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Home(dataUsuario: dataUsuario))); */
     }).catchError((error) {
       setState(() {
         //print ("Erro App" + error.toString) ;
@@ -142,8 +146,12 @@ class _LoginState extends State<Login> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
+              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+/*      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
               builder: (context) => Home(dataUsuario: dataUsuario)));
-
+*/
       // do whatever you want based on the firebaseUser state
     });
   }
