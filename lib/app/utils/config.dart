@@ -1,5 +1,5 @@
 const APP_NAME = "Muscula Quiz";
-const APP_URL = "https://cortexvendas.com.br/apimuscula/apimuscula.php";
+const APP_URL = "https://www.cortexvendas.com.br/apiquiz/apiquiz.php";
 const APP_DATABASE = 'muscula-quiz';
 //var googleApiKey = "AIzaSyAujuvB4T1a0l2oUz99EvwuSsXL6hhIPk8";
 const FIREBASE_API_KEY = 'AIzaSyDaWigDE1QzM_OHhxP4ThphnlJIL2WTE5k';
