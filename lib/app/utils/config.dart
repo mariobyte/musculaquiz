@@ -9,4 +9,4 @@ const FIREBASE_PROJECT_ID = 'muscula-quiz';
 const FIREBASE_DATABASE_URL = 'https://muscula-quiz-default-rtdb.firebaseio.com/';
                                 
 const FIREBASE_PROJECT_NUMBER = '583435381497';
-//const ONE_SIGNAL_KEY = '02ecec86-17a3-43ae-b73c-d8fbd66af9b2';
+//const ONE_SIGNAL_KEY = '02ecec86-17a3-43ae-b73c-d8fbd66af9  b2';
