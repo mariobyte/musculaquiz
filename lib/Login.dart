@@ -82,6 +82,7 @@ class _LoginState extends State<Login> {
   Future<File> _getFile() async {
     try {
       final directory = await getApplicationDocumentsDirectory();
+      print("${directory.path}/MusculaQuiz.json");
       return File("${directory.path}/MusculaQuiz.json");
     } catch (e) {
       return null;
