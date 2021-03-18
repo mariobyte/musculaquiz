@@ -79,12 +79,12 @@ class _ClassificacaoState extends State<Classificacao> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Classificação"),
+          //title: Text("Classificação"),
+          title: Text("Analise"),
           backgroundColor: Color(0xff00A191),
           actions: [
             IconButton(icon: Icon(Icons.logout), onPressed: this._logout),
           ],
-
         ),
         body: Container(
           child: DefaultBackgroundContainer(
@@ -211,6 +211,7 @@ class _ClassificacaoState extends State<Classificacao> {
                             borderRadius: BorderRadius.circular(32)),
                         onPressed: () {
                           _iniciaPartida(_userId, '1');
+
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -261,16 +262,14 @@ class _ClassificacaoState extends State<Classificacao> {
   }
 
   _logout() {
-
     FirebaseAuth.instance.signOut();
 
-      runApp(MaterialApp(
-          home: Login(),
-          theme: ThemeData(
-              primaryColor: Color(0xff00A696), accentColor: Color(0xff25D366)),
-          debugShowCheckedModeBanner: false,
-        ));
-
+    runApp(MaterialApp(
+      home: Login(),
+      theme: ThemeData(
+          primaryColor: Color(0xff00A696), accentColor: Color(0xff25D366)),
+      debugShowCheckedModeBanner: false,
+    ));
 
 /*
     FirebaseAuth.instance.signOut();
@@ -288,12 +287,8 @@ class _ClassificacaoState extends State<Classificacao> {
 
     );
 */
-
- }
-
-
+  }
 }
-
 
 class UsuarioRet {
   final String usu_id;

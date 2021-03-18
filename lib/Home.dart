@@ -56,6 +56,9 @@ class _HomeState extends State<Home> {
       _email = this.dataUsuario.email;
       _userId = this.dataUsuario.userId;
       _userIdMQ = this.dataUsuario.userIdMQ;
+      print('_email: $_email');
+      print('_userId: $_userId');
+      print('_userIdMQ: $_userIdMQ');
       print('passo 1 - antes getperguntas');
       _getPerguntas();
     });
@@ -341,7 +344,6 @@ class _HomeState extends State<Home> {
       _idResposta[4] = perguntas[_controlePerguntas].respostas[4].id_resposta;
 
       _respostas[0] = perguntas[_controlePerguntas].respostas[0].res_descricao;
-      _postRespostas(_idPergunta, _respostaId, _counter.toString());
       _respostas[1] = perguntas[_controlePerguntas].respostas[1].res_descricao;
       _respostas[2] = perguntas[_controlePerguntas].respostas[2].res_descricao;
       _respostas[3] = perguntas[_controlePerguntas].respostas[3].res_descricao;
