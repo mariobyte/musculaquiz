@@ -321,42 +321,52 @@ class _HomeState extends State<Home> {
       print('resposta certa! 0 gravar ! ');
       String _respostaId = _idResposta[_acertou];
       _postRespostas(_idPergunta, _respostaId, _counter.toString());
-      // {"metodo":"getrespostas","id_usuario":"1","id_pergunta":"1","id_resposta":"1","res_tempo":"00:30"
       // Fim - Envio da resposta certa
       _controlePerguntas = _controlePerguntas + 1;
-      _pergunta = perguntas[_controlePerguntas].per_descricao;
-      _idPergunta = perguntas[_controlePerguntas].id_pergunta;
-      // Chamar proxima sequencia de perguntas
-      if (_pergunta == null) {
-        setState() {
-          //  _showAlertDialog(context, ' Termino Perguntas.');
-          _showMyDialog(' Termino Perguntas.');
-          _classificacao();
-        }
+      try {
+        _pergunta = perguntas[_controlePerguntas].per_descricao;
+        _idPergunta = perguntas[_controlePerguntas].id_pergunta;
+      } catch (e) {
+        _pergunta = 'Fim';
+        print('Abortei!');
       }
+      print('Controle de perguntas: $_pergunta');
+      // Chamar proxima sequencia de perguntas
+      if (_pergunta == 'Fim') {
+        print('entrei no if _pergunta');
+        print('saida');
+        _showMyDialog(' Termino Perguntas.');
+        _classificacao();
+        // }
+      } else {
+        _tempoResp = perguntas[_controlePerguntas].per_tempo;
 
-      _tempoResp = perguntas[_controlePerguntas].per_tempo;
+        _idResposta[0] = perguntas[_controlePerguntas].respostas[0].id_resposta;
+        _idResposta[1] = perguntas[_controlePerguntas].respostas[1].id_resposta;
+        _idResposta[2] = perguntas[_controlePerguntas].respostas[2].id_resposta;
+        _idResposta[3] = perguntas[_controlePerguntas].respostas[3].id_resposta;
+        _idResposta[4] = perguntas[_controlePerguntas].respostas[4].id_resposta;
 
-      _idResposta[0] = perguntas[_controlePerguntas].respostas[0].id_resposta;
-      _idResposta[1] = perguntas[_controlePerguntas].respostas[1].id_resposta;
-      _idResposta[2] = perguntas[_controlePerguntas].respostas[2].id_resposta;
-      _idResposta[3] = perguntas[_controlePerguntas].respostas[3].id_resposta;
-      _idResposta[4] = perguntas[_controlePerguntas].respostas[4].id_resposta;
+        _respostas[0] =
+            perguntas[_controlePerguntas].respostas[0].res_descricao;
+        _respostas[1] =
+            perguntas[_controlePerguntas].respostas[1].res_descricao;
+        _respostas[2] =
+            perguntas[_controlePerguntas].respostas[2].res_descricao;
+        _respostas[3] =
+            perguntas[_controlePerguntas].respostas[3].res_descricao;
+        _respostas[4] =
+            perguntas[_controlePerguntas].respostas[4].res_descricao;
 
-      _respostas[0] = perguntas[_controlePerguntas].respostas[0].res_descricao;
-      _respostas[1] = perguntas[_controlePerguntas].respostas[1].res_descricao;
-      _respostas[2] = perguntas[_controlePerguntas].respostas[2].res_descricao;
-      _respostas[3] = perguntas[_controlePerguntas].respostas[3].res_descricao;
-      _respostas[4] = perguntas[_controlePerguntas].respostas[4].res_descricao;
+        _respCerta[0] = perguntas[_controlePerguntas].respostas[0].res_certa;
+        _respCerta[1] = perguntas[_controlePerguntas].respostas[1].res_certa;
+        _respCerta[2] = perguntas[_controlePerguntas].respostas[2].res_certa;
+        _respCerta[3] = perguntas[_controlePerguntas].respostas[3].res_certa;
+        _respCerta[4] = perguntas[_controlePerguntas].respostas[4].res_certa;
 
-      _respCerta[0] = perguntas[_controlePerguntas].respostas[0].res_certa;
-      _respCerta[1] = perguntas[_controlePerguntas].respostas[1].res_certa;
-      _respCerta[2] = perguntas[_controlePerguntas].respostas[2].res_certa;
-      _respCerta[3] = perguntas[_controlePerguntas].respostas[3].res_certa;
-      _respCerta[4] = perguntas[_controlePerguntas].respostas[4].res_certa;
-
-      print('_tempoResp : $_tempoResp');
-      _tempoResposta(int.parse(_tempoResp));
+        print('_tempoResp : $_tempoResp');
+        _tempoResposta(int.parse(_tempoResp));
+      }
     } else {
       print('gravando resposta - errada');
       _postRespostas(
