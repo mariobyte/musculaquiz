@@ -13,8 +13,11 @@ import 'dart:async';
 import 'dart:convert';
 
 class Login extends StatefulWidget {
+
   @override
   _LoginState createState() => _LoginState();
+
+
 }
 
 class _LoginState extends State<Login> {
@@ -23,6 +26,7 @@ class _LoginState extends State<Login> {
   String _mensagemErro = "";
 
   final dataUsuario = Usuario();
+
   List _acessoUserList = [];
 
   _validarCampos() {
@@ -70,6 +74,7 @@ class _LoginState extends State<Login> {
     });
   }
 
+
   Future<String> _readData() async {
     try {
       final file = await _getFile();
@@ -98,6 +103,22 @@ class _LoginState extends State<Login> {
       return null;
     }
   }
+
+  Future<File> _deleteData() async {
+    try {
+      final file = await _getFile();
+      return  file.delete();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  void apagarArquivo() {
+
+     _deleteData();     
+
+  }
+
 
   _logarUsuario(Usuario usuario) {
     FirebaseAuth auth = FirebaseAuth.instance;

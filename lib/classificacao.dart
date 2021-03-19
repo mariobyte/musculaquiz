@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:musculaquiz/app/model/Usuario.dart';
-
 import 'package:musculaquiz/app/utils/resources.dart';
 
 import 'Home.dart';
@@ -262,32 +260,11 @@ class _ClassificacaoState extends State<Classificacao> {
   }
 
   _logout() {
-    FirebaseAuth.instance.signOut();
-
-    runApp(MaterialApp(
-      home: Login(),
-      theme: ThemeData(
-          primaryColor: Color(0xff00A696), accentColor: Color(0xff25D366)),
-      debugShowCheckedModeBanner: false,
-    ));
-
-/*
-    FirebaseAuth.instance.signOut();
-    //FirebaseUser user = FirebaseAuth.instance.currentUser;
-    //print('$user');
+    
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Login()));
-*/
+   }
 
-/*
-    runApp(
-        new MaterialApp(
-          home: new Login(),
-        )
-
-    );
-*/
-  }
 }
 
 class UsuarioRet {

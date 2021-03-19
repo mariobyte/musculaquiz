@@ -269,7 +269,7 @@ class _HomeState extends State<Home> {
   Future<List<Perguntas>> _postRespostas(
       String pidPergunta, String pidResposta, String pTempo) async {
     try {
-      print('_postRespostas - cheguei - passo 0');
+      print('_postRespostas - cheguei - passo 0 - Id Resposta ' + pidResposta );
       var dataResposta = await http.post(
         APP_URL,
         headers: <String, String>{
@@ -369,8 +369,12 @@ class _HomeState extends State<Home> {
       }
     } else {
       print('gravando resposta - errada');
+
+      String _resposta = _idResposta[_idRespInformada] ;
+      print('id resposta - errada - ' + _resposta);
+
       _postRespostas(
-          _idPergunta, _idRespInformada.toString(), _counter.toString());
+          _idPergunta, _resposta, _counter.toString());
       print('Game Over!');
       _showMyDialog(' Resposta errada!');
     }
