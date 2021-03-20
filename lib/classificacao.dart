@@ -211,6 +211,9 @@ class _ClassificacaoState extends State<Classificacao> {
                             borderRadius: BorderRadius.circular(32)),
                         onPressed: () {
                           print('_itemCategoria: $_itemCategoria');
+                          if (_itemCategoria == null) {
+                            _itemCategoria = '1';
+                          }
                           _iniciaPartida(_userId, _itemCategoria);
                           Navigator.pushReplacement(
                               context,
