@@ -12,6 +12,8 @@ import 'app/model/Usuario.dart';
 import 'app/model/Categorias.dart';
 
 import 'package:musculaquiz/Login.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class API {
   static Future getCategorias(String pUserId) async {
@@ -171,7 +173,7 @@ class _ClassificacaoState extends State<Classificacao> {
                             isDense: true,
                             items: _categorias.map((Categorias map) {
                               return new DropdownMenuItem<String>(
-                                value: map.cat_descricao,
+                                value: map.id_categoria, //+map.cat_descricao,
                                 child: new Text(map.cat_descricao,
                                     style: new TextStyle(
                                         fontSize: 16, color: Colors.black)),
@@ -208,8 +210,8 @@ class _ClassificacaoState extends State<Classificacao> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(32)),
                         onPressed: () {
-                          _iniciaPartida(_userId, '1');
-
+                          print('_itemCategoria: $_itemCategoria');
+                          _iniciaPartida(_userId, _itemCategoria);
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -242,6 +244,7 @@ class _ClassificacaoState extends State<Classificacao> {
   }
 
   _iniciaPartida(String pUserId, String pIdCategoria) async {
+    print('_iniciaPartida - pIdCategoria : $pIdCategoria');
     try {
       var dataPartida = await http.post(
         'https://cortexvendas.com.br/apiquiz/apiquiz.php',
@@ -260,11 +263,20 @@ class _ClassificacaoState extends State<Classificacao> {
   }
 
   _logout() {
-    
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Login()));
-   }
+    _deleteFile();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+  }
 
+  Future<File> _deleteFile() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File("${directory.path}/MusculaQuiz.json");
+      print('apaga arquivo : $file');
+      file.delete();
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 class UsuarioRet {
