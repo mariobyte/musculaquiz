@@ -70,7 +70,7 @@ class _ClassificacaoState extends State<Classificacao> {
 
 //  var _categorias = new List<ListCategoria>();
 
-  String dropDownStringItem = 'Musculação';
+  String dropDownStringItem = 'Fisiologia';
   String _atividades = '230';
   String _acertos = '210';
   String _erros = '20';
