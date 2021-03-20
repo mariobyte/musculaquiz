@@ -86,7 +86,7 @@ class _HomeState extends State<Home> {
           }
         } else {
           //  _showAlertDialog(context, ' Tempo Esgotado!');
-          FlutterBeep.beep(false);
+          //     FlutterBeep.beep(false);
           _showMyDialog(' Tempo Esgotado!');
           _timer.cancel();
         }
