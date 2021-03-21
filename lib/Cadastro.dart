@@ -92,6 +92,16 @@ try {
       setState(() {
         _mensagemErro = "Sucesso ao cadastrar";
 
+        try {
+          _getUsuario(
+              usuario.userId, usuario.nome, usuario.email, usuario.senha);
+        } catch (e) {
+          _mensagemErro =
+              "Erro ao enviar o getsuário, verifique os campos e tente novamente\n Erro : " +
+                  e.toString();
+          print('Erro enviar o getUsuario - Json');
+        }
+
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
       });

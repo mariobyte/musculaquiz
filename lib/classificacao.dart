@@ -169,7 +169,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         ),
                         DropdownButtonHideUnderline(
                           child: new DropdownButton<String>(
-                            hint: new Text("Musculação"),
+                            hint: new Text("Fisiologia"),
                             isDense: true,
                             items: _categorias.map((Categorias map) {
                               return new DropdownMenuItem<String>(
@@ -220,6 +220,7 @@ class _ClassificacaoState extends State<Classificacao> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       Home(dataUsuario: dataUsuario)));
+
                           //                         Navigator.pushReplacementNamed(context, "/");
                         },
                       ),

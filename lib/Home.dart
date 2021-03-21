@@ -100,6 +100,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    //  Future.delayed(const Duration(seconds: 2));
     return Scaffold(
         appBar: AppBar(
           title: Text("Muscula Quiz"),
