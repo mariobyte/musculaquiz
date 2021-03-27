@@ -242,7 +242,7 @@ class _HomeState extends State<Home> {
       print("_getPerguntas - _userId: $_userId");
       print("_getPerguntas - _email: $_email");
       var jsonMap = json.decode(data.body);
-      //List<Perguntas> perguntas;
+
       perguntas = (jsonMap["perguntas"] as List)
           .map((pergunta) => Perguntas.fromJson(pergunta))
           .toList();
@@ -451,12 +451,13 @@ class Perguntas {
           .toList());
 }
 
+/*
 class Respostas {
   final int _key;
   final String _value;
   Respostas(this._key, this._value);
 }
-
+*/
 class RetRespostas {
   final String rr_id_resposta_usuario;
   final String rr_status;

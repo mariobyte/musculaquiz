@@ -13,11 +13,8 @@ import 'dart:async';
 import 'dart:convert';
 
 class Login extends StatefulWidget {
-
   @override
   _LoginState createState() => _LoginState();
-
-
 }
 
 class _LoginState extends State<Login> {
@@ -44,7 +41,6 @@ class _LoginState extends State<Login> {
 
         usuario.email = email.trim();
         usuario.senha = senha.trim();
-
         dataUsuario.email = usuario.email;
 
         _logarUsuario(usuario); // Realiza cadastro do usuário no firebase
@@ -73,7 +69,6 @@ class _LoginState extends State<Login> {
       _saveData();
     });
   }
-
 
   Future<String> _readData() async {
     try {
@@ -107,18 +102,15 @@ class _LoginState extends State<Login> {
   Future<File> _deleteData() async {
     try {
       final file = await _getFile();
-      return  file.delete();
+      return file.delete();
     } catch (e) {
       return null;
     }
   }
 
   void apagarArquivo() {
-
-     _deleteData();     
-
+    _deleteData();
   }
-
 
   _logarUsuario(Usuario usuario) {
     FirebaseAuth auth = FirebaseAuth.instance;

@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'app/model/Usuario.dart';
 import 'app/model/Categorias.dart';
+import 'app/utils/config.dart';
 
 import 'package:musculaquiz/Login.dart';
 import 'dart:io';
@@ -19,7 +20,7 @@ class API {
   static Future getCategorias(String pUserId) async {
     try {
       var dataCategoria = await http.post(
-        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
+        APP_URL,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -52,6 +53,20 @@ class _ClassificacaoState extends State<Classificacao> {
 
   var _email = '';
   var _userId = '';
+  var _total_respondidas = '';
+  var _total_corretas = '';
+  var _total_erradas = '';
+  var _percAcertos = '';
+  var _percErro = '';
+  var _t101_id_usuario = '';
+  var _t101_nome = '';
+  var _t101_pontos = '';
+  var _t102_id_usuario = '';
+  var _t102_nome = '';
+  var _t102_pontos = '';
+  var _t103_id_usuario = '';
+  var _t103_nome = '';
+  var _t103_pontos = '';
   String _itemCategoria;
 
   var _categorias = new List<Categorias>();
@@ -61,6 +76,7 @@ class _ClassificacaoState extends State<Classificacao> {
     setState(() {
       _email = this.dataUsuario.email;
       _userId = this.dataUsuario.userId;
+      _getAnalise(_userId);
       print('categoria - _email: $_email');
       print('categoria - _userId: $_userId');
       _getCategorias();
@@ -68,12 +84,12 @@ class _ClassificacaoState extends State<Classificacao> {
     });
   }
 
-//  var _categorias = new List<ListCategoria>();
-
   String dropDownStringItem = 'Fisiologia';
   String _atividades = '230';
   String _acertos = '210';
   String _erros = '20';
+
+  List<Analise> analiseData;
 
   @override
   Widget build(BuildContext context) {
@@ -105,34 +121,28 @@ class _ClassificacaoState extends State<Classificacao> {
                       Row(
                         children: <Widget>[
                           Text(
-                            'Atividades:  ',
+                            'Questões Responditas:  ',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            _atividades,
+                            _total_respondidas,
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: const EdgeInsets.only(bottom: 30),
-                          ),
-                        ],
-                      ),
-                      // Centro de Custo
+
+                      // Acertos
                       Row(
                         children: <Widget>[
                           Text(
-                            'Acertos:  ',
+                            'Respostas Certas:  ',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            _acertos,
+                            _total_corretas,
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
@@ -141,18 +151,84 @@ class _ClassificacaoState extends State<Classificacao> {
                       Row(
                         children: <Widget>[
                           Text(
-                            'Erros:  ',
+                            'Respostas Erradas:  ',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            _erros,
+                            _total_erradas,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            '% Acertos :  ',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            _percAcertos,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            '% Erros :  ',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            _percAcertos,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Classificação ',
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                     ]),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          _t101_pontos + ' - ' + _t101_nome,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          _t102_pontos + ' - ' + _t102_nome,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          _t103_pontos + ' - ' + _t103_nome,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+
                     Row(
                       children: <Widget>[
                         Container(
@@ -202,7 +278,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       padding: EdgeInsets.only(top: 16, bottom: 10),
                       child: RaisedButton(
                         child: Text(
-                          "Vamos treinar?",
+                          "Iniciar",
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         color: Color(0xff006C5D),
@@ -247,11 +323,49 @@ class _ClassificacaoState extends State<Classificacao> {
     }
   }
 
+  Future<List<Analise>> _getAnalise(String pUserId) async {
+    try {
+      print('getAnalise');
+      var dataAnalise = await http.post(
+        APP_URL,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "metodo": "getanalise",
+          "id_usuario": "$_userId",
+        }),
+      );
+      var jsonMap = json.decode(dataAnalise.body);
+      print(jsonMap);
+      analiseData = (jsonMap["analise"] as List)
+          .map((conteudo) => Analise.fromJson(conteudo))
+          .toList();
+
+      _total_respondidas = analiseData[0].total_respondidas;
+      _total_corretas = analiseData[0].total_corretas;
+      _total_erradas = analiseData[0].total_erradas;
+      _percAcertos = analiseData[0].percAcertos;
+      _percErro = analiseData[0].percErro;
+      _t101_id_usuario = analiseData[0].top10[0].id_usuario;
+      _t101_nome = analiseData[0].top10[0].nome;
+      _t101_pontos = analiseData[0].top10[0].pontos;
+      _t102_id_usuario = analiseData[0].top10[1].id_usuario;
+      _t102_nome = analiseData[0].top10[1].nome;
+      _t102_pontos = analiseData[0].top10[1].pontos;
+      _t103_id_usuario = analiseData[0].top10[2].id_usuario;
+      _t103_nome = analiseData[0].top10[2].nome;
+      _t103_pontos = analiseData[0].top10[2].pontos;
+    } catch (e) {
+      print('Erro leitura json - analise');
+    }
+  }
+
   _iniciaPartida(String pUserId, String pIdCategoria) async {
     print('_iniciaPartida - pIdCategoria : $pIdCategoria');
     try {
       var dataPartida = await http.post(
-        'https://cortexvendas.com.br/apiquiz/apiquiz.php',
+        APP_URL,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -281,6 +395,46 @@ class _ClassificacaoState extends State<Classificacao> {
       return null;
     }
   }
+}
+
+class Top10 {
+  Top10({this.id_usuario, this.nome, this.pontos});
+
+  final String id_usuario;
+  final String nome;
+  final String pontos;
+
+  factory Top10.fromJson(Map<String, dynamic> json) => Top10(
+      id_usuario: json["id_usuario"],
+      nome: json["nome"],
+      pontos: json["pontos"]);
+}
+
+class Analise {
+  Analise(
+      {this.total_respondidas,
+      this.total_corretas,
+      this.total_erradas,
+      this.percAcertos,
+      this.percErro,
+      this.top10});
+
+  final String total_respondidas;
+  final String total_corretas;
+  final String total_erradas;
+  final String percAcertos;
+  final String percErro;
+  final List<Top10> top10;
+
+  factory Analise.fromJson(Map<String, dynamic> json) => Analise(
+      total_respondidas: json["total_respondidas"],
+      total_corretas: json["total_corretas"],
+      total_erradas: json["total_erradas"],
+      percAcertos: json["percAcertos"],
+      percErro: json["percErro"],
+      top10: (json["top10"] as List)
+          .map((conteudo) => Top10.fromJson(conteudo))
+          .toList());
 }
 
 class UsuarioRet {
