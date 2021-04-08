@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:musculaquiz/app/model/Usuario.dart';
-import 'package:musculaquiz/app/utils/resources.dart';
+//import 'package:musculaquiz/app/utils/resources.dart';
 
 import 'Home.dart';
 import 'package:musculaquiz/app/components/default_background_conteiner.dart';
