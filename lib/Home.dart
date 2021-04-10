@@ -87,8 +87,10 @@ class _HomeState extends State<Home> {
         } else {
           //  _showAlertDialog(context, ' Tempo Esgotado!');
           //     FlutterBeep.beep(false);
-          _showMyDialog(' Tempo Esgotado!');
+          // _showMyDialog(' Tempo Esgotado!');
+          FlutterBeep.beep(false);
           _timer.cancel();
+          _classificacao();
         }
       });
     });
@@ -383,7 +385,9 @@ class _HomeState extends State<Home> {
 
       _postRespostas(_idPergunta, _resposta, _counter.toString());
       print('Game Over!');
-      _showMyDialog(' Resposta errada!');
+      FlutterBeep.beep(false);
+      _classificacao();
+      // _showMyDialog(' Resposta errada!');
     }
   }
 

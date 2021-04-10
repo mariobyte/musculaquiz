@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:musculaquiz/classificacao.dart';
+import 'package:musculaquiz/iniciar.dart';
 
 import 'Cadastro.dart';
-import 'Home.dart';
+//import 'Home.dart';
 import 'app/components/default_background_conteiner.dart';
 import 'app/model/Usuario.dart';
 
@@ -129,7 +129,7 @@ class _LoginState extends State<Login> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+              builder: (context) => Iniciar(dataUsuario: dataUsuario)));
     }).catchError((error) {
       setState(() {
         //print ("Erro App" + error.toString) ;
@@ -155,7 +155,7 @@ class _LoginState extends State<Login> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+              builder: (context) => Iniciar(dataUsuario: dataUsuario)));
       // do whatever you want based on the firebaseUser state
     });
   }
@@ -176,7 +176,7 @@ class _LoginState extends State<Login> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+                builder: (context) => Iniciar(dataUsuario: dataUsuario)));
       });
     });
 
