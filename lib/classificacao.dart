@@ -184,7 +184,7 @@ class _ClassificacaoState extends State<Classificacao> {
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            _percAcertos,
+                            _percErro,
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
