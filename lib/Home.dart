@@ -37,6 +37,7 @@ class _HomeState extends State<Home> {
   String _tempoResp = '';
 
   int _controlePerguntas = 0;
+  double _progress;
 
   var _respostas = new List(5);
   var _idResposta = new List(5);
@@ -79,15 +80,15 @@ class _HomeState extends State<Home> {
       setState(() {
         if (_counter > 0) {
           _counter--;
+          _progress = (1 - (_counter / pCounter));
+          print('progress: $_progress');
           print('_counter: $_counter');
           print('_counter30: $_counter30');
           if (_counter == _counter30) {
             FlutterBeep.beep(false);
           }
         } else {
-          //  _showAlertDialog(context, ' Tempo Esgotado!');
-          //     FlutterBeep.beep(false);
-          // _showMyDialog(' Tempo Esgotado!');
+          // Tempo Esgotado
           FlutterBeep.beep(false);
           _timer.cancel();
           _classificacao();
@@ -134,13 +135,19 @@ class _HomeState extends State<Home> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.end,
             //   crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              Container(
+              CircularProgressIndicator(
+                strokeWidth: 5, // linha
+                backgroundColor: Colors.greenAccent,
+                valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                value: _progress,
+              ),
+              /*  Container(
                 alignment: Alignment.center,
                 width: 80,
                 child: Text('$_counter',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     textAlign: TextAlign.right),
-              )
+              ) */
             ]),
       ),
       Container(
