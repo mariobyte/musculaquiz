@@ -8,11 +8,22 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'app/model/Usuario.dart';
+//mport 'app/model/partida.dart';
 import 'app/utils/config.dart';
 
 import 'package:musculaquiz/Login.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+
+String _email = '';
+String _userId = '';
+
+class Partida {
+  String vidas;
+  String idPartida;
+}
+
+final dataPartida = Partida();
 
 class Iniciar extends StatefulWidget {
   final Usuario dataUsuario;
@@ -27,9 +38,6 @@ class _IniciarState extends State<Iniciar> {
   final Usuario dataUsuario;
 
   _IniciarState({this.dataUsuario});
-
-  var _email = '';
-  var _userId = '';
 
   void initState() {
     super.initState();
@@ -65,7 +73,6 @@ class _IniciarState extends State<Iniciar> {
                         height: 150,
                       ),
                     ),
-
                     // Espacamento
                     Row(
                       children: <Widget>[
@@ -87,13 +94,8 @@ class _IniciarState extends State<Iniciar> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(32)),
                         onPressed: () {
-                          _iniciaPartida(_userId, '');
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      // iniciar o jogo
-                                      Home(dataUsuario: dataUsuario)));
+                          CircularProgressIndicator();
+                          _iniciaPartida(_userId, '1');
                         },
                       ),
                     ),
@@ -105,10 +107,11 @@ class _IniciarState extends State<Iniciar> {
         ));
   }
 
-  _iniciaPartida(String pUserId, String pIdCategoria) async {
+  void _iniciaPartida(String pUserId, String pIdCategoria) async {
     print('_iniciaPartida - pIdCategoria : $pIdCategoria');
     try {
-      var dataPartida = await http.post(
+      print('pIdCategoria: $pIdCategoria');
+      var dataJSon = await http.post(
         APP_URL,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -119,6 +122,39 @@ class _IniciarState extends State<Iniciar> {
           "id_categoria": "$pIdCategoria"
         }),
       );
+      print('fim -json 1');
+      var jsonData = json.decode(dataJSon.body)['partida'];
+      print('jsondata: ');
+      print(jsonData);
+
+      //    int x = 0;
+      var _vidasGame = '';
+      var _idPartida = '';
+/*
+      for (var u in jsonData) {
+        print('id_partida: abaixo:');
+        print(u['id_partida']);
+        print(u['vidas']);
+        _vidasGame = u['vidas'];
+        _idPartida = u['id_partida'];
+        print('143 -iniciar - vidas : $_vidasGame');
+        print('144 -oficial - _idPartida : $_idPartida');
+        print('fim');
+      } */
+      _vidasGame = '2';
+      _idPartida = '380';
+
+      dataUsuario.vidas = _vidasGame;
+      dataUsuario.idPartida = _idPartida;
+      print('Go Home - iniciar: _vidas: $_vidasGame');
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  // iniciar o jogo
+                  Home(dataUsuario: dataUsuario)));
+
+      print('vidas: $_vidasGame');
     } catch (e) {
       return null;
     }
@@ -139,10 +175,4 @@ class _IniciarState extends State<Iniciar> {
       return null;
     }
   }
-}
-
-class UsuarioRet {
-  final String usu_id;
-  final String usu_nome;
-  UsuarioRet(this.usu_id, this.usu_nome);
 }
