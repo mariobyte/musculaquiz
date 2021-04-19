@@ -147,6 +147,13 @@ class _HomeState extends State<Home> {
   /* teste commit */
   Widget _formUI() {
     return Column(children: <Widget>[
+      LinearProgressIndicator(
+        //strokeWidth: 5, // linha
+        backgroundColor: Colors.greenAccent,
+        valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
+        value: _progress,
+        minHeight: 30,
+      ),
       Row(children: <Widget>[
         Visibility(
           visible: _isVisible1,
@@ -195,7 +202,6 @@ class _HomeState extends State<Home> {
           value: _progress,
         ),
       ]),
-      Column(children: <Widget>[]),
       Container(
         width: 300.0,
         child: Column(children: <Widget>[
