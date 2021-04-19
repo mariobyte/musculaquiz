@@ -148,7 +148,7 @@ class _IniciarState extends State<Iniciar> {
     }
   }
 
-  _logout() {
+  void _logout() {
     _deleteFile();
     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }

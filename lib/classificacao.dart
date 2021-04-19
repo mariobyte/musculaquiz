@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:musculaquiz/app/model/Usuario.dart';
-//import 'package:musculaquiz/app/utils/resources.dart';
-
 import 'Home.dart';
 import 'package:musculaquiz/app/components/default_background_conteiner.dart';
 import 'package:http/http.dart' as http;
@@ -58,6 +55,12 @@ class _ClassificacaoState extends State<Classificacao> {
   var _total_erradas = '';
   var _percAcertos = '';
   var _percErro = '';
+  var _recorde_usuario = '';
+  var _recorde_anterior = '';
+  var _bateu_recorde = '';
+  var _perc_bater_seu_recorde = '';
+  var _recorde_geral = '';
+  var _perc_bater_recorde_geral = '';
   var _t101_id_usuario = '';
   var _t101_nome = '';
   var _t101_pontos = '';
@@ -190,7 +193,35 @@ class _ClassificacaoState extends State<Classificacao> {
                           ),
                         ],
                       ),
-
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Total de pontos:  $_recorde_usuario Anterior $_recorde_anterior',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Record Geral :  ',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            _recorde_geral,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Container(
+                              padding: EdgeInsets.only(left: 0.0, top: 5.0))
+                        ],
+                      ),
                       Row(
                         children: <Widget>[
                           Text(
@@ -236,7 +267,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         ),
                       ],
                     ),
-                    Row(
+/*                    Row(
                       children: <Widget>[
                         Text(
                           'Categoria:  ',
@@ -265,6 +296,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         ),
                       ],
                     ),
+                    */
                     // Espacamento
                     Row(
                       children: <Widget>[
@@ -347,6 +379,12 @@ class _ClassificacaoState extends State<Classificacao> {
       _total_erradas = analiseData[0].total_erradas;
       _percAcertos = analiseData[0].percAcertos;
       _percErro = analiseData[0].percErro;
+      _recorde_usuario = analiseData[0].recorde_usuario;
+      _recorde_anterior = analiseData[0].recorde_anterior;
+      _bateu_recorde = analiseData[0].bateu_recorde;
+      _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
+      _recorde_geral = analiseData[0].recorde_geral;
+      _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
       _t101_id_usuario = analiseData[0].top10[0].id_usuario;
       _t101_nome = analiseData[0].top10[0].nome;
       _t101_pontos = analiseData[0].top10[0].pontos;
@@ -361,7 +399,7 @@ class _ClassificacaoState extends State<Classificacao> {
     }
   }
 
-  _iniciaPartida(String pUserId, String pIdCategoria) async {
+/*  _iniciaPartida(String pUserId, String pIdCategoria) async {
     print('_iniciaPartida - pIdCategoria : $pIdCategoria');
     try {
       var dataPartida = await http.post(
@@ -375,6 +413,44 @@ class _ClassificacaoState extends State<Classificacao> {
           "id_categoria": "$pIdCategoria"
         }),
       );
+    } catch (e) {
+      return null;
+    }
+  } */
+
+  void _iniciaPartida(String pUserId, String pIdCategoria) async {
+    print('_iniciaPartida - pIdCategoria : $pIdCategoria');
+    try {
+      print('pIdCategoria: $pIdCategoria');
+      var dataJSon = await http.post(
+        APP_URL,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "metodo": "getpartida",
+          "id_usuario": "$pUserId",
+          "id_categoria": "$pIdCategoria"
+        }),
+      );
+      final jsonMap = jsonDecode(dataJSon.body);
+      List<Partida> retPartida;
+      retPartida = (jsonMap["partida"] as List)
+          .map((partida) => Partida.fromJson(partida))
+          .toList();
+
+      final _idPartida = retPartida[0].idpartida;
+      final _vidasGame = retPartida[0].vidas;
+      dataUsuario.vidas = _vidasGame;
+      dataUsuario.idPartida = _idPartida;
+
+      print('Go Home - iniciar: _vidas: $_vidasGame');
+      Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  // iniciar o jogo
+                  Home(dataUsuario: dataUsuario)));
     } catch (e) {
       return null;
     }
@@ -397,6 +473,19 @@ class _ClassificacaoState extends State<Classificacao> {
   }
 }
 
+class Partida {
+  Partida({this.idpartida, this.idusuario, this.vidas});
+
+  final String idpartida;
+  final String idusuario;
+  final String vidas;
+
+  factory Partida.fromJson(Map<String, dynamic> json) => Partida(
+      idpartida: json["id_partida"],
+      idusuario: json["id_usuario"],
+      vidas: json["vidas"]);
+}
+
 class Top10 {
   Top10({this.id_usuario, this.nome, this.pontos});
 
@@ -417,6 +506,12 @@ class Analise {
       this.total_erradas,
       this.percAcertos,
       this.percErro,
+      this.recorde_usuario,
+      this.recorde_anterior,
+      this.bateu_recorde,
+      this.perc_bater_seu_recorde,
+      this.recorde_geral,
+      this.perc_bater_recorde_geral,
       this.top10});
 
   final String total_respondidas;
@@ -424,6 +519,12 @@ class Analise {
   final String total_erradas;
   final String percAcertos;
   final String percErro;
+  final String recorde_usuario;
+  final String recorde_anterior;
+  final String bateu_recorde;
+  final String perc_bater_seu_recorde;
+  final String recorde_geral;
+  final String perc_bater_recorde_geral;
   final List<Top10> top10;
 
   factory Analise.fromJson(Map<String, dynamic> json) => Analise(
@@ -432,13 +533,13 @@ class Analise {
       total_erradas: json["total_erradas"],
       percAcertos: json["percAcertos"],
       percErro: json["percErro"],
+      recorde_usuario: json["recorde_usuario"],
+      recorde_anterior: json["recorde_anterior"],
+      bateu_recorde: json["bateu_recorde"],
+      perc_bater_seu_recorde: json["perc_bater_seu_recorde"],
+      recorde_geral: json["recorde_geral"],
+      perc_bater_recorde_geral: json["perc_bater_recorde_geral"],
       top10: (json["top10"] as List)
           .map((conteudo) => Top10.fromJson(conteudo))
           .toList());
-}
-
-class UsuarioRet {
-  final String usu_id;
-  final String usu_nome;
-  UsuarioRet(this.usu_id, this.usu_nome);
 }
