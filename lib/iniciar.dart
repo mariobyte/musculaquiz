@@ -8,22 +8,26 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
 import 'app/model/Usuario.dart';
-//mport 'app/model/partida.dart';
 import 'app/utils/config.dart';
 
 import 'package:musculaquiz/Login.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
-String _email = '';
 String _userId = '';
 
 class Partida {
-  String vidas;
-  String idPartida;
-}
+  Partida({this.idpartida, this.idusuario, this.vidas});
 
-final dataPartida = Partida();
+  final String idpartida;
+  final String idusuario;
+  final String vidas;
+
+  factory Partida.fromJson(Map<String, dynamic> json) => Partida(
+      idpartida: json["id_partida"],
+      idusuario: json["id_usuario"],
+      vidas: json["vidas"]);
+}
 
 class Iniciar extends StatefulWidget {
   final Usuario dataUsuario;
@@ -42,7 +46,7 @@ class _IniciarState extends State<Iniciar> {
   void initState() {
     super.initState();
     setState(() {
-      _email = this.dataUsuario.email;
+      //_email = this.dataUsuario.email;
       _userId = this.dataUsuario.userId;
     });
   }
@@ -51,7 +55,6 @@ class _IniciarState extends State<Iniciar> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          //title: Text("Classificação"),
           title: Text("Muscula Quiz"),
           backgroundColor: Color(0xff00A191),
           actions: [
@@ -122,30 +125,17 @@ class _IniciarState extends State<Iniciar> {
           "id_categoria": "$pIdCategoria"
         }),
       );
-      print('fim -json 1');
-      var jsonData = json.decode(dataJSon.body)['partida'];
-      print('jsondata: ');
-      print(jsonData);
+      final jsonMap = jsonDecode(dataJSon.body);
+      List<Partida> retPartida;
+      retPartida = (jsonMap["partida"] as List)
+          .map((partida) => Partida.fromJson(partida))
+          .toList();
 
-      //    int x = 0;
-      var _vidasGame = '';
-      var _idPartida = '';
-/*
-      for (var u in jsonData) {
-        print('id_partida: abaixo:');
-        print(u['id_partida']);
-        print(u['vidas']);
-        _vidasGame = u['vidas'];
-        _idPartida = u['id_partida'];
-        print('143 -iniciar - vidas : $_vidasGame');
-        print('144 -oficial - _idPartida : $_idPartida');
-        print('fim');
-      } */
-      _vidasGame = '2';
-      _idPartida = '380';
-
+      final _idPartida = retPartida[0].idpartida;
+      final _vidasGame = retPartida[0].vidas;
       dataUsuario.vidas = _vidasGame;
       dataUsuario.idPartida = _idPartida;
+
       print('Go Home - iniciar: _vidas: $_vidasGame');
       Navigator.pushReplacement(
           context,
@@ -153,8 +143,6 @@ class _IniciarState extends State<Iniciar> {
               builder: (context) =>
                   // iniciar o jogo
                   Home(dataUsuario: dataUsuario)));
-
-      print('vidas: $_vidasGame');
     } catch (e) {
       return null;
     }
