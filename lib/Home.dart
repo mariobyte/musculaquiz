@@ -37,9 +37,9 @@ class _HomeState extends State<Home> {
   int _controlePerguntas = 0;
   double _progress;
 
-  var _respostas = new List(5);
-  var _idResposta = new List(5);
-  var _respCerta = new List(5);
+  var _respostas = List(5);
+  var _idResposta = List(5);
+  var _respCerta = List(5);
 
   String _email = '';
   String _userId = '';
@@ -147,13 +147,13 @@ class _HomeState extends State<Home> {
   /* teste commit */
   Widget _formUI() {
     return Column(children: <Widget>[
-      LinearProgressIndicator(
+/*      LinearProgressIndicator(
         //strokeWidth: 5, // linha
         backgroundColor: Colors.greenAccent,
         valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
         value: _progress,
         minHeight: 30,
-      ),
+      ), */
       Row(children: <Widget>[
         Visibility(
           visible: _isVisible1,
@@ -289,6 +289,7 @@ class _HomeState extends State<Home> {
   Future<List<Perguntas>> _getPerguntas() async {
     List<Perguntas> _listPerguntas = [];
     try {
+      /*
       var data = await http.post(
         APP_URL,
         headers: <String, String>{
@@ -304,6 +305,13 @@ class _HomeState extends State<Home> {
       print("_getPerguntas - _userId: $_userId");
       print("_getPerguntas - _email: $_email");
       var jsonMap = json.decode(data.body);
+      */
+      final jsonPerg =
+          '{"perguntas": [{"id_usuario": "PiUwTt3cV7XXeVpeF9ic5w9EpfI2","id_pergunta": "17","per_descricao": "Obrigatoriamente, as proteínas são formadas por um conjunto de:","per_tempo": "9", ' +
+              '"respostas": [{"id_resposta": "81","res_descricao": "Aminoácidos","res_certa": "1"},{"id_resposta": "82","res_descricao": "Ácidos Graxos ","res_certa": "0"},{"id_resposta": "83","res_descricao": "Carbonos",' +
+              '"res_certa": "0"},{"id_resposta": "84","res_descricao": "Enzimas","res_certa": "0"},{"id_resposta": "85","res_descricao": "Glicerol","res_certa": "0"}]}]}';
+
+      final jsonMap = JsonDecoder().convert(jsonPerg);
 
       perguntas = (jsonMap["perguntas"] as List)
           .map((pergunta) => Perguntas.fromJson(pergunta))

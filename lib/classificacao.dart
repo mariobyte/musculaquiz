@@ -12,6 +12,7 @@ import 'app/utils/config.dart';
 import 'package:musculaquiz/Login.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class API {
   static Future getCategorias(String pUserId) async {
@@ -53,9 +54,15 @@ class _ClassificacaoState extends State<Classificacao> {
   var _total_respondidas = '';
   var _total_corretas = '';
   var _total_erradas = '';
+  var _pontos_partida = '';
   var _percAcertos = '';
+  double _percAcertoRecord = 0;
+  double _percGeralRecord = 0;
+  var _percAcertoRecordText = '';
+  var _percGeralRecordText = '';
   var _percErro = '';
   var _recorde_usuario = '';
+  var _data_recorde = '';
   var _recorde_anterior = '';
   var _bateu_recorde = '';
   var _perc_bater_seu_recorde = '';
@@ -121,6 +128,57 @@ class _ClassificacaoState extends State<Classificacao> {
                       ),
                     ),
                     Column(children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(15.0),
+                        child: new LinearPercentIndicator(
+                          width: MediaQuery.of(context).size.width - 50,
+                          animation: true,
+                          lineHeight: 50.0,
+                          animationDuration: 2000,
+                          percent: _percAcertoRecord,
+                          center: Text(_percAcertoRecordText),
+                          linearStrokeCap: LinearStrokeCap.roundAll,
+                          progressColor: Colors.greenAccent,
+                        ),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            _data_recorde,
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.normal),
+                          ),
+                        ],
+                        mainAxisAlignment: MainAxisAlignment.end,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(15.0),
+                        child: new LinearPercentIndicator(
+                          width: MediaQuery.of(context).size.width - 50,
+                          animation: true,
+                          lineHeight: 50.0,
+                          animationDuration: 2000,
+                          percent: _percGeralRecord,
+                          center: Text(_percGeralRecordText),
+                          linearStrokeCap: LinearStrokeCap.roundAll,
+                          progressColor: Colors.greenAccent,
+                        ),
+                      ),
+                      /*
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Questões Responditas:  ',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            _total_respondidas,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                       Row(
                         children: <Widget>[
                           Text(
@@ -215,7 +273,7 @@ class _ClassificacaoState extends State<Classificacao> {
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
-                      ),
+                      ), */
                       Row(
                         children: <Widget>[
                           Container(
@@ -234,10 +292,16 @@ class _ClassificacaoState extends State<Classificacao> {
                     ]),
                     Row(
                       children: <Widget>[
+                        Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
+                      ],
+                    ),
+
+                    Row(
+                      children: <Widget>[
                         Text(
                           _t101_pontos + ' - ' + _t101_nome,
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.normal),
                         ),
                       ],
                     ),
@@ -246,7 +310,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         Text(
                           _t102_pontos + ' - ' + _t102_nome,
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.normal),
                         ),
                       ],
                     ),
@@ -255,7 +319,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         Text(
                           _t103_pontos + ' - ' + _t103_nome,
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                              fontSize: 16, fontWeight: FontWeight.normal),
                         ),
                       ],
                     ),
@@ -377,9 +441,11 @@ class _ClassificacaoState extends State<Classificacao> {
       _total_respondidas = analiseData[0].total_respondidas;
       _total_corretas = analiseData[0].total_corretas;
       _total_erradas = analiseData[0].total_erradas;
+      _pontos_partida = analiseData[0].pontos_partida;
       _percAcertos = analiseData[0].percAcertos;
       _percErro = analiseData[0].percErro;
       _recorde_usuario = analiseData[0].recorde_usuario;
+      _data_recorde = analiseData[0].data_recorde;
       _recorde_anterior = analiseData[0].recorde_anterior;
       _bateu_recorde = analiseData[0].bateu_recorde;
       _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
@@ -394,6 +460,36 @@ class _ClassificacaoState extends State<Classificacao> {
       _t103_id_usuario = analiseData[0].top10[2].id_usuario;
       _t103_nome = analiseData[0].top10[2].nome;
       _t103_pontos = analiseData[0].top10[2].pontos;
+
+      // forçando o teste
+      _pontos_partida = '20';
+      _recorde_usuario = '50';
+
+      if (double.parse(_recorde_usuario) > 0 &&
+          double.parse(_pontos_partida) > 0) {
+        _percAcertoRecord =
+            double.parse(_pontos_partida) / double.parse(_recorde_usuario);
+        var _var = (_percAcertoRecord).toStringAsFixed(1);
+        _percAcertoRecord = double.parse(_var);
+      } else {
+        _percAcertoRecord = 1.0;
+      }
+
+      _percAcertoRecordText = (_percAcertoRecord * 100).toString();
+
+      _pontos_partida = '20';
+      _recorde_geral = '41';
+
+      if (double.parse(_recorde_geral) > 0 &&
+          double.parse(_pontos_partida) > 0) {
+        _percGeralRecord =
+            double.parse(_pontos_partida) / double.parse(_recorde_geral);
+        var _var = (_percGeralRecord).toStringAsFixed(1);
+        _percGeralRecord = double.parse(_var);
+      } else {
+        _percGeralRecord = 1.0;
+      }
+      _percGeralRecordText = (_percGeralRecord * 100).toString();
     } catch (e) {
       print('Erro leitura json - analise');
     }
@@ -506,7 +602,9 @@ class Analise {
       this.total_erradas,
       this.percAcertos,
       this.percErro,
+      this.pontos_partida,
       this.recorde_usuario,
+      this.data_recorde,
       this.recorde_anterior,
       this.bateu_recorde,
       this.perc_bater_seu_recorde,
@@ -519,7 +617,9 @@ class Analise {
   final String total_erradas;
   final String percAcertos;
   final String percErro;
+  final String pontos_partida;
   final String recorde_usuario;
+  final String data_recorde;
   final String recorde_anterior;
   final String bateu_recorde;
   final String perc_bater_seu_recorde;
@@ -533,7 +633,9 @@ class Analise {
       total_erradas: json["total_erradas"],
       percAcertos: json["percAcertos"],
       percErro: json["percErro"],
+      pontos_partida: json["pontos_partida"],
       recorde_usuario: json["recorde_usuario"],
+      data_recorde: json['data_recorde'],
       recorde_anterior: json["recorde_anterior"],
       bateu_recorde: json["bateu_recorde"],
       perc_bater_seu_recorde: json["perc_bater_seu_recorde"],

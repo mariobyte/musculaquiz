@@ -37,6 +37,7 @@ dependencies:
   rflutter_alert: ^1.1.0  
   flutter_launcher_icons: "^0.8.0"
   flutter_beep: ^0.2.0
+  percent_indicator: ^3.0.1
   
 dev_dependencies:
   flutter_test:
