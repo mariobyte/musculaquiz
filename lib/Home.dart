@@ -289,7 +289,6 @@ class _HomeState extends State<Home> {
   Future<List<Perguntas>> _getPerguntas() async {
     List<Perguntas> _listPerguntas = [];
     try {
-      /*
       var data = await http.post(
         APP_URL,
         headers: <String, String>{
@@ -305,14 +304,15 @@ class _HomeState extends State<Home> {
       print("_getPerguntas - _userId: $_userId");
       print("_getPerguntas - _email: $_email");
       var jsonMap = json.decode(data.body);
-      */
-      final jsonPerg =
+
+// - Removido o Tempo
+/*      final jsonPerg =
           '{"perguntas": [{"id_usuario": "PiUwTt3cV7XXeVpeF9ic5w9EpfI2","id_pergunta": "17","per_descricao": "Obrigatoriamente, as proteínas são formadas por um conjunto de:","per_tempo": "9", ' +
               '"respostas": [{"id_resposta": "81","res_descricao": "Aminoácidos","res_certa": "1"},{"id_resposta": "82","res_descricao": "Ácidos Graxos ","res_certa": "0"},{"id_resposta": "83","res_descricao": "Carbonos",' +
               '"res_certa": "0"},{"id_resposta": "84","res_descricao": "Enzimas","res_certa": "0"},{"id_resposta": "85","res_descricao": "Glicerol","res_certa": "0"}]}]}';
 
       final jsonMap = JsonDecoder().convert(jsonPerg);
-
+*/
       perguntas = (jsonMap["perguntas"] as List)
           .map((pergunta) => Perguntas.fromJson(pergunta))
           .toList();
@@ -414,10 +414,6 @@ class _HomeState extends State<Home> {
     _acertou = pResposta;
 
     var _idRespInformada = _acertou;
-// 14/01/2021
-//    if (_respCerta[_acertou] != '1') {
-//      _acertou = 99;
-//    }
 
     print('resposta post : $_idResposta ');
 
@@ -428,9 +424,11 @@ class _HomeState extends State<Home> {
     String _respostaId = _idResposta[_acertou];
     _postRespostas(_idPergunta, _respostaId, _counter.toString());
     // Fim - Envio da resposta certa
-    _controlePerguntas = _controlePerguntas + 1;
+    // Chamada da Rotina de Perguntas Novamente
     print('_controlePerguntas: $_controlePerguntas');
     try {
+      _getPerguntas();
+      _controlePerguntas = 0;
       _pergunta = perguntas[_controlePerguntas].per_descricao;
       _idPergunta = perguntas[_controlePerguntas].id_pergunta;
       print('_pergunta: $_pergunta');

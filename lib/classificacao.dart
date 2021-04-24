@@ -14,26 +14,6 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class API {
-  static Future getCategorias(String pUserId) async {
-    try {
-      var dataCategoria = await http.post(
-        APP_URL,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          "metodo": "getcategorias",
-          "id_usuario": "$pUserId"
-        }),
-      );
-      return dataCategoria;
-    } catch (e) {
-      return null;
-    }
-  }
-}
-
 class Classificacao extends StatefulWidget {
   final Usuario dataUsuario;
 
@@ -77,9 +57,8 @@ class _ClassificacaoState extends State<Classificacao> {
   var _t103_id_usuario = '';
   var _t103_nome = '';
   var _t103_pontos = '';
-  String _itemCategoria;
 
-  var _categorias = new List<Categorias>();
+  String _itemCategoria;
 
   void initState() {
     super.initState();
@@ -89,334 +68,182 @@ class _ClassificacaoState extends State<Classificacao> {
       _getAnalise(_userId);
       print('categoria - _email: $_email');
       print('categoria - _userId: $_userId');
-      _getCategorias();
-      print('teste _categorias : $_categorias');
     });
   }
 
-  String dropDownStringItem = 'Fisiologia';
-  String _atividades = '230';
-  String _acertos = '210';
-  String _erros = '20';
+  String _atividades = '';
+  String _acertos = '';
+  String _erros = '';
 
   List<Analise> analiseData;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          //title: Text("Classificação"),
-          title: Text("Analise"),
-          backgroundColor: Color(0xff00A191),
-          actions: [
-            IconButton(icon: Icon(Icons.logout), onPressed: this._logout),
-          ],
-        ),
-        body: Container(
-          child: DefaultBackgroundContainer(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+      appBar: AppBar(
+        //title: Text("Classificação"),
+        title: Text("Analise"),
+        backgroundColor: Color(0xff00A191),
+        actions: [
+          IconButton(icon: Icon(Icons.logout), onPressed: this._logout),
+        ],
+      ),
+      body: Container(
+        child: DefaultBackgroundContainer(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Column(children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Meu progresso',
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.start,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: new LinearPercentIndicator(
+                      width: MediaQuery.of(context).size.width - 50,
+                      animation: true,
+                      lineHeight: 50.0,
+                      animationDuration: 2000,
+                      percent: _percAcertoRecord,
+                      center: Text(_percAcertoRecordText),
+                      linearStrokeCap: LinearStrokeCap.roundAll,
+                      progressColor: Colors.greenAccent,
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        _data_recorde,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.end,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Classificação Geral',
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.start,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: new LinearPercentIndicator(
+                      width: MediaQuery.of(context).size.width - 50,
+                      animation: true,
+                      lineHeight: 50.0,
+                      animationDuration: 2000,
+                      percent: _percGeralRecord,
+                      center: Text(_percGeralRecordText),
+                      linearStrokeCap: LinearStrokeCap.roundAll,
+                      progressColor: Colors.greenAccent,
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
+                    ],
+                  ),
+                ]),
+                Row(
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Image.asset(
-                        "imagens/logo.png",
-                        width: 300,
-                        height: 150,
-                      ),
-                    ),
-                    Column(children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: new LinearPercentIndicator(
-                          width: MediaQuery.of(context).size.width - 50,
-                          animation: true,
-                          lineHeight: 50.0,
-                          animationDuration: 2000,
-                          percent: _percAcertoRecord,
-                          center: Text(_percAcertoRecordText),
-                          linearStrokeCap: LinearStrokeCap.roundAll,
-                          progressColor: Colors.greenAccent,
-                        ),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            _data_recorde,
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.normal),
-                          ),
-                        ],
-                        mainAxisAlignment: MainAxisAlignment.end,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(15.0),
-                        child: new LinearPercentIndicator(
-                          width: MediaQuery.of(context).size.width - 50,
-                          animation: true,
-                          lineHeight: 50.0,
-                          animationDuration: 2000,
-                          percent: _percGeralRecord,
-                          center: Text(_percGeralRecordText),
-                          linearStrokeCap: LinearStrokeCap.roundAll,
-                          progressColor: Colors.greenAccent,
-                        ),
-                      ),
-                      /*
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            'Questões Responditas:  ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            _total_respondidas,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            'Questões Responditas:  ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            _total_respondidas,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-
-                      // Acertos
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            'Respostas Certas:  ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            _total_corretas,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            'Respostas Erradas:  ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            _total_erradas,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            '% Acertos :  ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            _percAcertos,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            '% Erros :  ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            _percErro,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            'Total de pontos:  $_recorde_usuario Anterior $_recorde_anterior',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            'Record Geral :  ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            _recorde_geral,
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ), */
-                      Row(
-                        children: <Widget>[
-                          Container(
-                              padding: EdgeInsets.only(left: 0.0, top: 5.0))
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Text(
-                            'Classificação ',
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ]),
-                    Row(
-                      children: <Widget>[
-                        Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
-                      ],
-                    ),
-
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          _t101_pontos + ' - ' + _t101_nome,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.normal),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          _t102_pontos + ' - ' + _t102_nome,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.normal),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          _t103_pontos + ' - ' + _t103_nome,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.normal),
-                        ),
-                      ],
-                    ),
-
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(bottom: 30),
-                        ),
-                      ],
-                    ),
-/*                    Row(
-                      children: <Widget>[
-                        Text(
-                          'Categoria:  ',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        DropdownButtonHideUnderline(
-                          child: new DropdownButton<String>(
-                            hint: new Text("Fisiologia"),
-                            isDense: true,
-                            items: _categorias.map((Categorias map) {
-                              return new DropdownMenuItem<String>(
-                                value: map.id_categoria, //+map.cat_descricao,
-                                child: new Text(map.cat_descricao,
-                                    style: new TextStyle(
-                                        fontSize: 16, color: Colors.black)),
-                              );
-                            }).toList(),
-                            onChanged: (String newValue) {
-                              setState(() {
-                                _itemCategoria = newValue;
-                              });
-                            },
-                            value: _itemCategoria,
-                          ),
-                        ),
-                      ],
-                    ),
-                    */
-                    // Espacamento
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.only(bottom: 9),
-                        ),
-                      ],
-                    ),
-
-                    Padding(
-                      padding: EdgeInsets.only(top: 16, bottom: 10),
-                      child: RaisedButton(
-                        child: Text(
-                          "Iniciar",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                        color: Color(0xff006C5D),
-                        padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32)),
-                        onPressed: () {
-                          print('_itemCategoria: $_itemCategoria');
-                          if (_itemCategoria == null) {
-                            _itemCategoria = '1';
-                          }
-                          _iniciaPartida(_userId, _itemCategoria);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Home(dataUsuario: dataUsuario)));
-
-                          //                         Navigator.pushReplacementNamed(context, "/");
-                        },
-                      ),
+                    Text(
+                      'Classificação ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-              ),
+                Row(
+                  children: <Widget>[
+                    Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      _t101_pontos + ' - ' + _t101_nome,
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      _t102_pontos + ' - ' + _t102_nome,
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      _t103_pontos + ' - ' + _t103_nome,
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.normal),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.only(bottom: 9),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 70.0,
+                  height: 120.0,
+                  child: const Card(
+                      child: Text(
+                    'Cole aqui seu Anuncio',
+                    style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.normal),
+                  )),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16, bottom: 10),
+                  child: RaisedButton(
+                    child: Text(
+                      "Iniciar",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
+                    color: Color(0xff006C5D),
+                    padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32)),
+                    onPressed: () {
+                      _iniciaPartida(_userId, '1');
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Home(dataUsuario: dataUsuario)));
+
+                      //                         Navigator.pushReplacementNamed(context, "/");
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
-        ));
-  }
-
-  _getCategorias() async {
-    try {
-      API.getCategorias(_userId).then((response) {
-        setState(() {
-          Iterable list = json.decode(response.body)['categorias'];
-          _categorias =
-              list.map((model) => Categorias.fromJson(model)).toList();
-        });
-      });
-    } catch (e) {
-      return null;
-    }
+        ),
+      ),
+    );
   }
 
   Future<List<Analise>> _getAnalise(String pUserId) async {
@@ -451,19 +278,28 @@ class _ClassificacaoState extends State<Classificacao> {
       _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
       _recorde_geral = analiseData[0].recorde_geral;
       _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
-      _t101_id_usuario = analiseData[0].top10[0].id_usuario;
-      _t101_nome = analiseData[0].top10[0].nome;
-      _t101_pontos = analiseData[0].top10[0].pontos;
-      _t102_id_usuario = analiseData[0].top10[1].id_usuario;
-      _t102_nome = analiseData[0].top10[1].nome;
-      _t102_pontos = analiseData[0].top10[1].pontos;
-      _t103_id_usuario = analiseData[0].top10[2].id_usuario;
-      _t103_nome = analiseData[0].top10[2].nome;
-      _t103_pontos = analiseData[0].top10[2].pontos;
+      var _tamanho = analiseData[0].top10.length;
+      if (_tamanho == 0) {
+        _t101_id_usuario = analiseData[0].top10[0].id_usuario;
+        _t101_nome = analiseData[0].top10[0].nome;
+        _t101_pontos = analiseData[0].top10[0].pontos;
+      } else {
+        if (_tamanho > 0) {
+          _t102_id_usuario = analiseData[0].top10[1].id_usuario;
+          _t102_nome = analiseData[0].top10[1].nome;
+          _t102_pontos = analiseData[0].top10[1].pontos;
+        } else {
+          if (_tamanho > 1) {
+            _t103_id_usuario = analiseData[0].top10[2].id_usuario;
+            _t103_nome = analiseData[0].top10[2].nome;
+            _t103_pontos = analiseData[0].top10[2].pontos;
+          }
+        }
+      }
 
       // forçando o teste
-      _pontos_partida = '20';
-      _recorde_usuario = '50';
+      //_pontos_partida = '20';
+      //_recorde_usuario = '50';
 
       if (double.parse(_recorde_usuario) > 0 &&
           double.parse(_pontos_partida) > 0) {
@@ -477,8 +313,8 @@ class _ClassificacaoState extends State<Classificacao> {
 
       _percAcertoRecordText = (_percAcertoRecord * 100).toString();
 
-      _pontos_partida = '20';
-      _recorde_geral = '41';
+      //_pontos_partida = '20';
+      //_recorde_geral = '41';
 
       if (double.parse(_recorde_geral) > 0 &&
           double.parse(_pontos_partida) > 0) {
@@ -494,25 +330,6 @@ class _ClassificacaoState extends State<Classificacao> {
       print('Erro leitura json - analise');
     }
   }
-
-/*  _iniciaPartida(String pUserId, String pIdCategoria) async {
-    print('_iniciaPartida - pIdCategoria : $pIdCategoria');
-    try {
-      var dataPartida = await http.post(
-        APP_URL,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          "metodo": "getpartida",
-          "id_usuario": "$pUserId",
-          "id_categoria": "$pIdCategoria"
-        }),
-      );
-    } catch (e) {
-      return null;
-    }
-  } */
 
   void _iniciaPartida(String pUserId, String pIdCategoria) async {
     print('_iniciaPartida - pIdCategoria : $pIdCategoria');
