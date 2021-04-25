@@ -14,6 +14,28 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+class API {
+  static Future getCategorias(String pUserId) async {
+    try {
+      var dataCategoria = await http.post(
+        APP_URL,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "metodo": "getcategorias",
+          "id_usuario": "$pUserId"
+        }),
+      );
+      return dataCategoria;
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
+List<Top10> _top10List = [];
+
 class Classificacao extends StatefulWidget {
   final Usuario dataUsuario;
 
@@ -57,8 +79,9 @@ class _ClassificacaoState extends State<Classificacao> {
   var _t103_id_usuario = '';
   var _t103_nome = '';
   var _t103_pontos = '';
-
   String _itemCategoria;
+
+  var _categorias = new List<Categorias>();
 
   void initState() {
     super.initState();
@@ -68,12 +91,15 @@ class _ClassificacaoState extends State<Classificacao> {
       _getAnalise(_userId);
       print('categoria - _email: $_email');
       print('categoria - _userId: $_userId');
+      _getCategorias();
+      print('teste _categorias : $_categorias');
     });
   }
 
-  String _atividades = '';
-  String _acertos = '';
-  String _erros = '';
+  String dropDownStringItem = 'Fisiologia';
+  String _atividades = '230';
+  String _acertos = '210';
+  String _erros = '20';
 
   List<Analise> analiseData;
 
@@ -90,6 +116,7 @@ class _ClassificacaoState extends State<Classificacao> {
       ),
       body: Container(
         child: DefaultBackgroundContainer(
+//            child: Center(
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -198,13 +225,6 @@ class _ClassificacaoState extends State<Classificacao> {
                     ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.only(bottom: 9),
-                    ),
-                  ],
-                ),
                 SizedBox(
                   width: 70.0,
                   height: 120.0,
@@ -217,7 +237,23 @@ class _ClassificacaoState extends State<Classificacao> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
-                  child: RaisedButton(
+                  child: ElevatedButton(
+                    child: Text(
+                      "Iniciar",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Color(0xff006C5D),
+                      primary: Color(0xff006C5D),
+                      onSurface: Color(0xff006C5D),
+                      // side: BorderSide(color: Colors.black, width: 1),
+                      elevation: 20,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+
+                      minimumSize: Size(250, 50),
+                    ),
+/*                  child: RaisedButton(
                     child: Text(
                       "Iniciar",
                       style: TextStyle(color: Colors.white, fontSize: 18),
@@ -225,9 +261,13 @@ class _ClassificacaoState extends State<Classificacao> {
                     color: Color(0xff006C5D),
                     padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32)),
+                        borderRadius: BorderRadius.circular(32)), */
                     onPressed: () {
-                      _iniciaPartida(_userId, '1');
+                      print('_itemCategoria: $_itemCategoria');
+                      if (_itemCategoria == null) {
+                        _itemCategoria = '1';
+                      }
+                      _iniciaPartida(_userId, _itemCategoria);
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -244,6 +284,20 @@ class _ClassificacaoState extends State<Classificacao> {
         ),
       ),
     );
+  }
+
+  _getCategorias() async {
+    try {
+      API.getCategorias(_userId).then((response) {
+        setState(() {
+          Iterable list = json.decode(response.body)['categorias'];
+          _categorias =
+              list.map((model) => Categorias.fromJson(model)).toList();
+        });
+      });
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<List<Analise>> _getAnalise(String pUserId) async {
@@ -265,71 +319,105 @@ class _ClassificacaoState extends State<Classificacao> {
           .map((conteudo) => Analise.fromJson(conteudo))
           .toList();
 
-      _total_respondidas = analiseData[0].total_respondidas;
-      _total_corretas = analiseData[0].total_corretas;
-      _total_erradas = analiseData[0].total_erradas;
-      _pontos_partida = analiseData[0].pontos_partida;
-      _percAcertos = analiseData[0].percAcertos;
-      _percErro = analiseData[0].percErro;
-      _recorde_usuario = analiseData[0].recorde_usuario;
-      _data_recorde = analiseData[0].data_recorde;
-      _recorde_anterior = analiseData[0].recorde_anterior;
-      _bateu_recorde = analiseData[0].bateu_recorde;
-      _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
-      _recorde_geral = analiseData[0].recorde_geral;
-      _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
-      var _tamanho = analiseData[0].top10.length;
-      if (_tamanho == 0) {
-        _t101_id_usuario = analiseData[0].top10[0].id_usuario;
+      if (analiseData.length > 0) {
+        _total_respondidas = analiseData[0].total_respondidas;
+        _total_corretas = analiseData[0].total_corretas;
+        _total_erradas = analiseData[0].total_erradas;
+        _pontos_partida = analiseData[0].pontos_partida;
+        _percAcertos = analiseData[0].percAcertos;
+        _percErro = analiseData[0].percErro;
+        _recorde_usuario = analiseData[0].recorde_usuario;
+        _data_recorde = analiseData[0].data_recorde;
+        _recorde_anterior = analiseData[0].recorde_anterior;
+        _bateu_recorde = analiseData[0].bateu_recorde;
+        _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
+        _recorde_geral = analiseData[0].recorde_geral;
+        _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
+        var _tamanho = analiseData[0].top10.length;
+        print('tamanho top10 > $_tamanho');
+        /*_t101_id_usuario = analiseData[0].top10[0].id_usuario;
         _t101_nome = analiseData[0].top10[0].nome;
         _t101_pontos = analiseData[0].top10[0].pontos;
-      } else {
+        _t102_id_usuario = analiseData[0].top10[1].id_usuario;
+        _t102_nome = analiseData[0].top10[1].nome;
+        _t102_pontos = analiseData[0].top10[1].pontos;
+        _t103_id_usuario = analiseData[0].top10[2].id_usuario;
+        _t103_nome = analiseData[0].top10[2].nome;
+        _t103_pontos = analiseData[0].top10[2].pontos; */
         if (_tamanho > 0) {
-          _t102_id_usuario = analiseData[0].top10[1].id_usuario;
-          _t102_nome = analiseData[0].top10[1].nome;
-          _t102_pontos = analiseData[0].top10[1].pontos;
+          _t101_id_usuario = analiseData[0].top10[0].id_usuario;
+          _t101_nome = analiseData[0].top10[0].nome;
+          _t101_pontos = analiseData[0].top10[0].pontos;
         } else {
           if (_tamanho > 1) {
-            _t103_id_usuario = analiseData[0].top10[2].id_usuario;
-            _t103_nome = analiseData[0].top10[2].nome;
-            _t103_pontos = analiseData[0].top10[2].pontos;
+            _t102_id_usuario = analiseData[0].top10[1].id_usuario;
+            _t102_nome = analiseData[0].top10[1].nome;
+            _t102_pontos = analiseData[0].top10[1].pontos;
+          } else {
+            if (_tamanho > 2) {
+              _t103_id_usuario = analiseData[0].top10[2].id_usuario;
+              _t103_nome = analiseData[0].top10[2].nome;
+              _t103_pontos = analiseData[0].top10[2].pontos;
+            }
           }
         }
+
+        // forçando o teste
+        print('_pontos_partida: $_pontos_partida');
+        print('_recorde_usuario: $_recorde_usuario');
+        //  _pontos_partida = '20';
+        //  _recorde_usuario = '50';
+
+        if (double.parse(_recorde_usuario) > 0 &&
+            double.parse(_pontos_partida) > 0) {
+          _percAcertoRecord =
+              double.parse(_pontos_partida) / double.parse(_recorde_usuario);
+          var _var = (_percAcertoRecord).toStringAsFixed(1);
+          _percAcertoRecord = double.parse(_var);
+        } else {
+          _percAcertoRecord = 1.0;
+        }
+
+        _percAcertoRecordText = (_percAcertoRecord * 100).toString();
+
+        print('_recorde_geral: $_recorde_geral');
+        //_pontos_partida = '20';
+        //_recorde_geral = '41';
+
+        if (double.parse(_recorde_geral) > 0 &&
+            double.parse(_pontos_partida) > 0) {
+          _percGeralRecord =
+              double.parse(_pontos_partida) / double.parse(_recorde_geral);
+          var _var = (_percGeralRecord).toStringAsFixed(1);
+          _percGeralRecord = double.parse(_var);
+        } else {
+          _percGeralRecord = 1.0;
+        }
+        _percGeralRecordText = (_percGeralRecord * 100).toString();
       }
-
-      // forçando o teste
-      //_pontos_partida = '20';
-      //_recorde_usuario = '50';
-
-      if (double.parse(_recorde_usuario) > 0 &&
-          double.parse(_pontos_partida) > 0) {
-        _percAcertoRecord =
-            double.parse(_pontos_partida) / double.parse(_recorde_usuario);
-        var _var = (_percAcertoRecord).toStringAsFixed(1);
-        _percAcertoRecord = double.parse(_var);
-      } else {
-        _percAcertoRecord = 1.0;
-      }
-
-      _percAcertoRecordText = (_percAcertoRecord * 100).toString();
-
-      //_pontos_partida = '20';
-      //_recorde_geral = '41';
-
-      if (double.parse(_recorde_geral) > 0 &&
-          double.parse(_pontos_partida) > 0) {
-        _percGeralRecord =
-            double.parse(_pontos_partida) / double.parse(_recorde_geral);
-        var _var = (_percGeralRecord).toStringAsFixed(1);
-        _percGeralRecord = double.parse(_var);
-      } else {
-        _percGeralRecord = 1.0;
-      }
-      _percGeralRecordText = (_percGeralRecord * 100).toString();
     } catch (e) {
       print('Erro leitura json - analise');
     }
   }
+
+/*  _iniciaPartida(String pUserId, String pIdCategoria) async {
+    print('_iniciaPartida - pIdCategoria : $pIdCategoria');
+    try {
+      var dataPartida = await http.post(
+        APP_URL,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "metodo": "getpartida",
+          "id_usuario": "$pUserId",
+          "id_categoria": "$pIdCategoria"
+        }),
+      );
+    } catch (e) {
+      return null;
+    }
+  } */
 
   void _iniciaPartida(String pUserId, String pIdCategoria) async {
     print('_iniciaPartida - pIdCategoria : $pIdCategoria');

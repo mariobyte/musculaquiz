@@ -37,9 +37,11 @@ class _HomeState extends State<Home> {
   int _controlePerguntas = 0;
   double _progress;
 
-  var _respostas = List(5);
-  var _idResposta = List(5);
-  var _respCerta = List(5);
+  List<Analise> analiseData;
+
+  List _respostas = ['', '', '', '', '', '']; //
+  List _idResposta = ['', '', '', '', '', ''];
+  List _respCerta = ['', '', '', '', '', ''];
 
   String _email = '';
   String _userId = '';
@@ -83,6 +85,9 @@ class _HomeState extends State<Home> {
   }
 
   _classificacao() {
+    _timer.cancel();
+    print('chamada - classificação');
+    print('dataUsuario: $dataUsuario');
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -127,20 +132,20 @@ class _HomeState extends State<Home> {
         ),
         body: Container(
           child: DefaultBackgroundContainer(
-            child: Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    //   _tempoResposta(),
-                    Padding(
-                        padding: EdgeInsets.only(top: 16, bottom: 10),
-                        child: _formUI()),
-                  ],
-                ),
+//            child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  //   _tempoResposta(),
+                  Padding(
+                      padding: EdgeInsets.only(top: 16, bottom: 10),
+                      child: _formUI()),
+                ],
               ),
             ),
           ),
+          //        ),
         ));
   }
 
@@ -243,30 +248,31 @@ class _HomeState extends State<Home> {
       Row(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.only(bottom: 50),
-          ),
-        ],
-      ),
-      Row(
-        children: <Widget>[
-          Container(
             width: 100.0,
             alignment: AlignmentDirectional.center,
           ),
           Container(
             width: 160.0,
             alignment: AlignmentDirectional.center,
-            child: RaisedButton(
+            child: ElevatedButton(
                 child: Text(
                   "Proxima",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-                color: Color(0xff006C5D),
-                padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32)),
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Color(0xff006C5D),
+                  primary: Color(0xff006C5D),
+                  onSurface: Color(0xff006C5D),
+                  // side: BorderSide(color: Colors.black, width: 1),
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
+
+                  minimumSize: Size(250, 50),
+                ),
                 onPressed: () {
                   print('_resposta: $_resposta');
+                  _timer.cancel();
                   _proximaPergunta(_resposta);
                   _resposta = -1;
                 }),
@@ -365,28 +371,11 @@ class _HomeState extends State<Home> {
 
       var jsonData = json.decode(dataResposta.body)['retorno'];
       print('_postRespostas - Json de Retorno:  $jsonData');
-      print('peter 1');
-//      List<RetRespostas> _listRespostas = [];
-      print('peter 2');
-/*      int x = 0;
-      for (var u in jsonData) {
-        RetRespostas documento = RetRespostas(
-            u['id_resposta_usuario'], u['status'], u['obs'], u['vidas']);
-        print('peter 3');
-        _listRespostas.add(documento);
-        x = x + 1;
-      } */
-      print('peter 4');
       for (var u in jsonData) {
         var _status = u['status'];
         var _obs = u['obs'];
         _vidasI = int.parse(u['vidas']);
       }
-
-//      var _status = _listRespostas[0].rr_status;
-//      var _obs = _listRespostas[0].rr_obs;
-//      var _vidas = _listRespostas[0].rr_vidas;
-      print('vidas: $_vidasI');
       if (_vidasI == 0) {
         FlutterBeep.beep(false);
         _timer.cancel();
@@ -408,8 +397,8 @@ class _HomeState extends State<Home> {
     String wResposta = _respostas[3];
     String wRespCerta = _respCerta[3];
 
-    print('_proximaPergunta = _respostas[3] = $wResposta');
-    print('_proximaPergunta = _respCerta[3] = $wRespCerta');
+//    print('_proximaPergunta = _respostas[3] = $wResposta');
+//    print('_proximaPergunta = _respCerta[3] = $wRespCerta');
     int _acertou = 99;
     _acertou = pResposta;
 
@@ -420,14 +409,14 @@ class _HomeState extends State<Home> {
     // removido dia 14/04/2021 - somente apos perder todas as vida
     // que ocorre o encerramento da partida
     //if (_acertou != 99) {
-    print('resposta certa! 0 gravar ! ');
+//    print('resposta certa! 0 gravar ! ');
     String _respostaId = _idResposta[_acertou];
     _postRespostas(_idPergunta, _respostaId, _counter.toString());
     // Fim - Envio da resposta certa
     // Chamada da Rotina de Perguntas Novamente
     print('_controlePerguntas: $_controlePerguntas');
     try {
-      _getPerguntas();
+      _getPerguntas(); // Busca Perguntas
       _controlePerguntas = 0;
       _pergunta = perguntas[_controlePerguntas].per_descricao;
       _idPergunta = perguntas[_controlePerguntas].id_pergunta;

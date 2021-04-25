@@ -87,7 +87,7 @@ class _IniciarState extends State<Iniciar> {
 
                     Padding(
                       padding: EdgeInsets.only(top: 16, bottom: 10),
-                      child: RaisedButton(
+/*                      child: RaisedButton(
                         child: Text(
                           "Iniciar",
                           style: TextStyle(color: Colors.white, fontSize: 18),
@@ -95,7 +95,23 @@ class _IniciarState extends State<Iniciar> {
                         color: Color(0xff006C5D),
                         padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32)),
+                            borderRadius: BorderRadius.circular(32)), */
+                      child: ElevatedButton(
+                        child: Text(
+                          "Iniciar",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          onPrimary: Color(0xff006C5D),
+                          primary: Color(0xff006C5D),
+                          onSurface: Color(0xff006C5D),
+                          // side: BorderSide(color: Colors.black, width: 1),
+                          elevation: 20,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+
+                          minimumSize: Size(250, 50),
+                        ),
                         onPressed: () {
                           CircularProgressIndicator();
                           _iniciaPartida(_userId, '1');
