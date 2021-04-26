@@ -394,11 +394,9 @@ class _HomeState extends State<Home> {
   _proximaPergunta(int pResposta) {
     _timer.cancel();
     print('_proximaPergunta = cheguei : $pResposta');
-    String wResposta = _respostas[3];
-    String wRespCerta = _respCerta[3];
+//    String wResposta = _respostas[3];
+//    String wRespCerta = _respCerta[3];
 
-//    print('_proximaPergunta = _respostas[3] = $wResposta');
-//    print('_proximaPergunta = _respCerta[3] = $wRespCerta');
     int _acertou = 99;
     _acertou = pResposta;
 
@@ -416,8 +414,12 @@ class _HomeState extends State<Home> {
     // Chamada da Rotina de Perguntas Novamente
     print('_controlePerguntas: $_controlePerguntas');
     try {
-      _getPerguntas(); // Busca Perguntas
-      _controlePerguntas = 0;
+      _controlePerguntas = _controlePerguntas + 1;
+      if (_controlePerguntas > (perguntas.length - 1)) {
+        _getPerguntas(); // Busca Perguntas
+        _controlePerguntas = 0;
+      }
+
       _pergunta = perguntas[_controlePerguntas].per_descricao;
       _idPergunta = perguntas[_controlePerguntas].id_pergunta;
       print('_pergunta: $_pergunta');
