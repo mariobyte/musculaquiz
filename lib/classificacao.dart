@@ -64,11 +64,13 @@ class _ClassificacaoState extends State<Classificacao> {
   var _percGeralRecordText = '';
   var _percErro = '';
   var _recorde_usuario = '';
+  double _recorde_usuarioI = 0;
   var _data_recorde = '';
   var _recorde_anterior = '';
   var _bateu_recorde = '';
   var _perc_bater_seu_recorde = '';
   var _recorde_geral = '';
+  double _recorde_geralI = 0;
   var _perc_bater_recorde_geral = '';
   var _t101_id_usuario = '';
   var _t101_nome = '';
@@ -126,10 +128,25 @@ class _ClassificacaoState extends State<Classificacao> {
                 Column(children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text(
-                        'Meu progresso',
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
+                      Text('Meu progresso',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold)),
+                      VerticalDivider(
+                        width: 100,
+                        thickness: 0,
+                      ),
+                      Container(
+                        width: 130.0,
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              'Pontos: ' + _recorde_usuarioI.toStringAsFixed(0),
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.end,
+                        ),
                       ),
                     ],
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -142,7 +159,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       lineHeight: 50.0,
                       animationDuration: 2000,
                       percent: _percAcertoRecord,
-                      center: Text(_percAcertoRecordText),
+                      center: Text(_percAcertoRecordText + '%'),
                       linearStrokeCap: LinearStrokeCap.roundAll,
                       progressColor: Colors.greenAccent,
                     ),
@@ -150,7 +167,7 @@ class _ClassificacaoState extends State<Classificacao> {
                   Row(
                     children: <Widget>[
                       Text(
-                        _data_recorde,
+                        'em ' + _data_recorde,
                         style: TextStyle(
                             fontSize: 12, fontWeight: FontWeight.normal),
                       ),
@@ -162,7 +179,24 @@ class _ClassificacaoState extends State<Classificacao> {
                       Text(
                         'Classificação Geral',
                         style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold),
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      VerticalDivider(
+                        width: 100,
+                        thickness: 0,
+                      ),
+                      Container(
+                        width: 100.0,
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              'Pontos: ' + _recorde_geralI.toStringAsFixed(0),
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.end,
+                        ),
                       ),
                     ],
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -175,7 +209,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       lineHeight: 50.0,
                       animationDuration: 2000,
                       percent: _percGeralRecord,
-                      center: Text(_percGeralRecordText),
+                      center: Text(_percGeralRecordText + '%'),
                       linearStrokeCap: LinearStrokeCap.roundAll,
                       progressColor: Colors.greenAccent,
                     ),
@@ -202,29 +236,79 @@ class _ClassificacaoState extends State<Classificacao> {
                 ),
                 Row(
                   children: <Widget>[
-                    Text(
-                      _t101_pontos + ' - ' + _t101_nome,
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.normal),
+                    Container(
+                      width: 35,
+                      child: Text(
+                        _t101_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
                     ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 280,
+                      child: Text(
+                        _t101_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Text(
-                      _t102_pontos + ' - ' + _t102_nome,
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.normal),
+                    Container(
+                      width: 35,
+                      child: Text(
+                        _t102_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
                     ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 280,
+                      child: Text(
+                        _t102_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
                   ],
                 ),
                 Row(
                   children: <Widget>[
-                    Text(
-                      _t103_pontos + ' - ' + _t103_nome,
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.normal),
+                    Container(
+                      width: 35,
+                      child: Text(
+                        _t103_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
                     ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 280,
+                      child: Text(
+                        _t103_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
                 ),
                 SizedBox(
@@ -338,16 +422,6 @@ class _ClassificacaoState extends State<Classificacao> {
         _recorde_geral = analiseData[0].recorde_geral;
         _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
         var _tamanho = analiseData[0].top10.length;
-        print('tamanho top10 > $_tamanho');
-        /*_t101_id_usuario = analiseData[0].top10[0].id_usuario;
-        _t101_nome = analiseData[0].top10[0].nome;
-        _t101_pontos = analiseData[0].top10[0].pontos;
-        _t102_id_usuario = analiseData[0].top10[1].id_usuario;
-        _t102_nome = analiseData[0].top10[1].nome;
-        _t102_pontos = analiseData[0].top10[1].pontos;
-        _t103_id_usuario = analiseData[0].top10[2].id_usuario;
-        _t103_nome = analiseData[0].top10[2].nome;
-        _t103_pontos = analiseData[0].top10[2].pontos; */
         if (_tamanho > 0) {
           _t101_id_usuario = analiseData[0].top10[0].id_usuario;
           _t101_nome = analiseData[0].top10[0].nome;
@@ -364,16 +438,12 @@ class _ClassificacaoState extends State<Classificacao> {
           _t103_pontos = analiseData[0].top10[2].pontos;
         }
 
-        print('classificaçã geral');
-        print(' 1 - $_t101_nome');
-        print(' 2 - $_t102_nome');
-        print(' 3 - $_t103_nome');
-
         // forçando o teste
         print('_pontos_partida: $_pontos_partida');
         print('_recorde_usuario: $_recorde_usuario');
         //  _pontos_partida = '20';
         //  _recorde_usuario = '50';
+        _recorde_usuarioI = double.parse(_recorde_usuario);
 
         if (double.parse(_recorde_usuario) > 0 &&
             double.parse(_pontos_partida) > 0) {
@@ -385,11 +455,12 @@ class _ClassificacaoState extends State<Classificacao> {
           _percAcertoRecord = 1.0;
         }
 
-        _percAcertoRecordText = (_percAcertoRecord * 100).toString();
+        _percAcertoRecordText = (_percAcertoRecord * 100).toStringAsFixed(0);
 
         print('_recorde_geral: $_recorde_geral');
         //_pontos_partida = '20';
         //_recorde_geral = '41';
+        _recorde_geralI = double.parse(_recorde_geral);
 
         if (double.parse(_recorde_geral) > 0 &&
             double.parse(_pontos_partida) > 0) {
@@ -400,7 +471,7 @@ class _ClassificacaoState extends State<Classificacao> {
         } else {
           _percGeralRecord = 1.0;
         }
-        _percGeralRecordText = (_percGeralRecord * 100).toString();
+        _percGeralRecordText = (_percGeralRecord * 100).toStringAsFixed(0);
       }
     } catch (e) {
       print('Erro leitura json - analise');
