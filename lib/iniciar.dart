@@ -45,10 +45,12 @@ class _IniciarState extends State<Iniciar> {
 
   void initState() {
     super.initState();
-    setState(() {
-      //_email = this.dataUsuario.email;
-      _userId = this.dataUsuario.userId;
-    });
+    if (this.mounted) {
+      setState(() {
+        //_email = this.dataUsuario.email;
+        _userId = this.dataUsuario.userId;
+      });
+    }
   }
 
   @override

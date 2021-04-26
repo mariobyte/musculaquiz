@@ -56,32 +56,34 @@ class _HomeState extends State<Home> {
 
   void initState() {
     super.initState();
-    setState(() {
-      _respostas[0] = '';
-      _respostas[1] = '';
-      _respostas[2] = '';
-      _respostas[3] = '';
-      _respostas[4] = '';
-      _email = this.dataUsuario.email;
-      _userId = this.dataUsuario.userId;
-      _userIdMQ = this.dataUsuario.userIdMQ;
-      _vidas = this.dataUsuario.vidas;
-      _vidasI = int.parse(_vidas);
+    if (this.mounted) {
+      setState(() {
+        _respostas[0] = '';
+        _respostas[1] = '';
+        _respostas[2] = '';
+        _respostas[3] = '';
+        _respostas[4] = '';
+        _email = this.dataUsuario.email;
+        _userId = this.dataUsuario.userId;
+        _userIdMQ = this.dataUsuario.userIdMQ;
+        _vidas = this.dataUsuario.vidas;
+        _vidasI = int.parse(_vidas);
 
-      print('_email: $_email');
-      print('_userId: $_userId');
-      print('_userIdMQ: $_userIdMQ');
+        print('_email: $_email');
+        print('_userId: $_userId');
+        print('_userIdMQ: $_userIdMQ');
 
-      _isVisible1 = _vidasI > 0 ? true : false;
-      _isVisible2 = _vidasI > 1 ? true : false;
-      _isVisible3 = _vidasI > 2 ? true : false;
-      _isVisible4 = _vidasI > 3 ? true : false;
-      _isVisible5 = _vidasI > 4 ? true : false;
+        _isVisible1 = _vidasI > 0 ? true : false;
+        _isVisible2 = _vidasI > 1 ? true : false;
+        _isVisible3 = _vidasI > 2 ? true : false;
+        _isVisible4 = _vidasI > 3 ? true : false;
+        _isVisible5 = _vidasI > 4 ? true : false;
 
-      print('passo 1 - anptes getperguntas');
-//      _vidasI = 99;
-      _getPerguntas();
-    });
+        print('passo 1 - anptes getperguntas');
+        //      _vidasI = 99;
+        _getPerguntas();
+      });
+    }
   }
 
   _classificacao() {
@@ -98,24 +100,26 @@ class _HomeState extends State<Home> {
     _counter = pCounter;
     int _counter30 = (pCounter * 0.30).round();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_counter > 0) {
-          _counter--;
-          _progress = (1 - (_counter / pCounter));
-          //    print('progress: $_progress');
-          //    print('_counter: $_counter');
-          //    print('_counter30: $_counter30');
-          if (_counter == _counter30) {
+      if (this.mounted) {
+        setState(() {
+          if (_counter > 0) {
+            _counter--;
+            _progress = (1 - (_counter / pCounter));
+            //    print('progress: $_progress');
+            //    print('_counter: $_counter');
+            //    print('_counter30: $_counter30');
+            if (_counter == _counter30) {
+              FlutterBeep.beep(false);
+            }
+          } else {
+            // Tempo Esgotado
             FlutterBeep.beep(false);
-          }
-        } else {
-          // Tempo Esgotado
-          FlutterBeep.beep(false);
 
-          _timer.cancel();
-          _classificacao();
-        }
-      });
+            _timer.cancel();
+            _classificacao();
+          }
+        });
+      }
     });
   }
 

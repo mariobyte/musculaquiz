@@ -33,10 +33,11 @@ class _LoginState extends State<Login> {
 
     if (email.isNotEmpty && email.contains("@")) {
       if (senha.isNotEmpty) {
-        setState(() {
-          _mensagemErro = "";
-        });
-
+        if (this.mounted) {
+          setState(() {
+            _mensagemErro = "";
+          });
+        }
         Usuario usuario = Usuario();
 
         usuario.email = email.trim();
@@ -46,16 +47,19 @@ class _LoginState extends State<Login> {
         _logarUsuario(usuario); // Realiza cadastro do usuário no firebase
 
       } else {
-        setState(() {
-          _mensagemErro = "Preencha a senha com mais de 5 Caracteres";
-        });
+        if (this.mounted) {
+          setState(() {
+            _mensagemErro = "Preencha a senha com mais de 5 Caracteres";
+          });
+        }
       }
     } else {
       print(email);
-
-      setState(() {
-        _mensagemErro = "Email deve ser preenchido e conter @";
-      });
+      if (this.mounted) {
+        setState(() {
+          _mensagemErro = "Email deve ser preenchido e conter @";
+        });
+      }
     }
   }
 

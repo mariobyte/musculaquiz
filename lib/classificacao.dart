@@ -85,15 +85,17 @@ class _ClassificacaoState extends State<Classificacao> {
 
   void initState() {
     super.initState();
-    setState(() {
-      _email = this.dataUsuario.email;
-      _userId = this.dataUsuario.userId;
-      _getAnalise(_userId);
-      print('categoria - _email: $_email');
-      print('categoria - _userId: $_userId');
-      _getCategorias();
-      print('teste _categorias : $_categorias');
-    });
+    if (this.mounted) {
+      setState(() {
+        _email = this.dataUsuario.email;
+        _userId = this.dataUsuario.userId;
+        _getAnalise(_userId);
+        print('categoria - _email: $_email');
+        print('categoria - _userId: $_userId');
+        _getCategorias();
+        print('teste _categorias : $_categorias');
+      });
+    }
   }
 
   String dropDownStringItem = 'Fisiologia';
@@ -289,11 +291,13 @@ class _ClassificacaoState extends State<Classificacao> {
   _getCategorias() async {
     try {
       API.getCategorias(_userId).then((response) {
-        setState(() {
-          Iterable list = json.decode(response.body)['categorias'];
-          _categorias =
-              list.map((model) => Categorias.fromJson(model)).toList();
-        });
+        if (this.mounted) {
+          setState(() {
+            Iterable list = json.decode(response.body)['categorias'];
+            _categorias =
+                list.map((model) => Categorias.fromJson(model)).toList();
+          });
+        }
       });
     } catch (e) {
       return null;
@@ -348,19 +352,22 @@ class _ClassificacaoState extends State<Classificacao> {
           _t101_id_usuario = analiseData[0].top10[0].id_usuario;
           _t101_nome = analiseData[0].top10[0].nome;
           _t101_pontos = analiseData[0].top10[0].pontos;
-        } else {
-          if (_tamanho > 1) {
-            _t102_id_usuario = analiseData[0].top10[1].id_usuario;
-            _t102_nome = analiseData[0].top10[1].nome;
-            _t102_pontos = analiseData[0].top10[1].pontos;
-          } else {
-            if (_tamanho > 2) {
-              _t103_id_usuario = analiseData[0].top10[2].id_usuario;
-              _t103_nome = analiseData[0].top10[2].nome;
-              _t103_pontos = analiseData[0].top10[2].pontos;
-            }
-          }
         }
+        if (_tamanho >= 1) {
+          _t102_id_usuario = analiseData[0].top10[1].id_usuario;
+          _t102_nome = analiseData[0].top10[1].nome;
+          _t102_pontos = analiseData[0].top10[1].pontos;
+        }
+        if (_tamanho >= 2) {
+          _t103_id_usuario = analiseData[0].top10[2].id_usuario;
+          _t103_nome = analiseData[0].top10[2].nome;
+          _t103_pontos = analiseData[0].top10[2].pontos;
+        }
+
+        print('classificaçã geral');
+        print(' 1 - $_t101_nome');
+        print(' 2 - $_t102_nome');
+        print(' 3 - $_t103_nome');
 
         // forçando o teste
         print('_pontos_partida: $_pontos_partida');
