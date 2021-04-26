@@ -87,7 +87,6 @@ class _HomeState extends State<Home> {
   }
 
   _classificacao() {
-    _timer.cancel();
     print('chamada - classificação');
     print('dataUsuario: $dataUsuario');
     Navigator.pushReplacement(
@@ -105,20 +104,36 @@ class _HomeState extends State<Home> {
           if (_counter > 0) {
             _counter--;
             _progress = (1 - (_counter / pCounter));
-            //    print('progress: $_progress');
-            //    print('_counter: $_counter');
-            //    print('_counter30: $_counter30');
             if (_counter == _counter30) {
               FlutterBeep.beep(false);
             }
           } else {
             // Tempo Esgotado
-            FlutterBeep.beep(false);
-
-            _timer.cancel();
-            _classificacao();
+            if (this.mounted) {
+              setState(() {
+                _timer.cancel();
+                FlutterBeep.beep(false);
+                print('_vidas: $_vidas');
+                if (_vidas == 0) {
+                  // Analise
+                  _classificacao();
+                } else {
+                  // Proxima pergunta
+                  _proximaPergunta(99);
+                }
+              });
+            }
           }
         });
+        /* } else {
+        if (_counter < 1) {
+          if (this.mounted) {
+            setState(() {
+              _proximaPergunta(99);
+            });
+          }
+        }
+        print('Timer - nao estou montado- Saida'); */
       }
     });
   }
@@ -346,10 +361,11 @@ class _HomeState extends State<Home> {
       _respCerta[3] = perguntas[0].respostas[3].res_certa;
       _respCerta[4] = perguntas[0].respostas[4].res_certa;
       _controlePerguntas = 0;
-
-      setState(() {
-        _tempoResposta(int.parse(_tempoResp));
-      });
+      if (this.mounted) {
+        setState(() {
+          _tempoResposta(int.parse(_tempoResp));
+        });
+      }
     } catch (e) {}
     return _listPerguntas;
   }
@@ -380,29 +396,35 @@ class _HomeState extends State<Home> {
         var _obs = u['obs'];
         _vidasI = int.parse(u['vidas']);
       }
-      if (_vidasI == 0) {
-        FlutterBeep.beep(false);
-        _timer.cancel();
-        _classificacao();
-      } else {
-        //_vidasI = int.parse(_vidas);
-        _isVisible1 = _vidasI > 0 ? true : false;
-        _isVisible2 = _vidasI > 1 ? true : false;
-        _isVisible3 = _vidasI > 2 ? true : false;
-        _isVisible4 = _vidasI > 3 ? true : false;
-        _isVisible5 = _vidasI > 4 ? true : false;
+      if (this.mounted) {
+        setState(() {
+          if (_vidasI == 0) {
+            FlutterBeep.beep(false);
+            _timer.cancel();
+            _classificacao();
+          } else {
+            _isVisible1 = _vidasI > 0 ? true : false;
+            _isVisible2 = _vidasI > 1 ? true : false;
+            _isVisible3 = _vidasI > 2 ? true : false;
+            _isVisible4 = _vidasI > 3 ? true : false;
+            _isVisible5 = _vidasI > 4 ? true : false;
+          }
+        });
       }
     } catch (e) {}
   }
 
   _proximaPergunta(int pResposta) {
-    _timer.cancel();
+    if (this.mounted) {
+      setState(() {
+        _timer.cancel();
+      });
+    }
     print('_proximaPergunta = cheguei : $pResposta');
 //    String wResposta = _respostas[3];
 //    String wRespCerta = _respCerta[3];
 
-    int _acertou = 99;
-    _acertou = pResposta;
+    int _acertou = pResposta;
 
     var _idRespInformada = _acertou;
 
@@ -411,8 +433,12 @@ class _HomeState extends State<Home> {
     // removido dia 14/04/2021 - somente apos perder todas as vida
     // que ocorre o encerramento da partida
     //if (_acertou != 99) {
+
 //    print('resposta certa! 0 gravar ! ');
-    String _respostaId = _idResposta[_acertou];
+    String _respostaId = '99';
+    if (pResposta != 99) {
+      _respostaId = _idResposta[_acertou];
+    }
     _postRespostas(_idPergunta, _respostaId, _counter.toString());
     // Fim - Envio da resposta certa
     // Chamada da Rotina de Perguntas Novamente
@@ -437,7 +463,12 @@ class _HomeState extends State<Home> {
       print('entrei no if _pergunta');
       print('saida');
       _showMyDialog(' Termino Perguntas.');
-      _classificacao();
+      if (this.mounted) {
+        setState(() {
+          _timer.cancel();
+          _classificacao();
+        });
+      }
       // }
     } else {
       _tempoResp = perguntas[_controlePerguntas].per_tempo;

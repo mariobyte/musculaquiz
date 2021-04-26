@@ -136,11 +136,12 @@ class _ClassificacaoState extends State<Classificacao> {
                         thickness: 0,
                       ),
                       Container(
-                        width: 130.0,
+                        width: 140.0,
                         child: Row(
                           children: <Widget>[
                             Text(
-                              'Pontos: ' + _recorde_usuarioI.toStringAsFixed(0),
+                              'Meu recorde: ' +
+                                  _recorde_usuarioI.toStringAsFixed(0),
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             ),
@@ -182,15 +183,16 @@ class _ClassificacaoState extends State<Classificacao> {
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                       VerticalDivider(
-                        width: 100,
+                        width: 80,
                         thickness: 0,
                       ),
                       Container(
-                        width: 100.0,
+                        width: 140,
                         child: Row(
                           children: <Widget>[
                             Text(
-                              'Pontos: ' + _recorde_geralI.toStringAsFixed(0),
+                              'Maior recorde: ' +
+                                  _recorde_geralI.toStringAsFixed(0),
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.bold),
                             ),
@@ -408,70 +410,75 @@ class _ClassificacaoState extends State<Classificacao> {
           .toList();
 
       if (analiseData.length > 0) {
-        _total_respondidas = analiseData[0].total_respondidas;
-        _total_corretas = analiseData[0].total_corretas;
-        _total_erradas = analiseData[0].total_erradas;
-        _pontos_partida = analiseData[0].pontos_partida;
-        _percAcertos = analiseData[0].percAcertos;
-        _percErro = analiseData[0].percErro;
-        _recorde_usuario = analiseData[0].recorde_usuario;
-        _data_recorde = analiseData[0].data_recorde;
-        _recorde_anterior = analiseData[0].recorde_anterior;
-        _bateu_recorde = analiseData[0].bateu_recorde;
-        _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
-        _recorde_geral = analiseData[0].recorde_geral;
-        _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
-        var _tamanho = analiseData[0].top10.length;
-        if (_tamanho > 0) {
-          _t101_id_usuario = analiseData[0].top10[0].id_usuario;
-          _t101_nome = analiseData[0].top10[0].nome;
-          _t101_pontos = analiseData[0].top10[0].pontos;
-        }
-        if (_tamanho >= 1) {
-          _t102_id_usuario = analiseData[0].top10[1].id_usuario;
-          _t102_nome = analiseData[0].top10[1].nome;
-          _t102_pontos = analiseData[0].top10[1].pontos;
-        }
-        if (_tamanho >= 2) {
-          _t103_id_usuario = analiseData[0].top10[2].id_usuario;
-          _t103_nome = analiseData[0].top10[2].nome;
-          _t103_pontos = analiseData[0].top10[2].pontos;
-        }
+        if (this.mounted) {
+          setState(() {
+            _total_respondidas = analiseData[0].total_respondidas;
+            _total_corretas = analiseData[0].total_corretas;
+            _total_erradas = analiseData[0].total_erradas;
+            _pontos_partida = analiseData[0].pontos_partida;
+            _percAcertos = analiseData[0].percAcertos;
+            _percErro = analiseData[0].percErro;
+            _recorde_usuario = analiseData[0].recorde_usuario;
+            _data_recorde = analiseData[0].data_recorde;
+            _recorde_anterior = analiseData[0].recorde_anterior;
+            _bateu_recorde = analiseData[0].bateu_recorde;
+            _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
+            _recorde_geral = analiseData[0].recorde_geral;
+            _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
+            var _tamanho = analiseData[0].top10.length;
+            if (_tamanho > 0) {
+              _t101_id_usuario = analiseData[0].top10[0].id_usuario;
+              _t101_nome = analiseData[0].top10[0].nome;
+              _t101_pontos = analiseData[0].top10[0].pontos;
+            }
+            if (_tamanho >= 1) {
+              _t102_id_usuario = analiseData[0].top10[1].id_usuario;
+              _t102_nome = analiseData[0].top10[1].nome;
+              _t102_pontos = analiseData[0].top10[1].pontos;
+            }
+            if (_tamanho >= 2) {
+              _t103_id_usuario = analiseData[0].top10[2].id_usuario;
+              _t103_nome = analiseData[0].top10[2].nome;
+              _t103_pontos = analiseData[0].top10[2].pontos;
+            }
 
-        // forçando o teste
-        print('_pontos_partida: $_pontos_partida');
-        print('_recorde_usuario: $_recorde_usuario');
-        //  _pontos_partida = '20';
-        //  _recorde_usuario = '50';
-        _recorde_usuarioI = double.parse(_recorde_usuario);
+            // forçando o teste
+            print('_pontos_partida: $_pontos_partida');
+            print('_recorde_usuario: $_recorde_usuario');
+            //  _pontos_partida = '20';
+            //  _recorde_usuario = '50';
+            _recorde_usuarioI = double.parse(_recorde_usuario);
 
-        if (double.parse(_recorde_usuario) > 0 &&
-            double.parse(_pontos_partida) > 0) {
-          _percAcertoRecord =
-              double.parse(_pontos_partida) / double.parse(_recorde_usuario);
-          var _var = (_percAcertoRecord).toStringAsFixed(1);
-          _percAcertoRecord = double.parse(_var);
-        } else {
-          _percAcertoRecord = 1.0;
+            if (double.parse(_recorde_usuario) > 0 &&
+                double.parse(_pontos_partida) > 0) {
+              _percAcertoRecord = double.parse(_pontos_partida) /
+                  double.parse(_recorde_usuario);
+              var _var = (_percAcertoRecord).toStringAsFixed(1);
+              _percAcertoRecord = double.parse(_var);
+            } else {
+              _percAcertoRecord = 1.0;
+            }
+
+            _percAcertoRecordText =
+                (_percAcertoRecord * 100).toStringAsFixed(0);
+
+            print('_recorde_geral: $_recorde_geral');
+            //_pontos_partida = '20';
+            //_recorde_geral = '41';
+            _recorde_geralI = double.parse(_recorde_geral);
+
+            if (double.parse(_recorde_geral) > 0 &&
+                double.parse(_pontos_partida) > 0) {
+              _percGeralRecord =
+                  double.parse(_pontos_partida) / double.parse(_recorde_geral);
+              var _var = (_percGeralRecord).toStringAsFixed(1);
+              _percGeralRecord = double.parse(_var);
+            } else {
+              _percGeralRecord = 1.0;
+            }
+            _percGeralRecordText = (_percGeralRecord * 100).toStringAsFixed(0);
+          });
         }
-
-        _percAcertoRecordText = (_percAcertoRecord * 100).toStringAsFixed(0);
-
-        print('_recorde_geral: $_recorde_geral');
-        //_pontos_partida = '20';
-        //_recorde_geral = '41';
-        _recorde_geralI = double.parse(_recorde_geral);
-
-        if (double.parse(_recorde_geral) > 0 &&
-            double.parse(_pontos_partida) > 0) {
-          _percGeralRecord =
-              double.parse(_pontos_partida) / double.parse(_recorde_geral);
-          var _var = (_percGeralRecord).toStringAsFixed(1);
-          _percGeralRecord = double.parse(_var);
-        } else {
-          _percGeralRecord = 1.0;
-        }
-        _percGeralRecordText = (_percGeralRecord * 100).toStringAsFixed(0);
       }
     } catch (e) {
       print('Erro leitura json - analise');
