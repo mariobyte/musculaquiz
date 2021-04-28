@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:musculaquiz/app/model/Usuario.dart';
 import 'Home.dart';
@@ -128,7 +129,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Column(children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text('Meu progresso',
+                      Text('Meu progresso:',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                       VerticalDivider(
