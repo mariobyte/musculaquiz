@@ -132,11 +132,11 @@ class _ClassificacaoState extends State<Classificacao> {
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                       VerticalDivider(
-                        width: 100,
+                        width: 90,
                         thickness: 0,
                       ),
                       Container(
-                        width: 140.0,
+                        width: 130.0,
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -157,7 +157,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     child: new LinearPercentIndicator(
                       width: MediaQuery.of(context).size.width - 50,
                       animation: true,
-                      lineHeight: 50.0,
+                      lineHeight: 20.0,
                       animationDuration: 2000,
                       percent: _percAcertoRecord,
                       center: Text(_percAcertoRecordText + '%'),
@@ -187,7 +187,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         thickness: 0,
                       ),
                       Container(
-                        width: 140,
+                        width: 120,
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -208,7 +208,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     child: new LinearPercentIndicator(
                       width: MediaQuery.of(context).size.width - 50,
                       animation: true,
-                      lineHeight: 50.0,
+                      lineHeight: 20.0,
                       animationDuration: 2000,
                       percent: _percGeralRecord,
                       center: Text(_percGeralRecordText + '%'),
@@ -312,16 +312,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
                 ),
-                SizedBox(
-                  width: 70.0,
-                  height: 120.0,
-                  child: const Card(
-                      child: Text(
-                    'Cole aqui seu Anuncio',
-                    style:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.normal),
-                  )),
-                ),
+               _patrocinio (),
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: ElevatedButton(
@@ -540,6 +531,42 @@ class _ClassificacaoState extends State<Classificacao> {
       return null;
     }
   }
+
+_patrocinio(){
+    return Container(
+        padding: EdgeInsets.all(0.0),
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              Card(
+                color: Colors.green,
+                child: Container(
+                   padding: EdgeInsets.all(10),
+                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                       Image.network(
+   'https://cortexsolucoes.com.br/wp-content/uploads/2020/06/Logo-C%C3%B3rtex-Solu%C3%A7%C3%B5es-transp-3-300x157.png',
+                       height: 60,width: 70),
+                       Text(
+                   "Córtex Soluções - Patrocinador oficial",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                       Text( 
+                        "https://www.cortexsolucoes.com.br",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ]
+                   ),
+                ),
+             ),
+            ],
+          ),
+        ),
+       );
+  } 
 
   _logout() {
     _deleteFile();
