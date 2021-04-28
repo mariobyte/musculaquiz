@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 384bb7b8d8ba271ac762e69e3942a8c5ecededae
 import 'package:flutter/material.dart';
 import 'package:musculaquiz/app/model/Usuario.dart';
 import 'Home.dart';
@@ -227,7 +222,6 @@ class _ClassificacaoState extends State<Classificacao> {
                     ],
                   ),
                 ]),
-
                 Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Center(
