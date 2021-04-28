@@ -1,4 +1,5 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:musculaquiz/app/model/Usuario.dart';
 import 'Home.dart';
@@ -223,7 +224,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     ],
                   ),
                 ]),
-                
+
                 Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Center(child: Text("Top 10", 
