@@ -223,6 +223,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     ],
                   ),
                 ]),
+                
                 Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Center(child: Text("Top 10", 
