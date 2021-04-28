@@ -132,11 +132,11 @@ class _ClassificacaoState extends State<Classificacao> {
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
                       VerticalDivider(
-                        width: 100,
+                        width: 90,
                         thickness: 0,
                       ),
                       Container(
-                        width: 140.0,
+                        width: 130.0,
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -157,7 +157,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     child: new LinearPercentIndicator(
                       width: MediaQuery.of(context).size.width - 50,
                       animation: true,
-                      lineHeight: 50.0,
+                      lineHeight: 20.0,
                       animationDuration: 2000,
                       percent: _percAcertoRecord,
                       center: Text(_percAcertoRecordText + '%'),
@@ -187,7 +187,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         thickness: 0,
                       ),
                       Container(
-                        width: 140,
+                        width: 120,
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -208,7 +208,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     child: new LinearPercentIndicator(
                       width: MediaQuery.of(context).size.width - 50,
                       animation: true,
-                      lineHeight: 50.0,
+                      lineHeight: 20.0,
                       animationDuration: 2000,
                       percent: _percGeralRecord,
                       center: Text(_percGeralRecordText + '%'),
@@ -312,7 +312,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
                 ),
-                SizedBox(width: 80.0, height: 150.0, child: _patrocinio()),
+                _patrocinio(),
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: ElevatedButton(
@@ -523,11 +523,6 @@ class _ClassificacaoState extends State<Classificacao> {
     }
   }
 
-  _logout() {
-    _deleteFile();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
-  }
-
   _patrocinio() {
     return Container(
       padding: EdgeInsets.all(0.0),
@@ -562,6 +557,11 @@ class _ClassificacaoState extends State<Classificacao> {
         ),
       ),
     );
+  }
+
+  _logout() {
+    _deleteFile();
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
   }
 
   Future<File> _deleteFile() async {
