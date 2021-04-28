@@ -136,7 +136,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         thickness: 0,
                       ),
                       Container(
-                        width: 130.0,
+                        width: 140.0,
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -157,7 +157,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     child: new LinearPercentIndicator(
                       width: MediaQuery.of(context).size.width - 50,
                       animation: true,
-                      lineHeight: 20.0,
+                      lineHeight: 50.0,
                       animationDuration: 2000,
                       percent: _percAcertoRecord,
                       center: Text(_percAcertoRecordText + '%'),
@@ -176,6 +176,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     mainAxisAlignment: MainAxisAlignment.end,
                   ),
                   Row(
+                    
                     children: <Widget>[
                       Text(
                         'Classificação Geral',
@@ -187,7 +188,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         thickness: 0,
                       ),
                       Container(
-                        width: 130,
+                        width: 140,
                         child: Row(
                           children: <Widget>[
                             Text(
@@ -208,7 +209,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     child: new LinearPercentIndicator(
                       width: MediaQuery.of(context).size.width - 50,
                       animation: true,
-                      lineHeight: 20.0,
+                      lineHeight: 50.0,
                       animationDuration: 2000,
                       percent: _percGeralRecord,
                       center: Text(_percGeralRecordText + '%'),
@@ -222,12 +223,15 @@ class _ClassificacaoState extends State<Classificacao> {
                     ],
                   ),
                 ]),
-                Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Center(child: Text("Top 10", 
-                    style: TextStyle(fontSize: 25),
-                  )),
-                ),                
+                Row(
+                  children: <Widget>[
+                    Text(
+                      'Classificação ',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
                 Row(
                   children: <Widget>[
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
@@ -310,9 +314,17 @@ class _ClassificacaoState extends State<Classificacao> {
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
                 ),
-                  _patrocinio (),
-
-    Padding(
+                SizedBox(
+                  width: 70.0,
+                  height: 120.0,
+                  child: const Card(
+                      child: Text(
+                    'Cole aqui seu Anuncio',
+                    style:
+                        TextStyle(fontSize: 22, fontWeight: FontWeight.normal),
+                  )),
+                ),
+                Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: ElevatedButton(
                     child: Text(
@@ -531,44 +543,6 @@ class _ClassificacaoState extends State<Classificacao> {
     }
   }
 
-
-_patrocinio(){
-    return Container(
-        padding: EdgeInsets.all(0.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Card(
-                color: Colors.green,
-                child: Container(
-                   padding: EdgeInsets.all(10),
-                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                       Image.network(
-   'https://cortexsolucoes.com.br/wp-content/uploads/2020/06/Logo-C%C3%B3rtex-Solu%C3%A7%C3%B5es-transp-3-300x157.png',
-                       height: 60,width: 70),
-                       Text(
-                   "Córtex Soluções - Patrocinador oficial",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 14),
-                      ),
-                       Text( 
-                        "https://www.cortexsolucoes.com.br",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ]
-                   ),
-                ),
-             ),
-            ],
-          ),
-        ),
-       );
-  } 
-
-
   _logout() {
     _deleteFile();
     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
@@ -662,5 +636,3 @@ class Analise {
           .map((conteudo) => Top10.fromJson(conteudo))
           .toList());
 }
-
-
