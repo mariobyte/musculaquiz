@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:musculaquiz/app/model/Usuario.dart';
 import 'Home.dart';
@@ -177,7 +176,6 @@ class _ClassificacaoState extends State<Classificacao> {
                     mainAxisAlignment: MainAxisAlignment.end,
                   ),
                   Row(
-                    
                     children: <Widget>[
                       Text(
                         'Classificação Geral',
@@ -224,14 +222,13 @@ class _ClassificacaoState extends State<Classificacao> {
                     ],
                   ),
                 ]),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      'Classificação ',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Center(
+                      child: Text(
+                    "Top 10",
+                    style: TextStyle(fontSize: 25),
+                  )),
                 ),
                 Row(
                   children: <Widget>[
