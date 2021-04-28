@@ -312,16 +312,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
                 ),
-                SizedBox(
-                  width: 70.0,
-                  height: 120.0,
-                  child: const Card(
-                      child: Text(
-                    'Cole aqui seu Anuncio',
-                    style:
-                        TextStyle(fontSize: 22, fontWeight: FontWeight.normal),
-                  )),
-                ),
+                SizedBox(width: 80.0, height: 150.0, child: _patrocinio()),
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: ElevatedButton(
@@ -340,15 +331,6 @@ class _ClassificacaoState extends State<Classificacao> {
 
                       minimumSize: Size(250, 50),
                     ),
-/*                  child: RaisedButton(
-                    child: Text(
-                      "Iniciar",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                    color: Color(0xff006C5D),
-                    padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(32)), */
                     onPressed: () {
                       print('_itemCategoria: $_itemCategoria');
                       if (_itemCategoria == null) {
@@ -544,6 +526,42 @@ class _ClassificacaoState extends State<Classificacao> {
   _logout() {
     _deleteFile();
     Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+  }
+
+  _patrocinio() {
+    return Container(
+      padding: EdgeInsets.all(0.0),
+      child: Center(
+        child: Column(
+          children: <Widget>[
+            Card(
+              color: Colors.green,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Image.network(
+                          'https://cortexsolucoes.com.br/wp-content/uploads/2020/06/Logo-C%C3%B3rtex-Solu%C3%A7%C3%B5es-transp-3-300x157.png',
+                          height: 60,
+                          width: 70),
+                      Text(
+                        "Córtex Soluções - Patrocinador oficial",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      Text(
+                        "https://www.cortexsolucoes.com.br",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ]),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<File> _deleteFile() async {
