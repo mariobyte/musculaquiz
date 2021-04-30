@@ -191,7 +191,7 @@ class _ClassificacaoState extends State<Classificacao> {
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                       VerticalDivider(
-                        width: 80,
+                        width: 70,
                         thickness: 0,
                       ),
                       Container(
