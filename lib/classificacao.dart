@@ -414,12 +414,12 @@ class _ClassificacaoState extends State<Classificacao> {
               _t101_nome = analiseData[0].top10[0].nome;
               _t101_pontos = analiseData[0].top10[0].pontos;
             }
-            if (_tamanho >= 1) {
+            if (_tamanho > 1) {
               _t102_id_usuario = analiseData[0].top10[1].id_usuario;
               _t102_nome = analiseData[0].top10[1].nome;
               _t102_pontos = analiseData[0].top10[1].pontos;
             }
-            if (_tamanho >= 2) {
+            if (_tamanho > 2) {
               _t103_id_usuario = analiseData[0].top10[2].id_usuario;
               _t103_nome = analiseData[0].top10[2].nome;
               _t103_pontos = analiseData[0].top10[2].pontos;
