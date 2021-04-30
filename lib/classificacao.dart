@@ -81,6 +81,12 @@ class _ClassificacaoState extends State<Classificacao> {
   var _t103_id_usuario = '';
   var _t103_nome = '';
   var _t103_pontos = '';
+  var _t104_id_usuario = '';
+  var _t104_nome = '';
+  var _t104_pontos = '';
+  var _t105_id_usuario = '';
+  var _t105_nome = '';
+  var _t105_pontos = '';
   String _itemCategoria;
 
   var _categorias = new List<Categorias>();
@@ -175,33 +181,35 @@ class _ClassificacaoState extends State<Classificacao> {
                     ],
                     mainAxisAlignment: MainAxisAlignment.end,
                   ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Classificação Geral',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      VerticalDivider(
-                        width: 80,
-                        thickness: 0,
-                      ),
-                      Container(
-                        width: 120,
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Maior recorde: ' +
-                                  _recorde_geralI.toStringAsFixed(0),
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.end,
+                  Expanded(
+                    child: Row(
+                      children: <Widget>[
+                        Text(
+                          'Classificação Geral',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.start,
+                        VerticalDivider(
+                          width: 80,
+                          thickness: 0,
+                        ),
+                        Container(
+                          width: 120,
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'Maior recorde: ' +
+                                    _recorde_geralI.toStringAsFixed(0),
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.end,
+                          ),
+                        ),
+                      ],
+                      mainAxisAlignment: MainAxisAlignment.start,
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(15.0),
@@ -235,6 +243,7 @@ class _ClassificacaoState extends State<Classificacao> {
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
                 ),
+                // ListView(children: [
                 Row(
                   children: <Widget>[
                     Container(
@@ -283,32 +292,31 @@ class _ClassificacaoState extends State<Classificacao> {
                     )
                   ],
                 ),
-                SingleChildScrollView(
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        width: 35,
-                        child: Text(
-                          _t103_pontos,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.normal),
-                        ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 35,
+                      child: Text(
+                        _t103_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
                       ),
-                      VerticalDivider(
-                        width: 10,
-                        thickness: 5,
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 280,
+                      child: Text(
+                        _t103_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
                       ),
-                      Container(
-                        width: 280,
-                        child: Text(
-                          _t103_nome,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.normal),
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
+                //]),
                 Row(
                   children: <Widget>[
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
@@ -424,7 +432,16 @@ class _ClassificacaoState extends State<Classificacao> {
               _t103_nome = analiseData[0].top10[2].nome;
               _t103_pontos = analiseData[0].top10[2].pontos;
             }
-
+            if (_tamanho > 3) {
+              _t104_id_usuario = analiseData[0].top10[3].id_usuario;
+              _t104_nome = analiseData[0].top10[3].nome;
+              _t104_pontos = analiseData[0].top10[3].pontos;
+            }
+            if (_tamanho > 4) {
+              _t105_id_usuario = analiseData[0].top10[4].id_usuario;
+              _t105_nome = analiseData[0].top10[4].nome;
+              _t105_pontos = analiseData[0].top10[4].pontos;
+            }
             // forçando o teste
             print('_pontos_partida: $_pontos_partida');
             print('_recorde_usuario: $_recorde_usuario');
