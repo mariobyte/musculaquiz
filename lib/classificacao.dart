@@ -181,36 +181,37 @@ class _ClassificacaoState extends State<Classificacao> {
                     ],
                     mainAxisAlignment: MainAxisAlignment.end,
                   ),
-                  Expanded(
-                    child: Row(
-                      children: <Widget>[
-                        Text(
-                          'Classificação Geral',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                  //   Expanded(
+                  //child:
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Classificação Geral',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
+                      VerticalDivider(
+                        width: 80,
+                        thickness: 0,
+                      ),
+                      Container(
+                        width: 120,
+                        child: Row(
+                          children: <Widget>[
+                            Text(
+                              'Maior recorde: ' +
+                                  _recorde_geralI.toStringAsFixed(0),
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                          mainAxisAlignment: MainAxisAlignment.end,
                         ),
-                        VerticalDivider(
-                          width: 80,
-                          thickness: 0,
-                        ),
-                        Container(
-                          width: 120,
-                          child: Row(
-                            children: <Widget>[
-                              Text(
-                                'Maior recorde: ' +
-                                    _recorde_geralI.toStringAsFixed(0),
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.end,
-                          ),
-                        ),
-                      ],
-                      mainAxisAlignment: MainAxisAlignment.start,
-                    ),
+                      ),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.start,
                   ),
+                  //     ),
                   Padding(
                     padding: EdgeInsets.all(15.0),
                     child: new LinearPercentIndicator(
