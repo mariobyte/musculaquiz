@@ -283,29 +283,31 @@ class _ClassificacaoState extends State<Classificacao> {
                     )
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 35,
-                      child: Text(
-                        _t103_pontos,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                SingleChildScrollView(
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        width: 35,
+                        child: Text(
+                          _t103_pontos,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.normal),
+                        ),
                       ),
-                    ),
-                    VerticalDivider(
-                      width: 10,
-                      thickness: 5,
-                    ),
-                    Container(
-                      width: 280,
-                      child: Text(
-                        _t103_nome,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                      VerticalDivider(
+                        width: 10,
+                        thickness: 5,
                       ),
-                    )
-                  ],
+                      Container(
+                        width: 280,
+                        child: Text(
+                          _t103_nome,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.normal),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 Row(
                   children: <Widget>[
@@ -429,15 +431,19 @@ class _ClassificacaoState extends State<Classificacao> {
             //  _pontos_partida = '20';
             //  _recorde_usuario = '50';
             _recorde_usuarioI = double.parse(_recorde_usuario);
-
-            if (double.parse(_recorde_usuario) > 0 &&
-                double.parse(_pontos_partida) > 0) {
-              _percAcertoRecord = double.parse(_pontos_partida) /
-                  double.parse(_recorde_usuario);
-              var _var = (_percAcertoRecord).toStringAsFixed(1);
-              _percAcertoRecord = double.parse(_var);
-            } else {
+            try {
+              if (double.parse(_recorde_usuario) > 0 &&
+                  double.parse(_pontos_partida) > 0) {
+                _percAcertoRecord = double.parse(_pontos_partida) /
+                    double.parse(_recorde_usuario);
+                var _var = (_percAcertoRecord).toStringAsFixed(1);
+                _percAcertoRecord = double.parse(_var);
+              } else {
+                _percAcertoRecord = 1.0;
+              }
+            } catch (e) {
               _percAcertoRecord = 1.0;
+              print('calcula - _percAcertoRecord - try - saida');
             }
 
             _percAcertoRecordText =
@@ -448,14 +454,19 @@ class _ClassificacaoState extends State<Classificacao> {
             //_recorde_geral = '41';
             _recorde_geralI = double.parse(_recorde_geral);
 
-            if (double.parse(_recorde_geral) > 0 &&
-                double.parse(_pontos_partida) > 0) {
-              _percGeralRecord =
-                  double.parse(_pontos_partida) / double.parse(_recorde_geral);
-              var _var = (_percGeralRecord).toStringAsFixed(1);
-              _percGeralRecord = double.parse(_var);
-            } else {
+            try {
+              if (double.parse(_recorde_geral) > 0 &&
+                  double.parse(_pontos_partida) > 0) {
+                _percGeralRecord = double.parse(_pontos_partida) /
+                    double.parse(_recorde_geral);
+                var _var = (_percGeralRecord).toStringAsFixed(1);
+                _percGeralRecord = double.parse(_var);
+              } else {
+                _percGeralRecord = 1.0;
+              }
+            } catch (e) {
               _percGeralRecord = 1.0;
+              print('calcula - _percGeralRecord - try - saida');
             }
             _percGeralRecordText = (_percGeralRecord * 100).toStringAsFixed(0);
           });
