@@ -249,7 +249,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       child: Text(
                         'Pontos',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     ),
                     VerticalDivider(
@@ -261,7 +261,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       child: Text(
                         'Nome',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
+                            fontSize: 15, fontWeight: FontWeight.bold),
                       ),
                     )
                   ],
