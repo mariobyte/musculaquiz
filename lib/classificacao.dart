@@ -195,7 +195,7 @@ class _ClassificacaoState extends State<Classificacao> {
                         thickness: 0,
                       ),
                       Container(
-                        width: 120,
+                        width: 130,
                         child: Row(
                           children: <Widget>[
                             Text(
