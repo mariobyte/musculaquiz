@@ -72,21 +72,46 @@ class _ClassificacaoState extends State<Classificacao> {
   var _recorde_geral = '';
   double _recorde_geralI = 0;
   var _perc_bater_recorde_geral = '';
+  var _t101_classificacao = '';
   var _t101_id_usuario = '';
   var _t101_nome = '';
   var _t101_pontos = '';
+  var _t102_classificacao = '';
   var _t102_id_usuario = '';
   var _t102_nome = '';
   var _t102_pontos = '';
+  var _t103_classificacao = '';
   var _t103_id_usuario = '';
   var _t103_nome = '';
   var _t103_pontos = '';
+  var _t104_classificacao = '';
   var _t104_id_usuario = '';
   var _t104_nome = '';
   var _t104_pontos = '';
+  var _t105_classificacao = '';
   var _t105_id_usuario = '';
   var _t105_nome = '';
   var _t105_pontos = '';
+  var _t106_classificacao = '';
+  var _t106_nome = '';
+  var _t106_pontos = '';
+  var _t106_id_usuario = '';
+  var _t107_classificacao = '';
+  var _t107_id_usuario = '';
+  var _t107_nome = '';
+  var _t107_pontos = '';
+  var _t108_classificacao = '';
+  var _t108_id_usuario = '';
+  var _t108_nome = '';
+  var _t108_pontos = '';
+  var _t109_classificacao = '';
+  var _t109_id_usuario = '';
+  var _t109_nome = '';
+  var _t109_pontos = '';
+  var _t1010_classificacao = '';
+  var _t1010_id_usuario = '';
+  var _t1010_nome = '';
+  var _t1010_pontos = '';
   String _itemCategoria;
 
   var _categorias = new List<Categorias>();
@@ -134,43 +159,27 @@ class _ClassificacaoState extends State<Classificacao> {
                 Column(children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text('Meu progresso:',
+                      Text('Seu desempenho',
                           style: TextStyle(
                               fontSize: 14, fontWeight: FontWeight.bold)),
-                      VerticalDivider(
-                        width: 90,
-                        thickness: 0,
-                      ),
-                      Container(
-                        width: 130.0,
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Meu recorde: ' +
-                                  _recorde_usuarioI.toStringAsFixed(0),
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.end,
-                        ),
-                      ),
                     ],
                     mainAxisAlignment: MainAxisAlignment.start,
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: new LinearPercentIndicator(
+                  Row(children: [
+                    LinearPercentIndicator(
                       width: MediaQuery.of(context).size.width - 50,
                       animation: true,
-                      lineHeight: 20.0,
+                      lineHeight: 25.0,
                       animationDuration: 2000,
                       percent: _percAcertoRecord,
                       center: Text(_percAcertoRecordText + '%'),
                       linearStrokeCap: LinearStrokeCap.roundAll,
                       progressColor: Colors.greenAccent,
                     ),
-                  ),
+                    Row(children: [
+                      Text(' ' + _recorde_usuarioI.toStringAsFixed(0))
+                    ]),
+                  ]),
                   Row(
                     children: <Widget>[
                       Text(
@@ -186,45 +195,29 @@ class _ClassificacaoState extends State<Classificacao> {
                   Row(
                     children: <Widget>[
                       Text(
-                        'Classificação Geral',
+                        'Você x Recorde geral',
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      VerticalDivider(
-                        width: 70,
-                        thickness: 0,
-                      ),
-                      Container(
-                        width: 120,
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              'Maior recorde: ' +
-                                  _recorde_geralI.toStringAsFixed(0),
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                          mainAxisAlignment: MainAxisAlignment.end,
-                        ),
                       ),
                     ],
                     mainAxisAlignment: MainAxisAlignment.start,
                   ),
                   //     ),
-                  Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: new LinearPercentIndicator(
+                  Row(children: [
+                    LinearPercentIndicator(
                       width: MediaQuery.of(context).size.width - 50,
                       animation: true,
-                      lineHeight: 20.0,
+                      lineHeight: 25.0,
                       animationDuration: 2000,
                       percent: _percGeralRecord,
                       center: Text(_percGeralRecordText + '%'),
                       linearStrokeCap: LinearStrokeCap.roundAll,
                       progressColor: Colors.greenAccent,
                     ),
-                  ),
+                    Row(children: [
+                      Text(' ' + _recorde_geralI.toStringAsFixed(0))
+                    ]),
+                  ]),
                   Row(
                     children: <Widget>[
                       Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
@@ -244,11 +237,45 @@ class _ClassificacaoState extends State<Classificacao> {
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
                 ),
-                // ListView(children: [
+                // Cabeçalho Top 10
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 35,
+                      width: 10,
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomRight,
+                      child: Text(
+                        'Pontos',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        'Nome',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+                // Top 10
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      child: Text(_t101_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
                       child: Text(
                         _t101_pontos,
                         style: TextStyle(
@@ -260,7 +287,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 280,
+                      width: 250,
                       child: Text(
                         _t101_nome,
                         style: TextStyle(
@@ -272,7 +299,12 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 35,
+                      width: 10,
+                      child: Text(_t102_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
                       child: Text(
                         _t102_pontos,
                         style: TextStyle(
@@ -284,7 +316,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 280,
+                      width: 250,
                       child: Text(
                         _t102_nome,
                         style: TextStyle(
@@ -296,7 +328,12 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 35,
+                      width: 10,
+                      child: Text(_t103_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
                       child: Text(
                         _t103_pontos,
                         style: TextStyle(
@@ -308,7 +345,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 280,
+                      width: 250,
                       child: Text(
                         _t103_nome,
                         style: TextStyle(
@@ -317,7 +354,213 @@ class _ClassificacaoState extends State<Classificacao> {
                     )
                   ],
                 ),
-                //]),
+                // - 4
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      child: Text(_t104_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t104_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        _t104_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      child: Text(_t105_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t105_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        _t105_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                ),
+                // - Lista Top 6
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      child: Text(_t106_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t106_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        _t106_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      child: Text(_t106_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t107_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        _t107_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      child: Text(_t108_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t108_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        _t108_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                ),
+                // - 4
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      child: Text(_t109_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t109_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        _t109_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Container(
+                      width: 10,
+                      child: Text(_t1010_classificacao),
+                    ),
+                    Container(
+                      width: 55,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t1010_pontos,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 250,
+                      child: Text(
+                        _t1010_nome,
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                ),
+                // espaço do patrocinador
                 Row(
                   children: <Widget>[
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
@@ -328,7 +571,7 @@ class _ClassificacaoState extends State<Classificacao> {
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: ElevatedButton(
                     child: Text(
-                      "Iniciar",
+                      "Nova Partida",
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -419,29 +662,64 @@ class _ClassificacaoState extends State<Classificacao> {
             _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
             var _tamanho = analiseData[0].top10.length;
             if (_tamanho > 0) {
+              _t101_classificacao = '1';
               _t101_id_usuario = analiseData[0].top10[0].id_usuario;
               _t101_nome = analiseData[0].top10[0].nome;
               _t101_pontos = analiseData[0].top10[0].pontos;
             }
             if (_tamanho > 1) {
+              _t102_classificacao = '2';
               _t102_id_usuario = analiseData[0].top10[1].id_usuario;
               _t102_nome = analiseData[0].top10[1].nome;
               _t102_pontos = analiseData[0].top10[1].pontos;
             }
             if (_tamanho > 2) {
+              _t103_classificacao = '3';
               _t103_id_usuario = analiseData[0].top10[2].id_usuario;
               _t103_nome = analiseData[0].top10[2].nome;
               _t103_pontos = analiseData[0].top10[2].pontos;
             }
             if (_tamanho > 3) {
+              _t104_classificacao = '4';
               _t104_id_usuario = analiseData[0].top10[3].id_usuario;
               _t104_nome = analiseData[0].top10[3].nome;
               _t104_pontos = analiseData[0].top10[3].pontos;
             }
             if (_tamanho > 4) {
+              _t105_classificacao = '5';
               _t105_id_usuario = analiseData[0].top10[4].id_usuario;
               _t105_nome = analiseData[0].top10[4].nome;
               _t105_pontos = analiseData[0].top10[4].pontos;
+            }
+            if (_tamanho > 5) {
+              _t106_classificacao = '6';
+              _t106_id_usuario = analiseData[0].top10[5].id_usuario;
+              _t106_nome = analiseData[0].top10[5].nome;
+              _t106_pontos = analiseData[0].top10[5].pontos;
+            }
+            if (_tamanho > 6) {
+              _t107_classificacao = '7';
+              _t107_id_usuario = analiseData[0].top10[6].id_usuario;
+              _t107_nome = analiseData[0].top10[6].nome;
+              _t107_pontos = analiseData[0].top10[6].pontos;
+            }
+            if (_tamanho > 7) {
+              _t108_classificacao = '8';
+              _t108_id_usuario = analiseData[0].top10[7].id_usuario;
+              _t108_nome = analiseData[0].top10[7].nome;
+              _t108_pontos = analiseData[0].top10[7].pontos;
+            }
+            if (_tamanho > 8) {
+              _t109_classificacao = '9';
+              _t109_id_usuario = analiseData[0].top10[8].id_usuario;
+              _t109_nome = analiseData[0].top10[8].nome;
+              _t109_pontos = analiseData[0].top10[8].pontos;
+            }
+            if (_tamanho > 9) {
+              _t1010_classificacao = '10';
+              _t1010_id_usuario = analiseData[0].top10[9].id_usuario;
+              _t1010_nome = analiseData[0].top10[9].nome;
+              _t1010_pontos = analiseData[0].top10[9].pontos;
             }
             // forçando o teste
             print('_pontos_partida: $_pontos_partida');
