@@ -152,7 +152,8 @@ class _ClassificacaoState extends State<Classificacao> {
       body: Container(
         child: DefaultBackgroundContainer(
 //            child: Center(
-          child: SingleChildScrollView(
+          //      child: SingleChildScrollView(
+          child: Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -561,11 +562,11 @@ class _ClassificacaoState extends State<Classificacao> {
                   ],
                 ),
                 // espaço do patrocinador
-                Row(
+/*               Row(
                   children: <Widget>[
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
-                ),
+                ), */
                 _patrocinio(),
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
