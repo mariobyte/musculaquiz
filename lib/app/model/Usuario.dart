@@ -6,6 +6,7 @@ class Usuario {
   String userIdMQ;
   String vidas;
   String idPartida;
+  String programa;
 
   Usuario(
       {this.nome,
@@ -14,5 +15,6 @@ class Usuario {
       this.userId,
       this.userIdMQ,
       this.vidas,
-      this.idPartida});
+      this.idPartida,
+      this.programa});
 }

@@ -51,6 +51,7 @@ class _ClassificacaoState extends State<Classificacao> {
 
   _ClassificacaoState({this.dataUsuario});
 
+  var _programa = '';
   var _email = '';
   var _userId = '';
   var _total_respondidas = '';
@@ -112,9 +113,12 @@ class _ClassificacaoState extends State<Classificacao> {
   var _t1010_id_usuario = '';
   var _t1010_nome = '';
   var _t1010_pontos = '';
+  String _titulo = "Análise";
+  String _tituloBotao = "Nova Partida";
   String _itemCategoria;
+  bool _visible1 = true;
 
-  var _categorias = new List<Categorias>();
+  List<Categorias> _categorias;
 
   void initState() {
     super.initState();
@@ -122,11 +126,17 @@ class _ClassificacaoState extends State<Classificacao> {
       setState(() {
         _email = this.dataUsuario.email;
         _userId = this.dataUsuario.userId;
+        _programa = this.dataUsuario.programa;
         _getAnalise(_userId);
         print('categoria - _email: $_email');
         print('categoria - _userId: $_userId');
         _getCategorias();
         print('teste _categorias : $_categorias');
+        if (_programa == 'iniciar') {
+          _titulo = "Muscula Quiz";
+          _tituloBotao = "Iniciar";
+          _visible1 = false;
+        }
       });
     }
   }
@@ -143,7 +153,7 @@ class _ClassificacaoState extends State<Classificacao> {
     return Scaffold(
       appBar: AppBar(
         //title: Text("Classificação"),
-        title: Text("Analise"),
+        title: Text(_titulo),
         backgroundColor: Color(0xff00A191),
         actions: [
           IconButton(icon: Icon(Icons.logout), onPressed: this._logout),
@@ -152,45 +162,13 @@ class _ClassificacaoState extends State<Classificacao> {
       body: Container(
         child: DefaultBackgroundContainer(
 //            child: Center(
-          //      child: SingleChildScrollView(
-          child: Expanded(
+          child: SingleChildScrollView(
+            //child: Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Column(children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text('Seu desempenho',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold)),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.start,
-                  ),
-                  Row(children: [
-                    LinearPercentIndicator(
-                      width: MediaQuery.of(context).size.width - 50,
-                      animation: true,
-                      lineHeight: 25.0,
-                      animationDuration: 2000,
-                      percent: _percAcertoRecord,
-                      center: Text(_percAcertoRecordText + '%'),
-                      linearStrokeCap: LinearStrokeCap.roundAll,
-                      progressColor: Colors.greenAccent,
-                    ),
-                    Row(children: [
-                      Text(' ' + _recorde_usuarioI.toStringAsFixed(0))
-                    ]),
-                  ]),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'em ' + _data_recorde,
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.normal),
-                      ),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.end,
-                  ),
+                  _seuDesempenho(_visible1),
                   //   Expanded(
                   //child:
                   Row(
@@ -221,12 +199,12 @@ class _ClassificacaoState extends State<Classificacao> {
                   ]),
                   Row(
                     children: <Widget>[
-                      Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
+                      Container(padding: EdgeInsets.only(left: 0.0, top: 1.0))
                     ],
                   ),
                 ]),
                 Padding(
-                  padding: const EdgeInsets.all(6.0),
+                  padding: const EdgeInsets.all(2.0),
                   child: Center(
                       child: Text(
                     "Top 10",
@@ -235,7 +213,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 ),
                 Row(
                   children: <Widget>[
-                    Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
+                    Container(padding: EdgeInsets.only(left: 0.0, top: 1.0))
                   ],
                 ),
                 // Cabeçalho Top 10
@@ -572,7 +550,7 @@ class _ClassificacaoState extends State<Classificacao> {
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: ElevatedButton(
                     child: Text(
-                      "Nova Partida",
+                      _tituloBotao,
                       style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -608,6 +586,54 @@ class _ClassificacaoState extends State<Classificacao> {
         ),
       ),
     );
+  }
+
+  Widget _seuDesempenho(bool pVisible) {
+    if (pVisible) {
+      return Visibility(
+          visible: pVisible,
+          child: Column(children: [
+            Row(
+              children: <Widget>[
+                Text('Seu desempenho',
+                    style:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              ],
+              mainAxisAlignment: MainAxisAlignment.start,
+            ),
+            Row(children: [
+              LinearPercentIndicator(
+                width: MediaQuery.of(context).size.width - 50,
+                animation: true,
+                lineHeight: 25.0,
+                animationDuration: 2000,
+                percent: _percAcertoRecord,
+                center: Text(_percAcertoRecordText + '%'),
+                linearStrokeCap: LinearStrokeCap.roundAll,
+                progressColor: Colors.greenAccent,
+              ),
+              Row(children: [Text(' ' + _recorde_usuarioI.toStringAsFixed(0))]),
+            ]),
+            Row(
+              children: <Widget>[
+                Text(
+                  'em ' + _data_recorde,
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.end,
+            ),
+          ]));
+    } else {
+      return Padding(
+        padding: EdgeInsets.only(bottom: 0),
+        child: Image.asset(
+          "imagens/logo.png",
+          width: 200,
+          height: 100,
+        ),
+      );
+    }
   }
 
   _getCategorias() async {
@@ -794,9 +820,8 @@ class _ClassificacaoState extends State<Classificacao> {
   } */
 
   void _iniciaPartida(String pUserId, String pIdCategoria) async {
-    print('_iniciaPartida - pIdCategoria : $pIdCategoria');
+    print('Classificacao : _iniciaPartida - pIdCategoria : $pIdCategoria');
     try {
-      print('pIdCategoria: $pIdCategoria');
       var dataJSon = await http.post(
         APP_URL,
         headers: <String, String>{
@@ -813,13 +838,14 @@ class _ClassificacaoState extends State<Classificacao> {
       retPartida = (jsonMap["partida"] as List)
           .map((partida) => Partida.fromJson(partida))
           .toList();
-
       final _idPartida = retPartida[0].idpartida;
       final _vidasGame = retPartida[0].vidas;
+      dataUsuario.email = _email;
+      dataUsuario.userId = _userId;
       dataUsuario.vidas = _vidasGame;
       dataUsuario.idPartida = _idPartida;
-
-      print('Go Home - iniciar: _vidas: $_vidasGame');
+      dataUsuario.userIdMQ = '';
+      dataUsuario.programa = 'Classificacao';
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(

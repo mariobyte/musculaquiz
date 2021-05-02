@@ -154,7 +154,6 @@ class _IniciarState extends State<Iniciar> {
       dataUsuario.vidas = _vidasGame;
       dataUsuario.idPartida = _idPartida;
 
-      print('Go Home - iniciar: _vidas: $_vidasGame');
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(

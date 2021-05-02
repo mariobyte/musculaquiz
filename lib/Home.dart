@@ -63,15 +63,14 @@ class _HomeState extends State<Home> {
         _respostas[2] = '';
         _respostas[3] = '';
         _respostas[4] = '';
-        _email = this.dataUsuario.email;
-        _userId = this.dataUsuario.userId;
-        _userIdMQ = this.dataUsuario.userIdMQ;
-        _vidas = this.dataUsuario.vidas;
-        _vidasI = int.parse(_vidas);
-
-        print('_email: $_email');
-        print('_userId: $_userId');
-        print('_userIdMQ: $_userIdMQ');
+        print('Home - Cheguei!');
+        try {
+          _email = this.dataUsuario.email;
+          _userId = this.dataUsuario.userId;
+          _userIdMQ = this.dataUsuario.userIdMQ;
+          _vidas = this.dataUsuario.vidas;
+          _vidasI = int.parse(_vidas);
+        } catch (e) {}
 
         _isVisible1 = _vidasI > 0 ? true : false;
         _isVisible2 = _vidasI > 1 ? true : false;
@@ -89,6 +88,7 @@ class _HomeState extends State<Home> {
   _classificacao() {
     print('chamada - classificação');
     print('dataUsuario: $dataUsuario');
+    dataUsuario.programa = 'Classificacao';
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(

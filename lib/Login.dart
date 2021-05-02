@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:musculaquiz/classificacao.dart';
 import 'package:musculaquiz/iniciar.dart';
 
 import 'Cadastro.dart';
-//import 'Home.dart';
 import 'app/components/default_background_conteiner.dart';
 import 'app/model/Usuario.dart';
 
@@ -125,6 +125,7 @@ class _LoginState extends State<Login> {
         .then((firebaseUser) {
       dataUsuario.email = usuario.email;
       dataUsuario.userId = auth.currentUser.uid;
+      dataUsuario.programa = 'iniciar';
       var wEmail = usuario.email;
       var wUserId = dataUsuario.userId;
       //  print('id do usuario:');
@@ -133,7 +134,7 @@ class _LoginState extends State<Login> {
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Iniciar(dataUsuario: dataUsuario)));
+              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
     }).catchError((error) {
       setState(() {
         //print ("Erro App" + error.toString) ;
@@ -155,11 +156,12 @@ class _LoginState extends State<Login> {
 
       dataUsuario.email = usuarioLogado;
       dataUsuario.userId = auth.currentUser.uid;
+      dataUsuario.programa = 'iniciar';
 
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Iniciar(dataUsuario: dataUsuario)));
+              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
       // do whatever you want based on the firebaseUser state
     });
   }
@@ -176,11 +178,11 @@ class _LoginState extends State<Login> {
 
         dataUsuario.email = _email;
         dataUsuario.userId = _idUser;
-
+        dataUsuario.programa = 'iniciar';
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => Iniciar(dataUsuario: dataUsuario)));
+                builder: (context) => Classificacao(dataUsuario: dataUsuario)));
       });
     });
 
