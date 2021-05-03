@@ -10,6 +10,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'app/utils/config.dart';
+import 'package:musculaquiz/classificacao.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -102,8 +103,15 @@ try {
           print('Erro enviar o getUsuario - Json');
         }
 
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
+        //    Navigator.push(
+        //        context, MaterialPageRoute(builder: (context) => Home()));
+        dataUsuario.email = usuario.email;
+        dataUsuario.userId = usuario.userId;
+        dataUsuario.programa = 'iniciar';
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Classificacao(dataUsuario: dataUsuario)));
       });
     }).catchError((error) {
       print("error app " + error.toString());

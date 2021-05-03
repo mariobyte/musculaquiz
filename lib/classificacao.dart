@@ -113,10 +113,12 @@ class _ClassificacaoState extends State<Classificacao> {
   var _t1010_id_usuario = '';
   var _t1010_nome = '';
   var _t1010_pontos = '';
+  int _tmNome = 14;
   String _titulo = "Análise";
   String _tituloBotao = "Nova Partida";
   String _itemCategoria;
   bool _visible1 = true;
+  String _vidasGame = '2';
 
   List<Categorias> _categorias;
 
@@ -204,7 +206,7 @@ class _ClassificacaoState extends State<Classificacao> {
                   ),
                 ]),
                 Padding(
-                  padding: const EdgeInsets.all(2.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Center(
                       child: Text(
                     "Top 10",
@@ -220,15 +222,27 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 10,
+                      width: 15,
                     ),
                     Container(
-                      width: 55,
-                      alignment: Alignment.bottomRight,
+                      width: 30,
+                      alignment: Alignment.bottomCenter,
                       child: Text(
-                        'Pontos',
+                        'Pts',
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 5,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 100,
+                      child: Text(
+                        'Nome',
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
                     ),
                     VerticalDivider(
@@ -236,176 +250,76 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 250,
+                      width: 17,
+                    ),
+                    Container(
+                      width: 30,
+                      alignment: Alignment.bottomCenter,
                       child: Text(
-                        'Nome',
+                        'Pts.',
                         style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+                            fontSize: 12, fontWeight: FontWeight.bold),
                       ),
-                    )
+                    ),
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                        width: 100,
+                        child: Text(
+                          'Nome',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ))
                   ],
                 ),
-                // Top 10
+                // Top 10 -- 01 e 06
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 10,
+                      width: 15,
                       child: Text(_t101_classificacao),
                     ),
                     Container(
-                      width: 55,
+                      width: 30,
                       alignment: Alignment.bottomCenter,
                       child: Text(
                         _t101_pontos,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     ),
                     VerticalDivider(
-                      width: 10,
+                      width: 5,
                       thickness: 5,
                     ),
                     Container(
-                      width: 250,
+                      width: 100,
                       child: Text(
                         _t101_nome,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 10,
-                      child: Text(_t102_classificacao),
-                    ),
-                    Container(
-                      width: 55,
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        _t102_pontos,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     ),
+                    // Sexto Lugar Lugar
                     VerticalDivider(
                       width: 10,
                       thickness: 5,
                     ),
                     Container(
-                      width: 250,
-                      child: Text(
-                        _t102_nome,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 10,
-                      child: Text(_t103_classificacao),
-                    ),
-                    Container(
-                      width: 55,
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        _t103_pontos,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                    VerticalDivider(
-                      width: 10,
-                      thickness: 5,
-                    ),
-                    Container(
-                      width: 250,
-                      child: Text(
-                        _t103_nome,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
-                      ),
-                    )
-                  ],
-                ),
-                // - 4
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 10,
-                      child: Text(_t104_classificacao),
-                    ),
-                    Container(
-                      width: 55,
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        _t104_pontos,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                    VerticalDivider(
-                      width: 10,
-                      thickness: 5,
-                    ),
-                    Container(
-                      width: 250,
-                      child: Text(
-                        _t104_nome,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
-                      ),
-                    )
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 10,
-                      child: Text(_t105_classificacao),
-                    ),
-                    Container(
-                      width: 55,
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        _t105_pontos,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
-                      ),
-                    ),
-                    VerticalDivider(
-                      width: 10,
-                      thickness: 5,
-                    ),
-                    Container(
-                      width: 250,
-                      child: Text(
-                        _t105_nome,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
-                      ),
-                    )
-                  ],
-                ),
-                // - Lista Top 6
-                Row(
-                  children: <Widget>[
-                    Container(
-                      width: 10,
+                      width: 17,
                       child: Text(_t106_classificacao),
                     ),
                     Container(
-                      width: 55,
+                      width: 30,
                       alignment: Alignment.bottomCenter,
                       child: Text(
                         _t106_pontos,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     ),
                     VerticalDivider(
@@ -413,28 +327,59 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 250,
+                      width: 100,
                       child: Text(
                         _t106_nome,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     )
                   ],
                 ),
+                // Top 10 -- 03 e 07
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 10,
-                      child: Text(_t106_classificacao),
+                      width: 15,
+                      child: Text(_t102_classificacao),
                     ),
                     Container(
-                      width: 55,
+                      width: 30,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t102_pontos,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 5,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 100,
+                      child: Text(
+                        _t102_nome,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    // Sexto Lugar Lugar
+                    VerticalDivider(
+                      width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 17,
+                      child: Text(_t107_classificacao),
+                    ),
+                    Container(
+                      width: 30,
                       alignment: Alignment.bottomCenter,
                       child: Text(
                         _t107_pontos,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     ),
                     VerticalDivider(
@@ -442,28 +387,59 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 250,
+                      width: 100,
                       child: Text(
                         _t107_nome,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     )
                   ],
                 ),
+//              T10 - 03 - 08
                 Row(
                   children: <Widget>[
                     Container(
+                      width: 15,
+                      child: Text(_t103_classificacao),
+                    ),
+                    Container(
+                      width: 30,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t103_pontos,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 5,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 100,
+                      child: Text(
+                        _t103_nome,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    // Sexto Lugar Lugar
+                    VerticalDivider(
                       width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 17,
                       child: Text(_t108_classificacao),
                     ),
                     Container(
-                      width: 55,
+                      width: 30,
                       alignment: Alignment.bottomCenter,
                       child: Text(
                         _t108_pontos,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     ),
                     VerticalDivider(
@@ -471,29 +447,59 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 250,
+                      width: 100,
                       child: Text(
                         _t108_nome,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     )
                   ],
                 ),
-                // - 4
+//              T10 - 04 - 09
                 Row(
                   children: <Widget>[
                     Container(
+                      width: 15,
+                      child: Text(_t104_classificacao),
+                    ),
+                    Container(
+                      width: 30,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t104_pontos,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 5,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 100,
+                      child: Text(
+                        _t104_nome,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    // Sexto Lugar Lugar
+                    VerticalDivider(
                       width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 17,
                       child: Text(_t109_classificacao),
                     ),
                     Container(
-                      width: 55,
+                      width: 30,
                       alignment: Alignment.bottomCenter,
                       child: Text(
                         _t109_pontos,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     ),
                     VerticalDivider(
@@ -501,28 +507,59 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 250,
+                      width: 100,
                       child: Text(
                         _t109_nome,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     )
                   ],
                 ),
+//              T10 - 05 - 10
                 Row(
                   children: <Widget>[
                     Container(
+                      width: 15,
+                      child: Text(_t105_classificacao),
+                    ),
+                    Container(
+                      width: 30,
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        _t105_pontos,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    VerticalDivider(
+                      width: 5,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 100,
+                      child: Text(
+                        _t105_nome,
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                    // Sexto Lugar Lugar
+                    VerticalDivider(
                       width: 10,
+                      thickness: 5,
+                    ),
+                    Container(
+                      width: 17,
                       child: Text(_t1010_classificacao),
                     ),
                     Container(
-                      width: 55,
+                      width: 30,
                       alignment: Alignment.bottomCenter,
                       child: Text(
                         _t1010_pontos,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     ),
                     VerticalDivider(
@@ -530,21 +567,22 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 250,
+                      width: 100,
                       child: Text(
                         _t1010_nome,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal),
+                            fontSize: 12, fontWeight: FontWeight.normal),
                       ),
                     )
                   ],
                 ),
+// FIM
                 // espaço do patrocinador
-/*               Row(
+                Row(
                   children: <Widget>[
                     Container(padding: EdgeInsets.only(left: 0.0, top: 5.0))
                   ],
-                ), */
+                ),
                 _patrocinio(),
                 Padding(
                   padding: EdgeInsets.only(top: 16, bottom: 10),
@@ -570,12 +608,12 @@ class _ClassificacaoState extends State<Classificacao> {
                         _itemCategoria = '1';
                       }
                       _iniciaPartida(_userId, _itemCategoria);
-                      Navigator.pushReplacement(
+                      /*               Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   Home(dataUsuario: dataUsuario)));
-
+*/
                       //                         Navigator.pushReplacementNamed(context, "/");
                     },
                   ),
@@ -687,65 +725,97 @@ class _ClassificacaoState extends State<Classificacao> {
             _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
             _recorde_geral = analiseData[0].recorde_geral;
             _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
+            print('classificacao - _tamanho');
             var _tamanho = analiseData[0].top10.length;
+            var _tmVar = 0;
             if (_tamanho > 0) {
-              _t101_classificacao = '1';
+              _t101_classificacao = '1º';
               _t101_id_usuario = analiseData[0].top10[0].id_usuario;
               _t101_nome = analiseData[0].top10[0].nome;
+              _tmVar =
+                  _t101_nome.length > _tmNome ? _tmNome : _t101_nome.length;
+              _t101_nome = _t101_nome.substring(0, _tmVar);
               _t101_pontos = analiseData[0].top10[0].pontos;
             }
             if (_tamanho > 1) {
-              _t102_classificacao = '2';
+              _t102_classificacao = '2º';
               _t102_id_usuario = analiseData[0].top10[1].id_usuario;
               _t102_nome = analiseData[0].top10[1].nome;
+              _tmVar =
+                  _t102_nome.length > _tmNome ? _tmNome : _t102_nome.length;
+              _t102_nome = _t102_nome.substring(0, _tmVar);
               _t102_pontos = analiseData[0].top10[1].pontos;
             }
             if (_tamanho > 2) {
-              _t103_classificacao = '3';
+              _t103_classificacao = '3º';
               _t103_id_usuario = analiseData[0].top10[2].id_usuario;
               _t103_nome = analiseData[0].top10[2].nome;
+              _tmVar =
+                  _t103_nome.length > _tmNome ? _tmNome : _t103_nome.length;
+              _t103_nome = _t103_nome.substring(0, _tmVar);
               _t103_pontos = analiseData[0].top10[2].pontos;
             }
             if (_tamanho > 3) {
-              _t104_classificacao = '4';
+              _t104_classificacao = '4º';
               _t104_id_usuario = analiseData[0].top10[3].id_usuario;
               _t104_nome = analiseData[0].top10[3].nome;
+              _tmVar =
+                  _t104_nome.length > _tmNome ? _tmNome : _t104_nome.length;
+              _t104_nome = _t104_nome.substring(0, _tmVar);
               _t104_pontos = analiseData[0].top10[3].pontos;
             }
             if (_tamanho > 4) {
-              _t105_classificacao = '5';
+              _t105_classificacao = '5º';
               _t105_id_usuario = analiseData[0].top10[4].id_usuario;
               _t105_nome = analiseData[0].top10[4].nome;
+              _tmVar =
+                  _t105_nome.length > _tmNome ? _tmNome : _t105_nome.length;
+              _t105_nome = _t105_nome.substring(0, _tmVar);
               _t105_pontos = analiseData[0].top10[4].pontos;
             }
             if (_tamanho > 5) {
-              _t106_classificacao = '6';
+              _t106_classificacao = '6º';
               _t106_id_usuario = analiseData[0].top10[5].id_usuario;
               _t106_nome = analiseData[0].top10[5].nome;
+              _tmVar =
+                  _t106_nome.length > _tmNome ? _tmNome : _t106_nome.length;
+              _t106_nome = _t106_nome.substring(0, _tmVar);
               _t106_pontos = analiseData[0].top10[5].pontos;
             }
             if (_tamanho > 6) {
-              _t107_classificacao = '7';
+              _t107_classificacao = '7º';
               _t107_id_usuario = analiseData[0].top10[6].id_usuario;
               _t107_nome = analiseData[0].top10[6].nome;
+              _tmVar =
+                  _t107_nome.length > _tmNome ? _tmNome : _t107_nome.length;
+              _t107_nome = _t107_nome.substring(0, _tmVar);
               _t107_pontos = analiseData[0].top10[6].pontos;
             }
             if (_tamanho > 7) {
-              _t108_classificacao = '8';
+              _t108_classificacao = '8º';
               _t108_id_usuario = analiseData[0].top10[7].id_usuario;
               _t108_nome = analiseData[0].top10[7].nome;
+              _tmVar =
+                  _t108_nome.length > _tmNome ? _tmNome : _t108_nome.length;
+              _t108_nome = _t108_nome.substring(0, _tmVar);
               _t108_pontos = analiseData[0].top10[7].pontos;
             }
             if (_tamanho > 8) {
-              _t109_classificacao = '9';
+              _t109_classificacao = '9º';
               _t109_id_usuario = analiseData[0].top10[8].id_usuario;
               _t109_nome = analiseData[0].top10[8].nome;
+              _tmVar =
+                  _t109_nome.length > _tmNome ? _tmNome : _t109_nome.length;
+              _t109_nome = _t109_nome.substring(0, _tmVar);
               _t109_pontos = analiseData[0].top10[8].pontos;
             }
             if (_tamanho > 9) {
-              _t1010_classificacao = '10';
+              _t1010_classificacao = '10º';
               _t1010_id_usuario = analiseData[0].top10[9].id_usuario;
               _t1010_nome = analiseData[0].top10[9].nome;
+              _tmVar =
+                  _t1010_nome.length > _tmNome ? _tmNome : _t1010_nome.length;
+              _t1010_nome = _t1010_nome.substring(0, _tmVar);
               _t1010_pontos = analiseData[0].top10[9].pontos;
             }
             // forçando o teste
@@ -839,7 +909,7 @@ class _ClassificacaoState extends State<Classificacao> {
           .map((partida) => Partida.fromJson(partida))
           .toList();
       final _idPartida = retPartida[0].idpartida;
-      final _vidasGame = retPartida[0].vidas;
+      _vidasGame = retPartida[0].vidas;
       dataUsuario.email = _email;
       dataUsuario.userId = _userId;
       dataUsuario.vidas = _vidasGame;
