@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:musculaquiz/classificacao.dart';
-import 'package:musculaquiz/iniciar.dart';
+import 'package:musculaquiz/app/utils/config.dart';
 
 import 'Cadastro.dart';
 import 'app/components/default_background_conteiner.dart';
@@ -11,6 +11,7 @@ import 'app/model/Usuario.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class Login extends StatefulWidget {
   @override

@@ -81,7 +81,7 @@ try {
     }
   }
 
-  _cadastrarUsuario(Usuario usuario) async {
+  void _cadastrarUsuario(Usuario usuario) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
     auth
@@ -96,6 +96,9 @@ try {
         try {
           _getUsuario(
               usuario.userId, usuario.nome, usuario.email, usuario.senha);
+
+          _cadUsuarioApi(
+              usuario.userId, usuario.nome, usuario.email, usuario.senha);
         } catch (e) {
           _mensagemErro =
               "Erro ao enviar o getsuário, verifique os campos e tente novamente\n Erro : " +
@@ -103,8 +106,6 @@ try {
           print('Erro enviar o getUsuario - Json');
         }
 
-        //    Navigator.push(
-        //        context, MaterialPageRoute(builder: (context) => Home()));
         dataUsuario.email = usuario.email;
         dataUsuario.userId = usuario.userId;
         dataUsuario.programa = 'iniciar';
@@ -126,6 +127,30 @@ try {
         print(_mensagemErro);
       });
     });
+  }
+
+  void _cadUsuarioApi(
+      String pid_usuario, String pnome, String pemail, String psenha) async {
+    try {
+      var dataResposta = await http.post(
+        APP_URL,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          "metodo": "getusuario",
+          "id_usuario": "$pid_usuario",
+          "nome": "$pnome",
+          "email": "$pemail",
+          "senha": "$psenha"
+        }),
+      );
+    } catch (e) {
+      _mensagemErro =
+          "Erro ao cadastrar o usuario, verifique os campos e tente novamente\n Erro : " +
+              e.toString();
+      print('Erro enviar postUsuarioApi - Json');
+    }
   }
 
   Future _getUsuario(
