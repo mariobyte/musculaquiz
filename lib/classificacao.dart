@@ -340,7 +340,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 15,
+                      width: 17,
                       child: Text(_t102_classificacao),
                     ),
                     Container(
@@ -400,7 +400,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 15,
+                      width: 17,
                       child: Text(_t103_classificacao),
                     ),
                     Container(
@@ -460,7 +460,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 15,
+                      width: 17,
                       child: Text(_t104_classificacao),
                     ),
                     Container(
@@ -520,7 +520,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 15,
+                      width: 17,
                       child: Text(_t105_classificacao),
                     ),
                     Container(
