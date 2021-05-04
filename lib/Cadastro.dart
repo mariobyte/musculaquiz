@@ -94,6 +94,10 @@ try {
         _mensagemErro = "Sucesso ao cadastrar";
 
         try {
+          final User user = auth.currentUser;
+          usuario.userId = user.uid;
+          print('Cadastro novo ');
+          print(usuario.userId);
           _cadUsuarioApi(
               usuario.userId, usuario.nome, usuario.email, usuario.senha);
         } catch (e) {
