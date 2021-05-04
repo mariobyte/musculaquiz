@@ -94,9 +94,6 @@ try {
         _mensagemErro = "Sucesso ao cadastrar";
 
         try {
-          _getUsuario(
-              usuario.userId, usuario.nome, usuario.email, usuario.senha);
-
           _cadUsuarioApi(
               usuario.userId, usuario.nome, usuario.email, usuario.senha);
         } catch (e) {
@@ -157,11 +154,6 @@ try {
       String _puserId, String _pnome, String _pemail, String _psenha) async {
     List<Perguntas> _listPerguntas = [];
     try {
-      print('_getusuario - _pnome : $_pnome');
-      print('_getusuario - _puserId : $_puserId');
-      print('_getusuario - _pemail : $_pemail');
-      print('_getusuario - _psenha : $_psenha');
-
       var data = await http.post(
         APP_URL,
         headers: <String, String>{
