@@ -280,7 +280,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t101_classificacao),
                     ),
                     Container(
@@ -310,7 +310,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t106_classificacao),
                     ),
                     Container(
@@ -340,7 +340,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t102_classificacao),
                     ),
                     Container(
@@ -370,7 +370,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t107_classificacao),
                     ),
                     Container(
@@ -400,7 +400,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t103_classificacao),
                     ),
                     Container(
@@ -430,7 +430,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t108_classificacao),
                     ),
                     Container(
@@ -460,7 +460,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t104_classificacao),
                     ),
                     Container(
@@ -490,7 +490,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t109_classificacao),
                     ),
                     Container(
@@ -520,7 +520,7 @@ class _ClassificacaoState extends State<Classificacao> {
                 Row(
                   children: <Widget>[
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t105_classificacao),
                     ),
                     Container(
@@ -550,7 +550,7 @@ class _ClassificacaoState extends State<Classificacao> {
                       thickness: 5,
                     ),
                     Container(
-                      width: 17,
+                      width: 18,
                       child: Text(_t1010_classificacao),
                     ),
                     Container(
@@ -725,7 +725,6 @@ class _ClassificacaoState extends State<Classificacao> {
             _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
             _recorde_geral = analiseData[0].recorde_geral;
             _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
-            print('classificacao - _tamanho');
             var _tamanho = analiseData[0].top10.length;
             var _tmVar = 0;
             if (_tamanho > 0) {
