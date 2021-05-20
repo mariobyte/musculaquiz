@@ -134,7 +134,7 @@ try {
       String pid_usuario, String pnome, String pemail, String psenha) async {
     try {
       var dataResposta = await http.post(
-        APP_URL,
+        Uri.parse('https://www.cortexvendas.com.br/apiquiz/apiquiz.php'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -159,7 +159,7 @@ try {
     List<Perguntas> _listPerguntas = [];
     try {
       var data = await http.post(
-        APP_URL,
+        Uri.parse('https://www.cortexvendas.com.br/apiquiz/apiquiz.php'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

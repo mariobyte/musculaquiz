@@ -18,7 +18,7 @@ class API {
   static Future getCategorias(String pUserId) async {
     try {
       var dataCategoria = await http.post(
-        APP_URL,
+        Uri.parse('https://www.cortexvendas.com.br/apiquiz/apiquiz.php'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -694,7 +694,7 @@ class _ClassificacaoState extends State<Classificacao> {
     try {
       print('getAnalise');
       var dataAnalise = await http.post(
-        APP_URL,
+        Uri.parse('https://www.cortexvendas.com.br/apiquiz/apiquiz.php'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -892,7 +892,7 @@ class _ClassificacaoState extends State<Classificacao> {
     print('Classificacao : _iniciaPartida - pIdCategoria : $pIdCategoria');
     try {
       var dataJSon = await http.post(
-        APP_URL,
+        Uri.parse('https://www.cortexvendas.com.br/apiquiz/apiquiz.php'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

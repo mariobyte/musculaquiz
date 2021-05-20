@@ -133,7 +133,7 @@ class _IniciarState extends State<Iniciar> {
     try {
       print('pIdCategoria: $pIdCategoria');
       var dataJSon = await http.post(
-        APP_URL,
+        Uri.parse(APP_URL),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
