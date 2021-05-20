@@ -7,7 +7,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'app/model/Usuario.dart';
 import 'app/model/Categorias.dart';
-import 'app/utils/config.dart';
+//import 'app/utils/config.dart';
 
 import 'package:musculaquiz/Login.dart';
 import 'dart:io';
@@ -54,6 +54,7 @@ class _ClassificacaoState extends State<Classificacao> {
   var _programa = '';
   var _email = '';
   var _userId = '';
+  var _nome = '';
   var _total_respondidas = '';
   var _total_corretas = '';
   var _total_erradas = '';
@@ -128,6 +129,7 @@ class _ClassificacaoState extends State<Classificacao> {
       setState(() {
         _email = this.dataUsuario.email;
         _userId = this.dataUsuario.userId;
+        _nome = this.dataUsuario.nome;
         _programa = this.dataUsuario.programa;
         _getAnalise(_userId);
         print('categoria - _email: $_email');
@@ -173,10 +175,12 @@ class _ClassificacaoState extends State<Classificacao> {
                   _seuDesempenho(_visible1),
                   //   Expanded(
                   //child:
+                  //Row(children: <Widget>[Text('Olá $_nome!')]),
                   Row(
                     children: <Widget>[
                       Text(
-                        'Você x Recorde geral',
+                        //'Você x Recorde geral',
+                        '$_nome x Recorde geral',
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
@@ -608,16 +612,12 @@ class _ClassificacaoState extends State<Classificacao> {
                         _itemCategoria = '1';
                       }
                       _iniciaPartida(_userId, _itemCategoria);
-                      /*               Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Home(dataUsuario: dataUsuario)));
-*/
-                      //                         Navigator.pushReplacementNamed(context, "/");
                     },
                   ),
                 ),
+                // Novo Top 10 - Inicio
+
+                // Novo Top 10 - Fim
               ],
             ),
           ),

@@ -98,6 +98,9 @@ try {
           usuario.userId = user.uid;
           print('Cadastro novo ');
           print(usuario.userId);
+          print(usuario.nome);
+          print(usuario.email);
+          print(usuario.senha);
           _cadUsuarioApi(
               usuario.userId, usuario.nome, usuario.email, usuario.senha);
         } catch (e) {
@@ -107,6 +110,7 @@ try {
           print('Erro enviar o getUsuario - Json');
         }
 
+        dataUsuario.nome = usuario.nome;
         dataUsuario.email = usuario.email;
         dataUsuario.userId = usuario.userId;
         dataUsuario.programa = 'iniciar';
@@ -187,6 +191,8 @@ try {
       dataUsuario.nome = _pnome;
 
       print('userIdMQ: $dataUsuario.userIdMQ');
+      print('DataUsuario:');
+      print(dataUsuario);
     } catch (e) {}
     return _listPerguntas;
   }
