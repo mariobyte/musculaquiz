@@ -25,18 +25,7 @@ class _CadastroState extends State<Cadastro> {
   String _mensagemErro = "";
 
   final dataUsuario = Usuario();
-/*
-try {
-  await FirebaseAuth.instance.signInWithEmailAndPassword(
-    email: "some invlaid emaill",
-    password: "SuperSecretPassword!"
-  );
-} on FirebaseAuthException catch  (e) {
-  if (e.code == 'invalid-email') {
-    // Do something :D
-  }
-}
-*/
+
   _validarCampos() {
     // Recupera dados digitados
     String nome = _controllerNome.text;
