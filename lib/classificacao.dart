@@ -332,10 +332,10 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Cabeçalho
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       'Pontos',
@@ -350,7 +350,7 @@ class _ClassificacaoState extends State<Classificacao> {
                   Container(
                     width: 200,
                     child: Text(
-                      'Nome',
+                      'Jogador',
                       style:
                           TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                     ),
@@ -360,11 +360,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 1
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t101_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t101_pontos,
@@ -388,11 +388,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 2
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t102_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t102_pontos,
@@ -416,11 +416,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 3
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t103_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t103_pontos,
@@ -444,11 +444,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 4
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t104_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t104_pontos,
@@ -472,11 +472,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 5
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t105_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t105_pontos,
@@ -497,14 +497,14 @@ class _ClassificacaoState extends State<Classificacao> {
                     ),
                   ),
                 ]),
-                // Linha 5
+                // Linha 6
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t106_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t106_pontos,
@@ -528,11 +528,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 7
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t107_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t107_pontos,
@@ -556,11 +556,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 8
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t108_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t108_pontos,
@@ -584,11 +584,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 9
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t109_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t109_pontos,
@@ -612,11 +612,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 // Linha 10
                 Row(children: <Widget>[
                   Container(
-                    width: 30,
+                    width: 20,
                     child: Text(_t1010_classificacao),
                   ),
                   Container(
-                    width: 40,
+                    width: 50,
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       _t1010_pontos,

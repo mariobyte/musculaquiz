@@ -125,15 +125,6 @@ class _HomeState extends State<Home> {
             }
           }
         });
-        /* } else {
-        if (_counter < 1) {
-          if (this.mounted) {
-            setState(() {
-              _proximaPergunta(99);
-            });
-          }
-        }
-        print('Timer - nao estou montado- Saida'); */
       }
     });
   }
@@ -231,7 +222,8 @@ class _HomeState extends State<Home> {
         child: Column(children: <Widget>[
           Text(
             _pergunta,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ]),
       ),
@@ -303,10 +295,16 @@ class _HomeState extends State<Home> {
 
   Widget _myRadioButton({String title, int value, Function onChanged}) {
     return RadioListTile(
+      activeColor: Colors.white,
       value: value,
       groupValue: _resposta,
       onChanged: onChanged,
-      title: Text(title),
+      selectedTileColor: Colors.white,
+      tileColor: Colors.white,
+      title: Text(
+        title,
+        style: TextStyle(color: Colors.white),
+      ),
     );
   }
 
