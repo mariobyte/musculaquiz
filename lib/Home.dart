@@ -419,8 +419,6 @@ class _HomeState extends State<Home> {
       });
     }
     print('_proximaPergunta = cheguei : $pResposta');
-//    String wResposta = _respostas[3];
-//    String wRespCerta = _respCerta[3];
 
     int _acertou = pResposta;
 
@@ -430,9 +428,6 @@ class _HomeState extends State<Home> {
 
     // removido dia 14/04/2021 - somente apos perder todas as vida
     // que ocorre o encerramento da partida
-    //if (_acertou != 99) {
-
-//    print('resposta certa! 0 gravar ! ');
     String _respostaId = '99';
     if (pResposta != 99) {
       _respostaId = _idResposta[_acertou];
@@ -496,19 +491,6 @@ class _HomeState extends State<Home> {
       print('_tempoResp : $_tempoResp');
       _tempoResposta(int.parse(_tempoResp));
     }
-/*    } else {
-      print('gravando resposta - errada');
-
-      String _resposta = _idResposta[_idRespInformada];
-      print('id resposta - errada - ' + _resposta);
-
-      _postRespostas(_idPergunta, _resposta, _counter.toString());
-      print('Game Over!');
-      FlutterBeep.beep(false);
-    //  _classificacao();
-    // Alterado dia 14/04/2021 - somente quando zerar as vidas que encerra a partida
-      // _showMyDialog(' Resposta errada!');
-    } */
   }
 
   Future<void> _showMyDialog(String pMensagem) async {
