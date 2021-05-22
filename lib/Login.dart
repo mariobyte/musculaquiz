@@ -64,11 +64,12 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void _addUser(String pUsuarioEmail, String pIdUsuario) {
+  void _addUser(String pUsuarioEmail, String pIdUsuario, String pNome) {
     setState(() {
       Map<String, dynamic> newUser = Map();
       newUser["login"] = pUsuarioEmail;
       newUser["idUser"] = pIdUsuario;
+      newUser["nome"] = pNome;
 
       _acessoUserList.add(newUser);
       _saveData();
@@ -129,9 +130,10 @@ class _LoginState extends State<Login> {
       dataUsuario.programa = 'iniciar';
       var wEmail = usuario.email;
       var wUserId = dataUsuario.userId;
+      var wNome = dataUsuario.nome;
       //  print('id do usuario:');
       //  print(dataUsuario.userId);
-      _addUser(wEmail, wUserId);
+      _addUser(wEmail, wUserId, wNome);
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -176,9 +178,11 @@ class _LoginState extends State<Login> {
 
         var _email = _acessoUserList[0]['login'];
         var _idUser = _acessoUserList[0]['idUser'];
+        var _nome = _acessoUserList[0]['nome'];
 
         dataUsuario.email = _email;
         dataUsuario.userId = _idUser;
+        dataUsuario.userId = _nome;
         dataUsuario.programa = 'iniciar';
         Navigator.pushReplacement(
             context,

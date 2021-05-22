@@ -88,6 +88,10 @@ class _HomeState extends State<Home> {
   _classificacao() {
     print('chamada - classificação');
     print('dataUsuario: $dataUsuario');
+    var _nomex = dataUsuario.nome;
+    var _userIdx = dataUsuario.userId;
+    print('Home - _classficacao - nome : $_nomex');
+    print('Home - _classficacao - userId : $_userIdx');
     dataUsuario.programa = 'Classificacao';
     Navigator.pushReplacement(
         context,
@@ -300,7 +304,7 @@ class _HomeState extends State<Home> {
       groupValue: _resposta,
       onChanged: onChanged,
       selectedTileColor: Colors.white,
-      tileColor: Colors.white,
+      //   tileColor: Colors.white,
       title: Text(
         title,
         style: TextStyle(color: Colors.white),
