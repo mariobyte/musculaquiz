@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
 
   List<Analise> analiseData;
 
-  List _respostas = ['', '', '', '', '', '']; //
+  List _respostas = ['', '', '', '', '', ''];
   List _idResposta = ['', '', '', '', '', ''];
   List _respCerta = ['', '', '', '', '', ''];
 
@@ -145,6 +145,66 @@ class _HomeState extends State<Home> {
           title: Text("Muscula Quiz"),
         ),
         body: Container(
+            child: DefaultBackgroundContainer(
+          child: CustomScrollView(shrinkWrap: true, slivers: <Widget>[
+            SliverPadding(
+                padding: const EdgeInsets.all(20.0),
+                sliver: SliverList(
+                    delegate: SliverChildListDelegate(<Widget>[
+//                child: Center(
+                  Row(
+                    children: <Widget>[
+                      Column(
+                          //mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: _vidasPlayer(),
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: _formUI(),
+                            ),
+                          ]),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: _barraProgresso(),
+                      ),
+                    ],
+                    // )),
+                  ),
+                ])))
+          ]),
+        ))
+
+        /*
+        SizedBox.expand(
+            child: Container(
+                child: DefaultBackgroundContainer(
+          child: Center(
+              child: Row(
+            children: <Widget>[
+              Column(
+                  //mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: _vidasPlayer(),
+                    ),
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: _formUI(),
+                    ),
+                  ]),
+              Align(
+                alignment: Alignment.topRight,
+                child: _barraProgresso(),
+              ),
+            ],
+          )),
+        )))
+        */
+        /* body: Container(
           child: DefaultBackgroundContainer(
 //            child: Center(
             child: SingleChildScrollView(
@@ -160,141 +220,164 @@ class _HomeState extends State<Home> {
             ),
           ),
           //        ),
-        ));
+        ) */
+        );
   }
 
-  /* teste commit */
-  Widget _formUI() {
-    return Column(children: <Widget>[
-/*      LinearProgressIndicator(
-        //strokeWidth: 5, // linha
-        backgroundColor: Colors.greenAccent,
-        valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
-        value: _progress,
-        minHeight: 30,
-      ), */
-      Row(children: <Widget>[
-        Visibility(
-          visible: _isVisible1,
-          child: Image.asset(
-            "imagens/boneco_vida.png",
-            width: 60,
-            height: 50,
-          ),
-        ),
-        Visibility(
-          visible: _isVisible2,
-          child: Image.asset(
-            "imagens/boneco_vida.png",
-            width: 60,
-            height: 50,
-          ),
-        ),
-        Visibility(
-          visible: _isVisible3,
-          child: Image.asset(
-            "imagens/boneco_vida.png",
-            width: 60,
-            height: 50,
-          ),
-        ),
-        Visibility(
-          visible: _isVisible4,
-          child: Image.asset(
-            "imagens/boneco_vida.png",
-            width: 60,
-            height: 50,
-          ),
-        ),
-        Visibility(
-          visible: _isVisible5,
-          child: Image.asset(
-            "imagens/boneco_vida.png",
-            width: 60,
-            height: 50,
-          ),
-        ),
-        CircularProgressIndicator(
-          strokeWidth: 5, // linha
-          backgroundColor: Colors.greenAccent,
-          valueColor: new AlwaysStoppedAnimation<Color>(Colors.redAccent),
-          value: _progress,
-        ),
-      ]),
-      Container(
-        width: 300.0,
-        child: Column(children: <Widget>[
-          Text(
-            _pergunta,
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-        ]),
-      ),
-      Column(
-        children: <Widget>[
-          _myRadioButton(
-            title: _respostas[0],
-            value: 0,
-            onChanged: (newValue) => setState(() => _resposta = newValue),
-          ),
-          _myRadioButton(
-            title: _respostas[1],
-            value: 1,
-            onChanged: (newValue) => setState(() => _resposta = newValue),
-          ),
-          _myRadioButton(
-            title: _respostas[2],
-            value: 2,
-            onChanged: (newValue) => setState(() => _resposta = newValue),
-          ),
-          _myRadioButton(
-            title: _respostas[3],
-            value: 3,
-            onChanged: (newValue) => setState(() => _resposta = newValue),
-          ),
-          _myRadioButton(
-            title: _respostas[4],
-            value: 4,
-            onChanged: (newValue) => setState(() => _resposta = newValue),
+  Widget _barraProgresso() {
+    return Container(
+      width: 30,
+      height: 500,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: RotatedBox(
+              quarterTurns: -1,
+              child: LinearProgressIndicator(
+                backgroundColor: Colors.greenAccent,
+                valueColor:
+                    new AlwaysStoppedAnimation<Color>(Colors.amberAccent),
+                value: _progress,
+                minHeight: 40,
+              ),
+            ),
           ),
         ],
       ),
-      Row(
-        children: <Widget>[
-          Container(
-            width: 100.0,
-            alignment: AlignmentDirectional.center,
-          ),
-          Container(
-            width: 160.0,
-            alignment: AlignmentDirectional.center,
-            child: ElevatedButton(
-                child: Text(
-                  "Proxima",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-                style: ElevatedButton.styleFrom(
-                  onPrimary: Color(0xff006C5D),
-                  primary: Color(0xff006C5D),
-                  onSurface: Color(0xff006C5D),
-                  // side: BorderSide(color: Colors.black, width: 1),
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50)),
+      // )
+    );
+  }
 
-                  minimumSize: Size(250, 50),
-                ),
-                onPressed: () {
-                  print('_resposta: $_resposta');
-                  _timer.cancel();
-                  _proximaPergunta(_resposta);
-                  _resposta = -1;
-                }),
-          )
-        ],
-      )
+  Widget _vidasPlayer() {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+      Visibility(
+        visible: _isVisible1,
+        child: Image.asset(
+          "imagens/boneco_vida.png",
+          width: 60,
+          height: 50,
+        ),
+      ),
+      Visibility(
+        visible: _isVisible2,
+        child: Image.asset(
+          "imagens/boneco_vida.png",
+          width: 60,
+          height: 50,
+        ),
+      ),
+      Visibility(
+        visible: _isVisible3,
+        child: Image.asset(
+          "imagens/boneco_vida.png",
+          width: 60,
+          height: 50,
+        ),
+      ),
+      Visibility(
+        visible: _isVisible4,
+        child: Image.asset(
+          "imagens/boneco_vida.png",
+          width: 60,
+          height: 50,
+        ),
+      ),
+      Visibility(
+        visible: _isVisible5,
+        child: Image.asset(
+          "imagens/boneco_vida.png",
+          width: 60,
+          height: 50,
+        ),
+      ),
     ]);
+  }
+
+  Widget _formUI() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            width: 270.0,
+            alignment: Alignment.centerLeft,
+            child: Column(children: <Widget>[
+              Text(
+                _pergunta,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              ),
+            ]),
+          ),
+          Container(
+            width: 270.0,
+            child: Column(
+              children: <Widget>[
+                _myRadioButton(
+                  title: _respostas[0],
+                  value: 0,
+                  onChanged: (newValue) => setState(() => _resposta = newValue),
+                ),
+                _myRadioButton(
+                  title: _respostas[1],
+                  value: 1,
+                  onChanged: (newValue) => setState(() => _resposta = newValue),
+                ),
+                _myRadioButton(
+                  title: _respostas[2],
+                  value: 2,
+                  onChanged: (newValue) => setState(() => _resposta = newValue),
+                ),
+                _myRadioButton(
+                  title: _respostas[3],
+                  value: 3,
+                  onChanged: (newValue) => setState(() => _resposta = newValue),
+                ),
+                _myRadioButton(
+                  title: _respostas[4],
+                  value: 4,
+                  onChanged: (newValue) => setState(() => _resposta = newValue),
+                ),
+              ],
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              /*     Container(
+                width: 100.0,
+                alignment: AlignmentDirectional.center,
+              ), */
+              Container(
+                width: 160.0,
+                alignment: AlignmentDirectional.center,
+                child: ElevatedButton(
+                    child: Text(
+                      "Proxima",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Color(0xff006C5D),
+                      primary: Color(0xff006C5D),
+                      onSurface: Color(0xff006C5D),
+                      // side: BorderSide(color: Colors.black, width: 1),
+                      elevation: 20,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50)),
+
+                      minimumSize: Size(250, 50),
+                    ),
+                    onPressed: () {
+                      print('_resposta: $_resposta');
+                      _timer.cancel();
+                      _proximaPergunta(_resposta);
+                      _resposta = -1;
+                    }),
+              )
+            ],
+          )
+        ]);
   }
 
   Widget _myRadioButton({String title, int value, Function onChanged}) {
