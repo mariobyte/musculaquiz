@@ -147,6 +147,7 @@ class _CadastroState extends State<Cadastro> {
     }
   }
 
+/*
   Future _getUsuario(
       String _puserId, String _pnome, String _pemail, String _psenha) async {
     List<Perguntas> _listPerguntas = [];
@@ -185,7 +186,7 @@ class _CadastroState extends State<Cadastro> {
     } catch (e) {}
     return _listPerguntas;
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(

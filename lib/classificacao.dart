@@ -55,6 +55,7 @@ class _ClassificacaoState extends State<Classificacao> {
   var _email = '';
   var _userId = '';
   var _nome = '';
+  var _nome_usuario = '';
   var _total_respondidas = '';
   var _total_corretas = '';
   var _total_erradas = '';
@@ -132,8 +133,10 @@ class _ClassificacaoState extends State<Classificacao> {
         _nome = this.dataUsuario.nome;
         _programa = this.dataUsuario.programa;
         _getAnalise(_userId);
-        print('classificacao - categoria - _email: $_email');
-        print('classificacao - categoria - _userId: $_userId');
+        print('classificacao - getAnalise - _email: $_email');
+        print('classificacao - getAnalise - _userId: $_userId');
+        print('classificacao - getAnalise - _nome_usuario: $_nome_usuario');
+        _nome = _nome_usuario;
         //   _getCategorias();
         //  print('teste _categorias : $_categorias');
         print('classificacao - programa: $_programa');
@@ -685,6 +688,7 @@ class _ClassificacaoState extends State<Classificacao> {
       if (analiseData.length > 0) {
         if (this.mounted) {
           setState(() {
+            _nome_usuario = analiseData[0].nome_usuario;
             _total_respondidas = analiseData[0].total_respondidas;
             _total_corretas = analiseData[0].total_corretas;
             _total_erradas = analiseData[0].total_erradas;
@@ -949,7 +953,8 @@ class Top10 {
 
 class Analise {
   Analise(
-      {this.total_respondidas,
+      {this.nome_usuario,
+      this.total_respondidas,
       this.total_corretas,
       this.total_erradas,
       this.percAcertos,
@@ -964,6 +969,7 @@ class Analise {
       this.perc_bater_recorde_geral,
       this.top10});
 
+  final String nome_usuario;
   final String total_respondidas;
   final String total_corretas;
   final String total_erradas;
@@ -980,6 +986,7 @@ class Analise {
   final List<Top10> top10;
 
   factory Analise.fromJson(Map<String, dynamic> json) => Analise(
+      nome_usuario: json["nome_usuario"],
       total_respondidas: json["total_respondidas"],
       total_corretas: json["total_corretas"],
       total_erradas: json["total_erradas"],
