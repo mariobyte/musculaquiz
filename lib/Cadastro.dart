@@ -8,9 +8,12 @@ import 'package:musculaquiz/app/components/default_background_conteiner.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 import 'app/utils/config.dart';
-import 'package:musculaquiz/classificacao.dart';
+//import 'package:musculaquiz/classificacao.dart';
+import 'package:musculaquiz/Login.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -98,15 +101,28 @@ class _CadastroState extends State<Cadastro> {
                   e.toString();
           print('Erro enviar o getUsuario - Json');
         }
-
+        print('cadastro - chamada da tela do login');
         dataUsuario.nome = usuario.nome;
         dataUsuario.email = usuario.email;
         dataUsuario.userId = usuario.userId;
         dataUsuario.programa = 'iniciar';
-        Navigator.pushReplacement(
+
+        // Apaga arquivo salvo no app
+        try {
+          apagarArquivo();
+          print('Cadastro - Musculaquiz foi deletado');
+        } catch (e) {
+          print('Cadastro - Musculaquiz inexistente');
+        }
+        // fim apaga arquivo do app
+
+/*        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+                builder: (context) => Classificacao(dataUsuario: dataUsuario))); */
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => Login()));
+        print('cadastro - após - chamada da tela do login');
       });
     }).catchError((error) {
       print("error app " + error.toString());
@@ -126,6 +142,7 @@ class _CadastroState extends State<Cadastro> {
   void _cadUsuarioApi(
       String pid_usuario, String pnome, String pemail, String psenha) async {
     try {
+      print('_cadUsuarioApi - efetuando o cadasro - envia post');
       var dataResposta = await http.post(
         Uri.parse('https://www.cortexvendas.com.br/apiquiz/apiquiz.php'),
         headers: <String, String>{
@@ -139,6 +156,7 @@ class _CadastroState extends State<Cadastro> {
           "senha": "$psenha"
         }),
       );
+      print('_cadUsuarioApi - post executado');
     } catch (e) {
       _mensagemErro =
           "Erro ao cadastrar o usuario, verifique os campos e tente novamente\n Erro : " +
@@ -281,6 +299,29 @@ class _CadastroState extends State<Cadastro> {
             ),
           ),
         ));
+  }
+
+  Future<File> _getFile() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      print("${directory.path}/MusculaQuiz.json");
+      return File("${directory.path}/MusculaQuiz.json");
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<File> _deleteData() async {
+    try {
+      final file = await _getFile();
+      return file.delete();
+    } catch (e) {
+      return null;
+    }
+  }
+
+  void apagarArquivo() {
+    _deleteData();
   }
 }
 

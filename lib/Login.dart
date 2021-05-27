@@ -21,6 +21,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   TextEditingController _controllerEmail = TextEditingController();
   TextEditingController _controllerSenha = TextEditingController();
+
+  bool _temArquivo = false;
   String _mensagemErro = "";
 
   final dataUsuario = Usuario();
@@ -79,8 +81,10 @@ class _LoginState extends State<Login> {
   Future<String> _readData() async {
     try {
       final file = await _getFile();
+      _temArquivo = true;
       return file.readAsString();
     } catch (e) {
+      _temArquivo = false;
       return null;
     }
   }
@@ -134,6 +138,8 @@ class _LoginState extends State<Login> {
       //  print('id do usuario:');
       //  print(dataUsuario.userId);
       _addUser(wEmail, wUserId, wNome);
+      // chamada 2
+      print('login - chamada 2');
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -160,17 +166,20 @@ class _LoginState extends State<Login> {
       dataUsuario.email = usuarioLogado;
       dataUsuario.userId = auth.currentUser.uid;
       dataUsuario.programa = 'iniciar';
-
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+      // chamada 3
+      //   print('Login - chamada 3');
+      //   Navigator.pushReplacement(
+      //       context,
+      //       MaterialPageRoute(
+      //           builder: (context) => Classificacao(dataUsuario: dataUsuario)));
       // do whatever you want based on the firebaseUser state
     });
   }
 
   @override
   void initState() {
+    print('cheguei na tela de login ');
+
     // Minha Configuração
     _readData().then((data) {
       setState(() {
@@ -184,6 +193,8 @@ class _LoginState extends State<Login> {
         dataUsuario.userId = _idUser;
         dataUsuario.userId = _nome;
         dataUsuario.programa = 'iniciar';
+        // chamada 1
+        print('login - chamada 1');
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
@@ -191,7 +202,9 @@ class _LoginState extends State<Login> {
       });
     });
 
-    _verificarUsuarioLogado();
+    if (_temArquivo = true) {
+      _verificarUsuarioLogado();
+    }
 
     super.initState();
   }
