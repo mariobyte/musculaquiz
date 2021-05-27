@@ -207,7 +207,7 @@ class _ClassificacaoState extends State<Classificacao> {
           child: Column(children: [
             Row(
               children: <Widget>[
-                Text('Seu desempenho $_nome',
+                Text('Seu desempenho $_nome_usuario',
                     style:
                         TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
               ],
@@ -254,7 +254,7 @@ class _ClassificacaoState extends State<Classificacao> {
         children: <Widget>[
           Text(
             //'Você x Recorde geral',
-            '$_nome x Recorde geral',
+            '$_nome_usuario x Recorde geral',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
         ],
@@ -689,6 +689,7 @@ class _ClassificacaoState extends State<Classificacao> {
         if (this.mounted) {
           setState(() {
             _nome_usuario = analiseData[0].nome_usuario;
+            print('nome_usuario: $_nome_usuario');
             _total_respondidas = analiseData[0].total_respondidas;
             _total_corretas = analiseData[0].total_corretas;
             _total_erradas = analiseData[0].total_erradas;
