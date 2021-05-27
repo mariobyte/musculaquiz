@@ -68,6 +68,7 @@ class _LoginState extends State<Login> {
 
   void _addUser(String pUsuarioEmail, String pIdUsuario, String pNome) {
     setState(() {
+      print('_addUser : $pNome - pIdUsuario: $pIdUsuario');
       Map<String, dynamic> newUser = Map();
       newUser["login"] = pUsuarioEmail;
       newUser["idUser"] = pIdUsuario;
@@ -81,10 +82,8 @@ class _LoginState extends State<Login> {
   Future<String> _readData() async {
     try {
       final file = await _getFile();
-      _temArquivo = true;
       return file.readAsString();
     } catch (e) {
-      _temArquivo = false;
       return null;
     }
   }
@@ -103,6 +102,7 @@ class _LoginState extends State<Login> {
     try {
       String data = json.encode(_acessoUserList);
       final file = await _getFile();
+      print('_saveData - Arquivo Salvo : $file');
       return file.writeAsString(data);
     } catch (e) {
       return null;
@@ -189,9 +189,13 @@ class _LoginState extends State<Login> {
         var _idUser = _acessoUserList[0]['idUser'];
         var _nome = _acessoUserList[0]['nome'];
 
+        print('_readData _email = $_email');
+        print('_readData _idUser = $_idUser');
+        print('_readData _nome = $_nome');
+
         dataUsuario.email = _email;
         dataUsuario.userId = _idUser;
-        dataUsuario.userId = _nome;
+        dataUsuario.nome = _nome;
         dataUsuario.programa = 'iniciar';
         // chamada 1
         print('login - chamada 1');
@@ -202,9 +206,7 @@ class _LoginState extends State<Login> {
       });
     });
 
-    if (_temArquivo = true) {
-      _verificarUsuarioLogado();
-    }
+    _verificarUsuarioLogado();
 
     super.initState();
   }
