@@ -154,12 +154,16 @@ class _IniciarState extends State<Iniciar> {
       dataUsuario.vidas = _vidasGame;
       dataUsuario.idPartida = _idPartida;
 
-      Navigator.pushReplacement(
+/*      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) =>
                   // iniciar o jogo
-                  Home(dataUsuario: dataUsuario)));
+                  Home(dataUsuario: dataUsuario))); */
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => Home(dataUsuario: dataUsuario)),
+          (Route<dynamic> route) => false);
     } catch (e) {
       return null;
     }
@@ -167,7 +171,10 @@ class _IniciarState extends State<Iniciar> {
 
   void _logout() {
     _deleteFile();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Login()),
+        (Route<dynamic> route) => false);
   }
 
   Future<File> _deleteFile() async {

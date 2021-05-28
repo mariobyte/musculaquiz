@@ -199,10 +199,15 @@ class _LoginState extends State<Login> {
         dataUsuario.programa = 'iniciar';
         // chamada 1
         print('login - chamada 1');
-        Navigator.pushReplacement(
+/*        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+                builder: (context) => Classificacao(dataUsuario: dataUsuario))
+                ); */
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => Classificacao(dataUsuario: dataUsuario)),
+            (Route<dynamic> route) => false);
       });
     });
 

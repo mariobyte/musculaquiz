@@ -93,10 +93,14 @@ class _HomeState extends State<Home> {
     print('Home - _classficacao - nome : $_nomex');
     print('Home - _classficacao - userId : $_userIdx');
     dataUsuario.programa = 'Classificacao';
-    Navigator.pushReplacement(
+/*    Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+            builder: (context) => Classificacao(dataUsuario: dataUsuario))); */
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+            builder: (context) => Classificacao(dataUsuario: dataUsuario)),
+        (Route<dynamic> route) => false);
   }
 
   _tempoResposta(int pCounter) {

@@ -800,10 +800,15 @@ class _ClassificacaoState extends State<Classificacao> {
             _percAcertoRecordText =
                 (_percAcertoRecord * 100).toStringAsFixed(0);
 
-            print('_recorde_geral: $_recorde_geral');
-            //_pontos_partida = '20';
-            //_recorde_geral = '41';
-            _recorde_geralI = double.parse(_recorde_geral);
+            // Calculo Recorde Geral
+            print('_perc_bater_recorde_geral: $_perc_bater_recorde_geral');
+            //_recorde_geralI = double.parse(_recorde_geral);
+/*            try {
+              _percGeralRecord = double.parse(_perc_bater_recorde_geral) / 100;
+              _percGeralRecordText = _perc_bater_recorde_geral;
+            } catch (e) {
+              _visible1 = false;
+            } */
 
             try {
               if (double.parse(_recorde_geral) > 0 &&
@@ -876,12 +881,16 @@ class _ClassificacaoState extends State<Classificacao> {
       dataUsuario.idPartida = _idPartida;
       dataUsuario.userIdMQ = '';
       dataUsuario.programa = 'Classificacao';
-      Navigator.pushReplacement(
+/*      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) =>
                   // iniciar o jogo
-                  Home(dataUsuario: dataUsuario)));
+                  Home(dataUsuario: dataUsuario))); */
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => Home(dataUsuario: dataUsuario)),
+          (Route<dynamic> route) => false);
     } catch (e) {
       return null;
     }
@@ -925,7 +934,10 @@ class _ClassificacaoState extends State<Classificacao> {
 
   _logout() {
     _deleteFile();
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Login()),
+        (Route<dynamic> route) => false);
   }
 
   Future<File> _deleteFile() async {

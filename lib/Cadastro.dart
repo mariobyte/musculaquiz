@@ -120,8 +120,13 @@ class _CadastroState extends State<Cadastro> {
             context,
             MaterialPageRoute(
                 builder: (context) => Classificacao(dataUsuario: dataUsuario))); */
-        Navigator.pushReplacement(
+        /*      Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Login()));
+*/
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => Login()),
+            (Route<dynamic> route) => false);
+
         print('cadastro - após - chamada da tela do login');
       });
     }).catchError((error) {
