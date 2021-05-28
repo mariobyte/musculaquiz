@@ -120,6 +120,7 @@ class _ClassificacaoState extends State<Classificacao> {
   String _tituloBotao = "Nova Partida";
   String _itemCategoria;
   bool _visible1 = true;
+  String _mensagem = '';
   String _vidasGame = '2';
 
   List<Categorias> _categorias;
@@ -180,8 +181,13 @@ class _ClassificacaoState extends State<Classificacao> {
                   ),
                   Align(
                     alignment: Alignment.topCenter,
-                    child: _voceRecordGeral(),
+                    child: _voceRecordGeral(_visible1),
                   ),
+                  Visibility(
+                      visible: _visible1 == false ? true : false,
+                      child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Text('Bem vindo $_nome_usuario!'))),
                   Align(
                     alignment: Alignment.topCenter,
                     child: _patrocinio(),
@@ -248,38 +254,42 @@ class _ClassificacaoState extends State<Classificacao> {
     }
   }
 
-  Widget _voceRecordGeral() {
-    return Column(children: <Widget>[
-      Row(
-        children: <Widget>[
-          Text(
-            //'Você x Recorde geral',
-            '$_nome_usuario x Recorde geral',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-          ),
-        ],
-        mainAxisAlignment: MainAxisAlignment.start,
-      ),
-      //     ),
-      Row(children: [
-        LinearPercentIndicator(
-          width: MediaQuery.of(context).size.width - 50,
-          animation: true,
-          lineHeight: 25.0,
-          animationDuration: 2000,
-          percent: _percGeralRecord,
-          center: Text(_percGeralRecordText + '%'),
-          linearStrokeCap: LinearStrokeCap.roundAll,
-          progressColor: Colors.greenAccent,
-        ),
-        Row(children: [Text(' ' + _recorde_geralI.toStringAsFixed(0))]),
-      ]),
-      Row(
-        children: <Widget>[
-          Container(padding: EdgeInsets.only(left: 0.0, top: 1.0))
-        ],
-      ),
-    ]);
+  Widget _voceRecordGeral(bool pVisible) {
+    if (pVisible) {
+      return Visibility(
+          visible: pVisible,
+          child: Column(children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text(
+                  //'Você x Recorde geral',
+                  '$_nome_usuario x Recorde geral',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ],
+              mainAxisAlignment: MainAxisAlignment.start,
+            ),
+            //     ),
+            Row(children: [
+              LinearPercentIndicator(
+                width: MediaQuery.of(context).size.width - 50,
+                animation: true,
+                lineHeight: 25.0,
+                animationDuration: 2000,
+                percent: _percGeralRecord,
+                center: Text(_percGeralRecordText + '%'),
+                linearStrokeCap: LinearStrokeCap.roundAll,
+                progressColor: Colors.greenAccent,
+              ),
+              Row(children: [Text(' ' + _recorde_geralI.toStringAsFixed(0))]),
+            ]),
+            Row(
+              children: <Widget>[
+                Container(padding: EdgeInsets.only(left: 0.0, top: 1.0))
+              ],
+            ),
+          ]));
+    }
   }
 
   Widget _novaPartida() {
@@ -778,9 +788,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 var _var = (_percAcertoRecord).toStringAsFixed(1);
                 _percAcertoRecord = double.parse(_var);
               } else {
+                _visible1 = false;
                 _percAcertoRecord = 1.0;
               }
             } catch (e) {
+              _visible1 = false;
               _percAcertoRecord = 1.0;
               print('calcula - _percAcertoRecord - try - saida');
             }
@@ -802,9 +814,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 _percGeralRecord = double.parse(_var);
               } else {
                 _percGeralRecord = 1.0;
+                _visible1 = false;
               }
             } catch (e) {
               _percGeralRecord = 1.0;
+              _visible1 = false;
               print('calcula - _percGeralRecord - try - saida');
             }
             _percGeralRecordText = (_percGeralRecord * 100).toStringAsFixed(0);
