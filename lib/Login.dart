@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:musculaquiz/classificacao.dart';
 import 'package:musculaquiz/app/utils/config.dart';
+import 'package:musculaquiz/informacoes.dart';
 
 import 'Cadastro.dart';
 import 'app/components/default_background_conteiner.dart';
@@ -73,6 +74,7 @@ class _LoginState extends State<Login> {
       newUser["login"] = pUsuarioEmail;
       newUser["idUser"] = pIdUsuario;
       newUser["nome"] = pNome;
+      newUser["showMensagem"] = 'S';
 
       _acessoUserList.add(newUser);
       _saveData();
@@ -140,10 +142,14 @@ class _LoginState extends State<Login> {
       _addUser(wEmail, wUserId, wNome);
       // chamada 2
       print('login - chamada 2');
-      Navigator.pushReplacement(
+/*      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+              builder: (context) => Classificacao(dataUsuario: dataUsuario))); */
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+              builder: (context) => Informacoes(dataUsuario: dataUsuario)),
+          (Route<dynamic> route) => false);
     }).catchError((error) {
       setState(() {
         //print ("Erro App" + error.toString) ;
@@ -188,10 +194,12 @@ class _LoginState extends State<Login> {
         var _email = _acessoUserList[0]['login'];
         var _idUser = _acessoUserList[0]['idUser'];
         var _nome = _acessoUserList[0]['nome'];
+        var _showMensagem = _acessoUserList[0]['showMensagem'];
 
         print('_readData _email = $_email');
         print('_readData _idUser = $_idUser');
         print('_readData _nome = $_nome');
+        print('_readData  _showMensagem $_showMensagem');
 
         dataUsuario.email = _email;
         dataUsuario.userId = _idUser;
@@ -199,15 +207,18 @@ class _LoginState extends State<Login> {
         dataUsuario.programa = 'iniciar';
         // chamada 1
         print('login - chamada 1');
-/*        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Classificacao(dataUsuario: dataUsuario))
-                ); */
-        Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-                builder: (context) => Classificacao(dataUsuario: dataUsuario)),
-            (Route<dynamic> route) => false);
+        if (_showMensagem == 'N') {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) =>
+                      Classificacao(dataUsuario: dataUsuario)),
+              (Route<dynamic> route) => false);
+        } else {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (context) => Informacoes(dataUsuario: dataUsuario)),
+              (Route<dynamic> route) => false);
+        }
       });
     });
 

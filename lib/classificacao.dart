@@ -187,7 +187,11 @@ class _ClassificacaoState extends State<Classificacao> {
                       visible: _visible1 == false ? true : false,
                       child: Align(
                           alignment: Alignment.topCenter,
-                          child: Text('Bem vindo $_nome_usuario!'))),
+                          child: Text('Bem vindo $_nome_usuario!',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal)))),
                   Align(
                     alignment: Alignment.topCenter,
                     child: _patrocinio(),
@@ -196,7 +200,20 @@ class _ClassificacaoState extends State<Classificacao> {
                     alignment: Alignment.topCenter,
                     child: _novaPartida(),
                   ),
-                  Align(alignment: Alignment.topCenter, child: _listTop10())
+
+                  //  Align(alignment: Alignment.topCenter, child: _listTop10())
+                  _cabTop10(),
+                  _listTop10Card(_t101_classificacao, _t101_pontos, _t101_nome),
+                  _listTop10Card(_t102_classificacao, _t102_pontos, _t102_nome),
+                  _listTop10Card(_t103_classificacao, _t103_pontos, _t103_nome),
+                  _listTop10Card(_t104_classificacao, _t104_pontos, _t104_nome),
+                  _listTop10Card(_t105_classificacao, _t105_pontos, _t105_nome),
+                  _listTop10Card(_t106_classificacao, _t106_pontos, _t106_nome),
+                  _listTop10Card(_t107_classificacao, _t107_pontos, _t107_nome),
+                  _listTop10Card(_t108_classificacao, _t108_pontos, _t108_nome),
+                  _listTop10Card(_t109_classificacao, _t109_pontos, _t109_nome),
+                  _listTop10Card(
+                      _t1010_classificacao, _t1010_pontos, _t1010_nome),
                 ]),
               ],
             ),
@@ -204,6 +221,93 @@ class _ClassificacaoState extends State<Classificacao> {
         ),
       ),
     );
+  }
+
+  Widget _cabTop10() {
+    return Column(children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+            child: Text(
+          "Top 10",
+          style: TextStyle(fontSize: 25),
+        )),
+      ),
+      Row(
+        children: <Widget>[
+          Container(padding: EdgeInsets.only(left: 0.0, top: 1.0))
+        ],
+      ),
+      // Cabeçalho
+      Row(children: <Widget>[
+        Container(
+          width: 30,
+        ),
+        Container(
+          width: 45,
+          alignment: Alignment.bottomCenter,
+          child: Text(
+            'Pontos',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+        ),
+        VerticalDivider(
+          width: 5,
+          thickness: 5,
+        ),
+        Container(
+          width: 220,
+          child: Text(
+            'Jogador',
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ])
+    ]);
+  }
+
+  Widget _listTop10Card(String pClassificacao, String pPontos, String pNome) {
+    return Center(
+        child: Card(
+            elevation: 5,
+            color: Colors.transparent,
+            child: Row(children: <Widget>[
+              Container(
+                width: 30,
+                child: Text(
+                  pClassificacao,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal),
+                ),
+              ),
+              Container(
+                width: 45,
+                alignment: Alignment.bottomCenter,
+                child: Text(
+                  pPontos,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal),
+                ),
+              ),
+              VerticalDivider(
+                width: 5,
+                thickness: 5,
+              ),
+              Container(
+                width: 210,
+                child: Text(
+                  pNome,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal),
+                ),
+              ),
+            ])));
   }
 
   Widget _seuDesempenho(bool pVisible) {
