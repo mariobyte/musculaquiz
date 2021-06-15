@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'app/model/Usuario.dart';
 import 'app/model/Categorias.dart';
+import 'package:musculaquiz/informacoes.dart';
 //import 'app/utils/config.dart';
 
 import 'package:musculaquiz/Login.dart';
@@ -75,6 +76,7 @@ class _ClassificacaoState extends State<Classificacao> {
   var _recorde_geral = '';
   double _recorde_geralI = 0;
   var _perc_bater_recorde_geral = '';
+  var _numeropartidas = '';
   var _t101_classificacao = '';
   var _t101_id_usuario = '';
   var _t101_nome = '';
@@ -270,7 +272,8 @@ class _ClassificacaoState extends State<Classificacao> {
     return Center(
         child: Card(
             elevation: 5,
-            color: Colors.transparent,
+//            color: Colors.transparent,
+            color: Colors.teal,
             child: Row(children: <Widget>[
               Container(
                 width: 30,
@@ -425,345 +428,6 @@ class _ClassificacaoState extends State<Classificacao> {
     );
   }
 
-  Widget _listTop10() {
-    return CustomScrollView(
-      shrinkWrap: true,
-      slivers: <Widget>[
-        SliverPadding(
-          padding: const EdgeInsets.all(20.0),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate(
-              <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                      child: Text(
-                    "Top 10",
-                    style: TextStyle(fontSize: 25),
-                  )),
-                ),
-                Row(
-                  children: <Widget>[
-                    Container(padding: EdgeInsets.only(left: 0.0, top: 1.0))
-                  ],
-                ),
-                // Cabeçalho
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      'Pontos',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 220,
-                    child: Text(
-                      'Jogador',
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ]),
-
-                // Linha 1
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t101_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t101_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t101_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 2
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t102_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t102_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t102_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 3
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t103_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t103_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t103_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 4
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t104_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t104_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t104_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 5
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t105_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t105_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t105_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 6
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t106_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t106_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t106_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 7
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t107_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t107_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t107_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 8
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t108_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t108_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t108_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 9
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t109_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t109_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t109_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Linha 10
-                Row(children: <Widget>[
-                  Container(
-                    width: 30,
-                    child: Text(_t1010_classificacao),
-                  ),
-                  Container(
-                    width: 45,
-                    alignment: Alignment.bottomCenter,
-                    child: Text(
-                      _t1010_pontos,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                  VerticalDivider(
-                    width: 5,
-                    thickness: 5,
-                  ),
-                  Container(
-                    width: 210,
-                    child: Text(
-                      _t1010_nome,
-                      style: TextStyle(
-                          fontSize: 12, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ]),
-                // Fim
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   _getCategorias() async {
     try {
       API.getCategorias(_userId).then((response) {
@@ -817,6 +481,7 @@ class _ClassificacaoState extends State<Classificacao> {
             _perc_bater_seu_recorde = analiseData[0].perc_bater_seu_recorde;
             _recorde_geral = analiseData[0].recorde_geral;
             _perc_bater_recorde_geral = analiseData[0].perc_bater_recorde_geral;
+            _numeropartidas = analiseData[0].numeropartidas;
             var _tamanho = analiseData[0].top10.length;
             if (_tamanho > 0) {
               _t101_classificacao = '1º';
@@ -884,6 +549,7 @@ class _ClassificacaoState extends State<Classificacao> {
             //  _pontos_partida = '20';
             //  _recorde_usuario = '50';
             _recorde_usuarioI = double.parse(_recorde_usuario);
+            print('_numeropartidas: $_numeropartidas');
             try {
               if (double.parse(_recorde_usuario) > 0 &&
                   double.parse(_pontos_partida) > 0) {
@@ -991,10 +657,17 @@ class _ClassificacaoState extends State<Classificacao> {
               builder: (context) =>
                   // iniciar o jogo
                   Home(dataUsuario: dataUsuario))); */
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-              builder: (context) => Home(dataUsuario: dataUsuario)),
-          (Route<dynamic> route) => false);
+      if (int.parse(_numeropartidas) < 4) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => Informacoes(dataUsuario: dataUsuario)),
+            (Route<dynamic> route) => false);
+      } else {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => Home(dataUsuario: dataUsuario)),
+            (Route<dynamic> route) => false);
+      }
     } catch (e) {
       return null;
     }
@@ -1098,6 +771,7 @@ class Analise {
       this.perc_bater_seu_recorde,
       this.recorde_geral,
       this.perc_bater_recorde_geral,
+      this.numeropartidas,
       this.top10});
 
   final String nome_usuario;
@@ -1114,6 +788,7 @@ class Analise {
   final String perc_bater_seu_recorde;
   final String recorde_geral;
   final String perc_bater_recorde_geral;
+  final String numeropartidas;
   final List<Top10> top10;
 
   factory Analise.fromJson(Map<String, dynamic> json) => Analise(
@@ -1131,6 +806,7 @@ class Analise {
       perc_bater_seu_recorde: json["perc_bater_seu_recorde"],
       recorde_geral: json["recorde_geral"],
       perc_bater_recorde_geral: json["perc_bater_recorde_geral"],
+      numeropartidas: json['numeropartidas'],
       top10: (json["top10"] as List)
           .map((conteudo) => Top10.fromJson(conteudo))
           .toList());

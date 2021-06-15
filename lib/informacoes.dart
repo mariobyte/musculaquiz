@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:musculaquiz/app/model/Usuario.dart';
 
 import 'package:musculaquiz/app/components/default_background_conteiner.dart';
-import 'package:musculaquiz/classificacao.dart';
+import 'package:musculaquiz/home.dart';
 
-import 'dart:io';
-import 'dart:convert';
-import 'package:path_provider/path_provider.dart';
+//import 'dart:io';
+//import 'dart:convert';
+//import 'package:path_provider/path_provider.dart';
 
 class Informacoes extends StatefulWidget {
   final Usuario dataUsuario;
@@ -62,7 +62,7 @@ class _InformacoesState extends State<Informacoes> {
                 Column(children: <Widget>[
                   textSection,
                 ]),
-                Row(
+                /*Row(
                   children: <Widget>[
                     Checkbox(
                       value: _mostraNovamente,
@@ -74,7 +74,7 @@ class _InformacoesState extends State<Informacoes> {
                     ),
                     Text("Não mostrar novamente")
                   ],
-                ),
+                ), */
                 Column(children: <Widget>[_continuar(_mostraNovamente)])
               ],
             ),
@@ -131,7 +131,7 @@ class _InformacoesState extends State<Informacoes> {
       ]));
 
   Widget _continuar(bool pMostrarNovamente) {
-    if (pMostrarNovamente) {
+/*    if (pMostrarNovamente) {
       Map<String, dynamic> newUser = Map();
       newUser["login"] = _email;
       newUser["idUser"] = _userId;
@@ -139,7 +139,7 @@ class _InformacoesState extends State<Informacoes> {
       newUser["showMensagem"] = 'N';
       _acessoUserList.add(newUser);
       _saveData();
-    }
+    } */
     return Padding(
       padding: EdgeInsets.only(top: 2, bottom: 5),
       child: ElevatedButton(
@@ -159,15 +159,19 @@ class _InformacoesState extends State<Informacoes> {
         onPressed: () {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
+                  builder: (context) => Home(dataUsuario: dataUsuario)),
+              (Route<dynamic> route) => false);
+          /*  Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
                   builder: (context) =>
                       Classificacao(dataUsuario: dataUsuario)),
-              (Route<dynamic> route) => false);
+              (Route<dynamic> route) => false); */
         },
       ),
     );
   }
 
-  Future<File> _getFile() async {
+/*  Future<File> _getFile() async {
     try {
       final directory = await getApplicationDocumentsDirectory();
       print("${directory.path}/MusculaQuiz.json");
@@ -195,5 +199,5 @@ class _InformacoesState extends State<Informacoes> {
     } catch (e) {
       return null;
     }
-  }
+  } */
 }

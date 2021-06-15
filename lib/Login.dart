@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:musculaquiz/classificacao.dart';
 import 'package:musculaquiz/app/utils/config.dart';
-import 'package:musculaquiz/informacoes.dart';
+//import 'package:musculaquiz/informacoes.dart';
 
 import 'Cadastro.dart';
 import 'app/components/default_background_conteiner.dart';
@@ -142,14 +142,14 @@ class _LoginState extends State<Login> {
       _addUser(wEmail, wUserId, wNome);
       // chamada 2
       print('login - chamada 2');
-/*      Navigator.pushReplacement(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-              builder: (context) => Classificacao(dataUsuario: dataUsuario))); */
-      Navigator.of(context).pushAndRemoveUntil(
+              builder: (context) => Classificacao(dataUsuario: dataUsuario)));
+/*      Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => Informacoes(dataUsuario: dataUsuario)),
-          (Route<dynamic> route) => false);
+          (Route<dynamic> route) => false); */
     }).catchError((error) {
       setState(() {
         //print ("Erro App" + error.toString) ;
@@ -207,18 +207,17 @@ class _LoginState extends State<Login> {
         dataUsuario.programa = 'iniciar';
         // chamada 1
         print('login - chamada 1');
-        if (_showMensagem == 'N') {
-          Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                  builder: (context) =>
-                      Classificacao(dataUsuario: dataUsuario)),
-              (Route<dynamic> route) => false);
-        } else {
+        //       if (_showMensagem == 'N') {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (context) => Classificacao(dataUsuario: dataUsuario)),
+            (Route<dynamic> route) => false);
+/*        } else {
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                   builder: (context) => Informacoes(dataUsuario: dataUsuario)),
               (Route<dynamic> route) => false);
-        }
+        } */
       });
     });
 
