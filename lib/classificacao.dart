@@ -601,7 +601,9 @@ class _ClassificacaoState extends State<Classificacao> {
         }
       }
     } catch (e) {
+      _showRedeIndiponivel();
       print('Erro leitura json - analise');
+      return null;
     }
   }
 
@@ -669,8 +671,37 @@ class _ClassificacaoState extends State<Classificacao> {
             (Route<dynamic> route) => false);
       }
     } catch (e) {
+      //return null;
+      _showRedeIndiponivel();
       return null;
     }
+  }
+
+  Future<void> _showRedeIndiponivel() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Rede indisponível'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Verifique sua conexão de dados.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _patrocinio() {
@@ -686,10 +717,11 @@ class _ClassificacaoState extends State<Classificacao> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Image.network(
+                      _getImagePatrocinio(),
+                      /*                  Image.network(
                           'https://cortexsolucoes.com.br/wp-content/uploads/2020/06/Logo-C%C3%B3rtex-Solu%C3%A7%C3%B5es-transp-3-300x157.png',
                           height: 60,
-                          width: 70),
+                          width: 70), */
                       Text(
                         "Córtex Soluções - Patrocinador oficial",
                         maxLines: 1,
@@ -707,6 +739,18 @@ class _ClassificacaoState extends State<Classificacao> {
         ),
       ),
     );
+  }
+
+  _getImagePatrocinio() {
+    try {
+      return Image.network(
+          'https://cortexsolucoes.com.br/wp-content/uploads/2020/06/Logo-C%C3%B3rtex-Solu%C3%A7%C3%B5es-transp-3-300x157.png',
+          height: 60,
+          width: 70);
+    } catch (e) {
+      _showRedeIndiponivel();
+      return null;
+    }
   }
 
   _logout() {

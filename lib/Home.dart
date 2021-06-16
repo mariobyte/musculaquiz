@@ -399,6 +399,33 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<void> _showRedeIndiponivel() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Rede indisponível'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Verifique sua conexão de dados.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   // Minhas Perguntas
   Future<List<Perguntas>> _getPerguntas() async {
     List<Perguntas> _listPerguntas = [];
@@ -419,14 +446,6 @@ class _HomeState extends State<Home> {
       print("_getPerguntas - _email: $_email");
       var jsonMap = json.decode(data.body);
 
-// - Removido o Tempo
-/*      final jsonPerg =
-          '{"perguntas": [{"id_usuario": "PiUwTt3cV7XXeVpeF9ic5w9EpfI2","id_pergunta": "17","per_descricao": "Obrigatoriamente, as proteínas são formadas por um conjunto de:","per_tempo": "9", ' +
-              '"respostas": [{"id_resposta": "81","res_descricao": "Aminoácidos","res_certa": "1"},{"id_resposta": "82","res_descricao": "Ácidos Graxos ","res_certa": "0"},{"id_resposta": "83","res_descricao": "Carbonos",' +
-              '"res_certa": "0"},{"id_resposta": "84","res_descricao": "Enzimas","res_certa": "0"},{"id_resposta": "85","res_descricao": "Glicerol","res_certa": "0"}]}]}';
-
-      final jsonMap = JsonDecoder().convert(jsonPerg);
-*/
       perguntas = (jsonMap["perguntas"] as List)
           .map((pergunta) => Perguntas.fromJson(pergunta))
           .toList();
@@ -456,7 +475,8 @@ class _HomeState extends State<Home> {
         });
       }
     } catch (e) {}
-    return _listPerguntas;
+    _showRedeIndiponivel();
+    return null; //   _listPerguntas;
   }
   // Perguntas
 
@@ -500,7 +520,10 @@ class _HomeState extends State<Home> {
           }
         });
       }
-    } catch (e) {}
+    } catch (e) {
+      _showRedeIndiponivel();
+      return null;
+    }
   }
 
   _proximaPergunta(int pResposta) {
