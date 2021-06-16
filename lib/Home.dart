@@ -475,8 +475,9 @@ class _HomeState extends State<Home> {
         });
       }
     } catch (e) {}
+    _listPerguntas = [];
     _showRedeIndiponivel();
-    return null; //   _listPerguntas;
+    return _listPerguntas;
   }
   // Perguntas
 
