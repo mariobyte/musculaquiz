@@ -401,7 +401,44 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> _showRedeIndiponivel(String pMensagem) async {
+  Future<void> _showRedeIndiponivel() async {
+    Widget continuaButton = ElevatedButton(
+        child: Text(
+          'Continuar',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          onPrimary: Color(0xff006C5D),
+          primary: Color(0xff006C5D),
+          onSurface: Color(0xff006C5D),
+          // side: BorderSide(color: Colors.black, width: 1),
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+          minimumSize: Size(100, 50),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        });
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Rede indisponível"),
+      content: Text('Verifique sua conexão de dados.'),
+      actions: [
+        continuaButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+/*  Future<void> _showRedeIndiponivel(String pMensagem) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -424,9 +461,8 @@ class _HomeState extends State<Home> {
         );
       },
     );
-  }
+  }*/
 
-//  _showRedeIndiponivelResposta(BuildContext context) {
   Future<void> _showRedeIndiponivelResposta() async {
     Widget cancelaButton = ElevatedButton(
         child: Text(
@@ -540,7 +576,7 @@ class _HomeState extends State<Home> {
       }
     } catch (e) {
       _listPerguntas = [];
-      _showRedeIndiponivel('Verifique sua conexão de dados.');
+      _showRedeIndiponivel();
       return _listPerguntas;
     }
   }
