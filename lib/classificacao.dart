@@ -672,12 +672,78 @@ class _ClassificacaoState extends State<Classificacao> {
       }
     } catch (e) {
       //return null;
-      _showRedeIndiponivel();
+      // _showRedeIndiponivel();
       return null;
     }
   }
 
   Future<void> _showRedeIndiponivel() async {
+    Widget cancelaButton = ElevatedButton(
+        child: Text(
+          'Cancelar',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          onPrimary: Color(0xff006C5D),
+          primary: Color(0xff006C5D),
+          onSurface: Color(0xff006C5D),
+          // side: BorderSide(color: Colors.black, width: 1),
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+          minimumSize: Size(100, 50),
+        ),
+        onPressed: () {
+          if (this.mounted) {
+            setState(() {
+              Navigator.of(context).pop();
+            });
+          }
+        });
+    Widget continuaButton = ElevatedButton(
+        child: Text(
+          'Continuar',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          onPrimary: Color(0xff006C5D),
+          primary: Color(0xff006C5D),
+          onSurface: Color(0xff006C5D),
+          // side: BorderSide(color: Colors.black, width: 1),
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+          minimumSize: Size(100, 50),
+        ),
+        onPressed: () {
+          // Refresh Page
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      Classificacao(dataUsuario: dataUsuario)));
+        });
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Rede indisponível"),
+      content: Text('Verifique sua conexão de dados.'),
+      actions: [
+        cancelaButton,
+        continuaButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+/*  Future<void> _showRedeIndiponivel() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -702,7 +768,7 @@ class _ClassificacaoState extends State<Classificacao> {
         );
       },
     );
-  }
+  } */
 
   Widget _patrocinio() {
     return Container(

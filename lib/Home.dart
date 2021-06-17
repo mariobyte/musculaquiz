@@ -54,6 +54,8 @@ class _HomeState extends State<Home> {
   bool _isVisible4 = false;
   bool _isVisible5 = false;
 
+  String _respostaId = '99';
+
   void initState() {
     super.initState();
     if (this.mounted) {
@@ -399,18 +401,16 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Future<void> _showRedeIndiponivel() async {
+  Future<void> _showRedeIndiponivel(String pMensagem) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Rede indisponível'),
+          title: Text('Rede indisponível'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
-                Text('Verifique sua conexão de dados.'),
-              ],
+              children: <Widget>[Text(pMensagem)],
             ),
           ),
           actions: <Widget>[
@@ -422,6 +422,70 @@ class _HomeState extends State<Home> {
             ),
           ],
         );
+      },
+    );
+  }
+
+//  _showRedeIndiponivelResposta(BuildContext context) {
+  Future<void> _showRedeIndiponivelResposta() async {
+    Widget cancelaButton = ElevatedButton(
+        child: Text(
+          'Cancelar',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          onPrimary: Color(0xff006C5D),
+          primary: Color(0xff006C5D),
+          onSurface: Color(0xff006C5D),
+          // side: BorderSide(color: Colors.black, width: 1),
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+          minimumSize: Size(100, 50),
+        ),
+        onPressed: () {
+          if (this.mounted) {
+            setState(() {
+              FlutterBeep.beep(false);
+              _timer.cancel();
+              _classificacao();
+            });
+          }
+        });
+    Widget continuaButton = ElevatedButton(
+        child: Text(
+          'Continuar',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          onPrimary: Color(0xff006C5D),
+          primary: Color(0xff006C5D),
+          onSurface: Color(0xff006C5D),
+          // side: BorderSide(color: Colors.black, width: 1),
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+          minimumSize: Size(100, 50),
+        ),
+        onPressed: () {
+          _postRespostas(_idPergunta, _respostaId, _counter.toString());
+        });
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Rede indisponível"),
+      content: Text('Resposta recusada, verifique sua conexão de dados.'),
+      actions: [
+        cancelaButton,
+        continuaButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
       },
     );
   }
@@ -474,13 +538,14 @@ class _HomeState extends State<Home> {
           _tempoResposta(int.parse(_tempoResp));
         });
       }
-    } catch (e) {}
-    _listPerguntas = [];
-    _showRedeIndiponivel();
-    return _listPerguntas;
+    } catch (e) {
+      _listPerguntas = [];
+      _showRedeIndiponivel('Verifique sua conexão de dados.');
+      return _listPerguntas;
+    }
   }
-  // Perguntas
 
+  // Perguntas
   Future<List<Perguntas>> _postRespostas(
       String pidPergunta, String pidResposta, String pTempo) async {
     try {
@@ -498,7 +563,7 @@ class _HomeState extends State<Home> {
           "res_tempo": "$pTempo"
         }),
       );
-
+      print('_postRespostas - cheguei - passo 1 ');
       var jsonData = json.decode(dataResposta.body)['retorno'];
       print('_postRespostas - Json de Retorno:  $jsonData');
       for (var u in jsonData) {
@@ -522,17 +587,23 @@ class _HomeState extends State<Home> {
         });
       }
     } catch (e) {
-      _showRedeIndiponivel();
+      // _showRedeIndiponivel(
+      //     'Resposta recusada, verifique sua conexão de dados.');
+      print(
+          '_postRespostas - cheguei - catch - chamada - _showRedeIndiponivelResposta  ');
+      _showRedeIndiponivelResposta();
       return null;
     }
   }
 
   _proximaPergunta(int pResposta) {
+    print('home - _proximaPergunta - passo 1');
     if (this.mounted) {
       setState(() {
         _timer.cancel();
       });
     }
+    print('home - _proximaPergunta - passo 2');
     print('_proximaPergunta = cheguei : $pResposta');
 
     int _acertou = pResposta;
@@ -543,10 +614,12 @@ class _HomeState extends State<Home> {
 
     // removido dia 14/04/2021 - somente apos perder todas as vida
     // que ocorre o encerramento da partida
-    String _respostaId = '99';
+//    String _respostaId = '99';
+    _respostaId = '99';
     if (pResposta != 99) {
       _respostaId = _idResposta[_acertou];
     }
+    print('home - _proximaPergunta - passo 3');
     _postRespostas(_idPergunta, _respostaId, _counter.toString());
     // Fim - Envio da resposta certa
     // Chamada da Rotina de Perguntas Novamente
