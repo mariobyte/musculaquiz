@@ -120,6 +120,41 @@ class _LoginState extends State<Login> {
     }
   }
 
+  Future<void> _showLoginInvalido() async {
+    Widget OkButton = ElevatedButton(
+        child: Text(
+          'Ok',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          onPrimary: Color(0xff006C5D),
+          primary: Color(0xff006C5D),
+          onSurface: Color(0xff006C5D),
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          minimumSize: Size(100, 50),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        });
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Muscula Quiz!"),
+      content: Text('Erro ao autenticar email e senha!'),
+      actions: [
+        OkButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   void apagarArquivo() {
     _deleteData();
   }
@@ -153,8 +188,9 @@ class _LoginState extends State<Login> {
     }).catchError((error) {
       setState(() {
         //print ("Erro App" + error.toString) ;
-        _mensagemErro =
-            "Erro ao autenticar email e senha, verifique os dados informados e tente novamente";
+        _showLoginInvalido();
+        _mensagemErro = "";
+        //  "Erro ao autenticar email e senha, verifique os dados informados e tente novamente";
       });
     });
   }

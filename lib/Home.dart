@@ -28,9 +28,11 @@ class _HomeState extends State<Home> {
   FirebaseAuth auth = FirebaseAuth.instance;
 
   List<Perguntas> perguntas;
+  List<PerguntasFim> perguntasFim;
 
   String _pergunta = '';
   String _idPergunta = '';
+  String _perguntaFim = '';
   int _resposta = -1;
   String _tempoResp = '';
 
@@ -79,8 +81,6 @@ class _HomeState extends State<Home> {
         _isVisible3 = _vidasI > 2 ? true : false;
         _isVisible4 = _vidasI > 3 ? true : false;
         _isVisible5 = _vidasI > 4 ? true : false;
-
-        print('passo 1 - anptes getperguntas');
         //      _vidasI = 99;
         _getPerguntas();
       });
@@ -526,6 +526,70 @@ class _HomeState extends State<Home> {
     );
   }
 
+  // fim de jogo
+  Future<void> _showFimDeJogo() async {
+    Widget retornaButton = ElevatedButton(
+        child: Text(
+          'Retornar',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          onPrimary: Color(0xff006C5D),
+          primary: Color(0xff006C5D),
+          onSurface: Color(0xff006C5D),
+          // side: BorderSide(color: Colors.black, width: 1),
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+          minimumSize: Size(100, 50),
+        ),
+        onPressed: () {
+          if (this.mounted) {
+            setState(() {
+              FlutterBeep.beep(false);
+              _classificacao();
+              _timer.cancel();
+            });
+          }
+        });
+/*    Widget continuaButton = ElevatedButton(
+        child: Text(
+          'Continuar',
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        style: ElevatedButton.styleFrom(
+          onPrimary: Color(0xff006C5D),
+          primary: Color(0xff006C5D),
+          onSurface: Color(0xff006C5D),
+          // side: BorderSide(color: Colors.black, width: 1),
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+
+          minimumSize: Size(100, 50),
+        ), 
+        onPressed: () {
+          // Zeras a contagem e iniciar novamente
+        }); */
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Fim de Jogo!"),
+      content: Text('Você respondeu todas as perguntas.'),
+      actions: [
+        retornaButton,
+        //continuaButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   // Minhas Perguntas
   Future<List<Perguntas>> _getPerguntas() async {
     List<Perguntas> _listPerguntas = [];
@@ -545,11 +609,22 @@ class _HomeState extends State<Home> {
       print("_getPerguntas - _userId: $_userId");
       print("_getPerguntas - _email: $_email");
       var jsonMap = json.decode(data.body);
-
-      perguntas = (jsonMap["perguntas"] as List)
-          .map((pergunta) => Perguntas.fromJson(pergunta))
-          .toList();
-
+      try {
+        perguntas = (jsonMap["perguntas"] as List)
+            .map((pergunta) => Perguntas.fromJson(pergunta))
+            .toList();
+      } catch (e) {
+        perguntasFim = (jsonMap["perguntas"] as List)
+            .map((respostaFim) => PerguntasFim.fromJson(respostaFim))
+            .toList();
+        _perguntaFim = perguntasFim[0].respostaFim;
+        print('final de jogo');
+        print('_perfuntasFim : $_perguntaFim');
+        if (_perguntaFim != 'null') {
+          // Fim de jogo
+          _showFimDeJogo();
+        }
+      }
       _pergunta = perguntas[0].per_descricao;
       _idPergunta = perguntas[0].id_pergunta;
       _tempoResp = perguntas[0].per_tempo;
@@ -576,7 +651,9 @@ class _HomeState extends State<Home> {
       }
     } catch (e) {
       _listPerguntas = [];
-      _showRedeIndiponivel();
+      if (_perguntaFim == 'null') {
+        _showRedeIndiponivel();
+      }
       return _listPerguntas;
     }
   }
@@ -585,7 +662,6 @@ class _HomeState extends State<Home> {
   Future<List<Perguntas>> _postRespostas(
       String pidPergunta, String pidResposta, String pTempo) async {
     try {
-      print('_postRespostas - cheguei - passo 0 - Id Resposta ' + pidResposta);
       var dataResposta = await http.post(
         Uri.parse('https://www.cortexvendas.com.br/apiquiz/apiquiz.php'),
         headers: <String, String>{
@@ -599,7 +675,6 @@ class _HomeState extends State<Home> {
           "res_tempo": "$pTempo"
         }),
       );
-      print('_postRespostas - cheguei - passo 1 ');
       var jsonData = json.decode(dataResposta.body)['retorno'];
       print('_postRespostas - Json de Retorno:  $jsonData');
       for (var u in jsonData) {
@@ -633,15 +708,11 @@ class _HomeState extends State<Home> {
   }
 
   _proximaPergunta(int pResposta) {
-    print('home - _proximaPergunta - passo 1');
     if (this.mounted) {
       setState(() {
         _timer.cancel();
       });
     }
-    print('home - _proximaPergunta - passo 2');
-    print('_proximaPergunta = cheguei : $pResposta');
-
     int _acertou = pResposta;
 
     var _idRespInformada = _acertou;
@@ -655,7 +726,6 @@ class _HomeState extends State<Home> {
     if (pResposta != 99) {
       _respostaId = _idResposta[_acertou];
     }
-    print('home - _proximaPergunta - passo 3');
     _postRespostas(_idPergunta, _respostaId, _counter.toString());
     // Fim - Envio da resposta certa
     // Chamada da Rotina de Perguntas Novamente
@@ -756,6 +826,25 @@ class Resposta {
       res_descricao: json["res_descricao"],
       res_certa: json["res_certa"]);
 }
+/*
+class PerguntasFim {
+  final String resposta;
+  PerguntasFim(this.resposta);
+  factory PerguntasFim.fromJson(Map<String, dynamic> json) => PerguntasFim(
+      respostaFim: json["resposta"],
+
+          .map((conteudo) => Resposta.fromJson(conteudo))
+          .toList());  
+}*/
+
+class PerguntasFim {
+  PerguntasFim({this.respostaFim});
+
+  final String respostaFim;
+
+  factory PerguntasFim.fromJson(Map<String, dynamic> json) =>
+      PerguntasFim(respostaFim: json["resposta"]);
+}
 
 class Perguntas {
   Perguntas(
@@ -763,12 +852,14 @@ class Perguntas {
       this.id_pergunta,
       this.per_descricao,
       this.per_tempo,
+      this.respostaFim,
       this.respostas});
 
   final String id_usuario;
   final String id_pergunta;
   final String per_descricao;
   final String per_tempo;
+  final String respostaFim;
   final List<Resposta> respostas;
 
   factory Perguntas.fromJson(Map<String, dynamic> json) => Perguntas(
@@ -776,6 +867,7 @@ class Perguntas {
       id_pergunta: json["id_pergunta"],
       per_descricao: json["per_descricao"],
       per_tempo: json["per_tempo"],
+      respostaFim: json["resposta"],
       respostas: (json["respostas"] as List)
           .map((conteudo) => Resposta.fromJson(conteudo))
           .toList());
