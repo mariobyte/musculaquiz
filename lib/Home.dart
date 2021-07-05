@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_beep/flutter_beep.dart';
-
 import 'app/components/default_background_conteiner.dart';
 import 'app/model/Usuario.dart';
 //import 'app/utils/config.dart';
