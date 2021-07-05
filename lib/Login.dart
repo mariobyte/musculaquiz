@@ -172,7 +172,7 @@ class _LoginState extends State<Login> {
       var wEmail = usuario.email;
       var wUserId = dataUsuario.userId;
       var wNome = dataUsuario.nome;
-      //  print('id do usuario:');
+      //  print('id do usuario:');flu
       //  print(dataUsuario.userId);
       _addUser(wEmail, wUserId, wNome);
       // chamada 2
